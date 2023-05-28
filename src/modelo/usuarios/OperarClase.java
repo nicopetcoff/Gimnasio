@@ -1,9 +1,13 @@
 package modelo.usuarios;
 
+import modelo.sedes.Clase;
+
 public interface OperarClase {
 	
-	public void inscribirseClase();
+	void inscribirseClase(Clase clase);	
 	
-	public void eliminarClase();
+	public void eliminarClase(Clase clase);
+
+	
 
 }

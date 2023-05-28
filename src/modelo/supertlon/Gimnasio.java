@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import modelo.productos.Articulo;
 import modelo.sedes.Sede;
+import modelo.usuarios.Cliente;
 import modelo.usuarios.Usuario;
 
 /*
@@ -33,12 +34,36 @@ public class Gimnasio {
 		sedes.add(sede);
 	}
 	
+	public void agregarArticuloACatalogo(Articulo articulo) {
+		
+		this.catalogoArticulos.add(articulo);	
+		
+	}
+	
+	public boolean existeEnCatalogo(String nombreArticulo) {
+		
+		for (Articulo articulo : catalogoArticulos) {
+			
+			if(articulo.getArticulo().equals(nombreArticulo))
+				return true;
+			
+		}
+		
+		return false;
+				
+	}
+	
 	public ArrayList<Usuario> getUsuarios(){
 		return usuarios;
 	}
 	
 	public ArrayList<Sede> getSedes(){
 		return sedes;
+	}
+
+	public void eliminarUsuario(Cliente cliente) {
+		usuarios.remove(cliente);
+		
 	}
 	
 	

@@ -37,6 +37,15 @@ public class Clase {
 		this.estado= EstadoClase.FINALIZADA;
 	}
 	
+	public void agregarCliente(Cliente cliente) {
+		
+		inscriptos.add(cliente);
+	}
+
+	public void eliminarCliente(Cliente cliente) {
+		inscriptos.remove(cliente);
+	}
+	
 	
 
 }

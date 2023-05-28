@@ -27,6 +27,10 @@ public class Articulo {
 		this.cantClasesUsadas++;
 	}
 	
+	public String getArticulo() {
+		return this.articulo;
+	}
+	
 	
 
 }
