@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import modelo.productos.Articulo;
 import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
+import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
-import modelo.supertlon.Gimnasio;
+import modelo.supertlon.GimnasioSingleton;
+import modelo.utilidad.EstadoClase;
 import modelo.utilidad.Nivel;
 
 public class Administrativo extends Usuario{
@@ -22,7 +24,8 @@ public class Administrativo extends Usuario{
 		legajoSig++;
 	}
 	
-	public void agregarSede(Sede sede) {
+	public void agregarSede( Sede sede) {
+		
 		sedes.add(sede);
 	}
 
@@ -30,19 +33,25 @@ public class Administrativo extends Usuario{
 		return sedes;
 	}
 	
-	public void agendarClase(Profesor profesor, Sede sede, Actividad ejercicio, LocalDateTime fecha) {
+	public void agendarClase(Profesor profesor, Sede sede, Actividad ejercicio,  Emplazamiento emplazamiento, LocalDateTime fecha) {
 		
-		sede.agregarClase(new Clase(profesor, sede, ejercicio, fecha));
+		sede.agregarClase(new Clase(profesor, sede, ejercicio, emplazamiento, fecha));
 	}
 	
-	public void crearCliente(Gimnasio gimnasio,String nombre, String apellido, String dni, Nivel nivel) {
+	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) {
+		
+		clase.cambiarEstado(estadoClase);
+		
+	}
+	
+	public void crearCliente(GimnasioSingleton gimnasio,String nombre, String apellido, String dni, Nivel nivel) {
 		
 		gimnasio.agregarUsuario(new Cliente(nombre, apellido, dni));		
 		
 	}
 	
 	
-	public void bajaCliente(Gimnasio gimnasio, Cliente cliente) {
+	public void bajaCliente(GimnasioSingleton gimnasio, Cliente cliente) {
 		
 		gimnasio.eliminarUsuario(cliente);		
 		
@@ -50,5 +59,10 @@ public class Administrativo extends Usuario{
 	
 	public void agregarArticulo(Sede sede, Articulo articulo) {
 		sede.agregarArticuloAStock(articulo);
+	}
+	
+	public double consultarDesgaste(Articulo articulo) {
+		
+		return articulo.calcularDesgaste();
 	}
 }

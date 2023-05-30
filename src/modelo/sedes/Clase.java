@@ -14,27 +14,19 @@ public class Clase {
 	private int capacidadMax=30;
 	private int alumnosInscriptos;
 	private Actividad ejercicio;
+	private Emplazamiento emplazamiento;
 	private LocalDateTime fecha;
 	private EstadoClase estado;
 	private double precio;
 	private ArrayList<Cliente> inscriptos;
 	
-	public Clase(Profesor profesor, Sede sede, Actividad ejercicio, LocalDateTime fecha) {
+	public Clase(Profesor profesor, Sede sede, Actividad ejercicio, Emplazamiento emplazamiento, LocalDateTime fecha) {
 		this.profesor = profesor;
 		this.sede = sede;
 		this.ejercicio = ejercicio;
+		this.emplazamiento = emplazamiento;
 		this.fecha = fecha;
 		this.estado= EstadoClase.AGENDADA;
-	}
-	
-	public void cambiarAConfirmado() {
-		
-		this.estado= EstadoClase.CONFIRMADA;
-	}
-	
-	public void cambiarAFinalizado() {
-		
-		this.estado= EstadoClase.FINALIZADA;
 	}
 	
 	public void agregarCliente(Cliente cliente) {
@@ -44,6 +36,20 @@ public class Clase {
 
 	public void eliminarCliente(Cliente cliente) {
 		inscriptos.remove(cliente);
+	}
+	
+	public double rentabilidadClase() {
+		/*
+		 * Aca lo que hacemos es segun el emplazamiento elegido se los pasamos al enum para que calcule el valor
+		 * 
+		 * Faltaria agregar el sueldo del profesor y las demas cosas
+		 */
+		return emplazamiento.calculate(sede.getAlquiler(), alumnosInscriptos*2);
+	}
+
+	public void cambiarEstado(EstadoClase estadoClase) {
+		
+		this.estado = estadoClase;
 	}
 	
 	

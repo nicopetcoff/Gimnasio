@@ -9,16 +9,17 @@ import modelo.utilidad.Nivel;
 
 public class Sede {
 	
-	private String barrio;
+	private String localidad;
 	private Nivel nivel;
 	private int capacidadMax;
 	private String tipoSede;
+	private double alquiler;
 	private ArrayList<Clase> clases;
 	private ArrayList<Profesor> profesores;
 	private Stock stock;
 	
 	public Sede(String barrio, Nivel nivel, int capacidadMax, String tipoSede) {
-		this.barrio = barrio;
+		this.localidad = barrio;
 		this.nivel = nivel;
 		this.capacidadMax = capacidadMax;
 		this.tipoSede = tipoSede;
@@ -43,6 +44,15 @@ public class Sede {
 	
 	public ArrayList<Profesor> getProfesores(){
 		return profesores;
+	}
+
+	public double getAlquiler() {
+		return this.alquiler;
+	}
+
+	public String getLocalidad() {
+		// TODO Auto-generated method stub
+		return this.localidad;
 	}
 
 }

@@ -7,23 +7,29 @@ import modelo.sedes.Sede;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Usuario;
 
-/*
- * Habria que hacer que sea singleton
- * 
- */
-
-public class Gimnasio {
+public class GimnasioSingleton {
+	
+	 private static GimnasioSingleton instance;
 	
 	private ArrayList<Usuario> usuarios;
 	private ArrayList<Sede> sedes;
 	private ArrayList<Articulo> catalogoArticulos;
 	
-	public Gimnasio() {
+	private GimnasioSingleton() {
 		
 		this.usuarios = new ArrayList<>();
 		this.sedes = new ArrayList<>();
 		this.catalogoArticulos = new ArrayList<>();
 	}
+	
+	 // Método estático para obtener la única instancia de la clase
+	
+    public static GimnasioSingleton getInstance() {
+        if (instance == null) {
+            instance = new GimnasioSingleton();
+        }
+        return instance;
+    }
 	
 	public void agregarUsuario(Usuario usuario) {
 		usuarios.add(usuario);
