@@ -13,17 +13,16 @@ public class Clase {
 	private Sede sede;
 	private int capacidadMax=30;
 	private int alumnosInscriptos;
-	private Actividad ejercicio;
+	private Actividad actividad;
 	private Emplazamiento emplazamiento;
 	private LocalDateTime fecha;
 	private EstadoClase estado;
 	private double precio;
 	private ArrayList<Cliente> inscriptos;
 	
-	public Clase(Profesor profesor, Sede sede, Actividad ejercicio, Emplazamiento emplazamiento, LocalDateTime fecha) {
+	public Clase(Profesor profesor, Sede sede, Emplazamiento emplazamiento, LocalDateTime fecha) {
 		this.profesor = profesor;
 		this.sede = sede;
-		this.ejercicio = ejercicio;
 		this.emplazamiento = emplazamiento;
 		this.fecha = fecha;
 		this.estado= EstadoClase.AGENDADA;
@@ -50,6 +49,11 @@ public class Clase {
 	public void cambiarEstado(EstadoClase estadoClase) {
 		
 		this.estado = estadoClase;
+	}
+
+		public void setActividad(Actividad actividad) {
+		this.actividad = actividad;
+		
 	}
 	
 	
