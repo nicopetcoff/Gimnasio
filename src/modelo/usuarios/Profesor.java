@@ -8,6 +8,16 @@ public class Profesor extends Usuario{
 		super(nombre, apellido, dni);
 		this.sueldo= sueldo;
 	}
+
+	@Override
+	public boolean soySoporteTecnico() {
+		return false;
+	}
+
+	@Override
+	public int getId() {
+		return 0;
+	}
 	
 	
 

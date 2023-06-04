@@ -16,6 +16,11 @@ public abstract class Usuario {
 		this.apellido = apellido;
 		this.dni = dni;
 	}
+
+
+	public abstract boolean soySoporteTecnico();
+	
+	public abstract int getId();
 	
 	
 	

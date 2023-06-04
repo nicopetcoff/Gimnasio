@@ -14,14 +14,12 @@ import modelo.utilidad.Nivel;
 
 public class Administrativo extends Usuario{
 	
-	private int legajo;
-	private static int legajoSig=0;
+	
 	private ArrayList<Sede> sedes;
 
 	public Administrativo(String nombre, String apellido, String dni) {
 		super(nombre, apellido, dni);
-		this.legajo=legajoSig;
-		legajoSig++;
+		
 	}
 	
 	public void agregarSede( Sede sede) {
@@ -64,5 +62,17 @@ public class Administrativo extends Usuario{
 	public double consultarDesgaste(Articulo articulo) {
 		
 		return articulo.calcularDesgaste();
+	}
+
+	@Override
+	public boolean soySoporteTecnico() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int getId() {
+		
+		return this.id;
 	}
 }

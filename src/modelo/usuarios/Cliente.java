@@ -26,6 +26,16 @@ public class Cliente extends Usuario implements OperarClase{
 		
 	}
 
+	@Override
+	public boolean soySoporteTecnico() {
+		return false;
+	}
+
+	@Override
+	public int getId() {		
+		return this.id;
+	}
+
 	
 
 }

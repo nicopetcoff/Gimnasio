@@ -8,13 +8,11 @@ import modelo.utilidad.Nivel;
 
 public class SoporteTecnico extends Usuario {
 	
-	private int legajo;
-	private static int legajoSig=0;
+	
 
 	public SoporteTecnico(String nombre, String apellido, String dni) {
 		super(nombre, apellido, dni);
-		this.legajo=legajoSig;
-		legajoSig++;
+		
 	}
 	
 	public void crearSede(GimnasioSingleton gimnasio, String localidad, Nivel nivel, int capidad, String tipoSede) throws ExisteLocalidadException {
@@ -35,6 +33,17 @@ public class SoporteTecnico extends Usuario {
 		clase.setActividad(actividad);		
 		
 	}
+
+	@Override
+	public boolean soySoporteTecnico() {
+		return true;
+	}
+
+	@Override
+	public int getId() {
+		// TODO Auto-generated method stub
+		return this.id;
+	}	
 	
 	
 
