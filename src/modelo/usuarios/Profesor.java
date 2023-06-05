@@ -16,7 +16,17 @@ public class Profesor extends Usuario{
 
 	@Override
 	public int getId() {
-		return 0;
+		return this.id;
+	}
+
+	@Override
+	public boolean soyAdministrativo() {
+		return false;
+	}
+
+	@Override
+	public String getDNI() {
+		return this.dni;
 	}
 	
 	

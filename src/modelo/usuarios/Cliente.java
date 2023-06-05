@@ -36,6 +36,16 @@ public class Cliente extends Usuario implements OperarClase{
 		return this.id;
 	}
 
+	@Override
+	public boolean soyAdministrativo() {
+		return false;
+	}
+
+	@Override
+	public String getDNI() {
+		return this.dni;
+	}
+
 	
 
 }

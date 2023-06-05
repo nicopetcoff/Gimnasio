@@ -41,8 +41,31 @@ public class SoporteTecnico extends Usuario {
 
 	@Override
 	public int getId() {
-		// TODO Auto-generated method stub
 		return this.id;
+	}
+
+	public void crearAdministrativo(GimnasioSingleton gimnasio, String nombre, String apellido, String dni) {
+	
+		gimnasio.agregarUsuario(new Administrativo(nombre, apellido, dni));
+			
+	}
+
+	public void crearSoporteTecnico(GimnasioSingleton gimnasio, String nombre, String apellido, String dni) {
+		gimnasio.agregarUsuario(new SoporteTecnico(nombre, apellido, dni));
+	}
+
+	public void crearCliente(GimnasioSingleton gimnasio, String nombre, String apellido, String dni) {
+		gimnasio.agregarUsuario(new Cliente(nombre, apellido, dni));
+	}
+
+	@Override
+	public boolean soyAdministrativo() {
+		return false;
+	}
+
+	@Override
+	public String getDNI() {
+		return this.dni;
 	}	
 	
 	

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import modelo.productos.Articulo;
 import modelo.sedes.Sede;
 import modelo.usuarios.Cliente;
+import modelo.usuarios.SoporteTecnico;
 import modelo.usuarios.Usuario;
 
 public class GimnasioSingleton {
@@ -20,6 +21,8 @@ public class GimnasioSingleton {
 		this.usuarios = new ArrayList<>();
 		this.sedes = new ArrayList<>();
 		this.catalogoArticulos = new ArrayList<>();
+		
+		usuarios.add(new SoporteTecnico("Juan", "Peres", "41577777"));
 	}
 	
 	 // Método estático para obtener la única instancia de la clase

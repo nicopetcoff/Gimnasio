@@ -28,6 +28,16 @@ public class Sede {
 		this.stock = new Stock();
 	}
 	
+	
+	
+	@Override
+	public String toString() {
+		return "Sede [localidad=" + localidad + ", nivel=" + nivel + ", capacidadMax=" + capacidadMax + ", tipoSede="
+				+ tipoSede + "]";
+	}
+
+
+
 	public void agregarArticuloAStock(Articulo articulo) {
 		
 		stock.agregarArticulo(articulo);

@@ -19,6 +19,7 @@ public class Administrativo extends Usuario{
 
 	public Administrativo(String nombre, String apellido, String dni) {
 		super(nombre, apellido, dni);
+		this.sedes = new ArrayList<>();
 		
 	}
 	
@@ -74,5 +75,15 @@ public class Administrativo extends Usuario{
 	public int getId() {
 		
 		return this.id;
+	}
+
+	@Override
+	public boolean soyAdministrativo() {
+		return true;
+	}
+
+	@Override
+	public String getDNI() {
+		return this.dni;
 	}
 }

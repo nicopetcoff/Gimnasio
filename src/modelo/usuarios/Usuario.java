@@ -21,6 +21,11 @@ public abstract class Usuario {
 	public abstract boolean soySoporteTecnico();
 	
 	public abstract int getId();
+
+	public abstract boolean soyAdministrativo();
+
+
+	public abstract String getDNI();
 	
 	
 	
