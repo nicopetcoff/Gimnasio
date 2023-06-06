@@ -3,7 +3,7 @@ package modelo.productos;
 import java.time.LocalDate;
 
 public class Articulo {
-	
+
 	private String marca;
 	private String articulo;
 	private LocalDate fechaFabricacion;
@@ -12,7 +12,7 @@ public class Articulo {
 	private int durabilidad;
 	private String atributos;
 	private boolean activo;
-	
+
 	public Articulo(String marca, String articulo, LocalDate fechaFabricacion, TipoAmortizacion tipoAmortizacion,
 			int durabilidad, String atributos) {
 		this.marca = marca;
@@ -24,11 +24,11 @@ public class Articulo {
 		this.atributos = atributos;
 		this.activo= true;
 	}
-	
+
 	public void sumarClase() {
 		this.cantClasesUsadas++;
 	}
-	
+
 	public String getArticulo() {
 		return this.articulo;
 	}
@@ -37,11 +37,11 @@ public class Articulo {
 		// TODO Auto-generated method stub
 		return tipoAmortizacion.calcular(this.cantClasesUsadas, this.fechaFabricacion);
 	}
-	
+
 	public void darDeBajaArticulo() {
 		this.activo=false;
 	}
-	
-	
+
+
 
 }

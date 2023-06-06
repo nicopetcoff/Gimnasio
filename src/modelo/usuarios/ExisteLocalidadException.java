@@ -8,7 +8,7 @@ public class ExisteLocalidadException extends Exception {
 		super("Existe la Sede");
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
+
 
 }

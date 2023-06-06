@@ -8,7 +8,7 @@ import modelo.usuarios.Profesor;
 import modelo.utilidad.Nivel;
 
 public class Sede {
-	
+
 	private String localidad;
 	private Nivel nivel;
 	private int capacidadMax;
@@ -17,7 +17,7 @@ public class Sede {
 	private ArrayList<Clase> clases;
 	private ArrayList<Profesor> profesores;
 	private Stock stock;
-	
+
 	public Sede(String barrio, Nivel nivel, int capacidadMax, String tipoSede) {
 		this.localidad = barrio;
 		this.nivel = nivel;
@@ -27,9 +27,9 @@ public class Sede {
 		this.profesores= new ArrayList<>();
 		this.stock = new Stock();
 	}
-	
-	
-	
+
+
+
 	@Override
 	public String toString() {
 		return "Sede [localidad=" + localidad + ", nivel=" + nivel + ", capacidadMax=" + capacidadMax + ", tipoSede="
@@ -39,19 +39,19 @@ public class Sede {
 
 
 	public void agregarArticuloAStock(Articulo articulo) {
-		
+
 		stock.agregarArticulo(articulo);
 	}
-	
+
 	public void agregarClase(Clase clase) {
-		
+
 		clases.add(clase);
 	}
-	
+
 	public void eliminarClase(Clase clase) {
 		clases.remove(clase);
 	}
-	
+
 	public ArrayList<Profesor> getProfesores(){
 		return profesores;
 	}
@@ -74,14 +74,14 @@ public class Sede {
 
 
 	public Nivel getnivel() {
-		
+
 		return this.nivel;
 	}
 
 
 
 	public ArrayList<Clase> getClases() {
-		
+
 		return this.clases;
 	}
 

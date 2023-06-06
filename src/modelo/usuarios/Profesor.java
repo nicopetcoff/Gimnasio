@@ -1,7 +1,7 @@
 package modelo.usuarios;
 
 public class Profesor extends Usuario{
-	
+
 	private double sueldo;
 
 	public Profesor(String nombre, String apellido, String dni, double sueldo) {
@@ -28,7 +28,7 @@ public class Profesor extends Usuario{
 	public String getDNI() {
 		return this.dni;
 	}
-	
-	
+
+
 
 }
