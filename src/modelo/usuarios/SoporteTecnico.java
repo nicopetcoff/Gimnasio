@@ -33,16 +33,7 @@ public class SoporteTecnico extends Usuario {
 		clase.setActividad(actividad);		
 		
 	}
-
-	@Override
-	public boolean soySoporteTecnico() {
-		return true;
-	}
-
-	@Override
-	public int getId() {
-		return this.id;
-	}
+	
 
 	public void crearAdministrativo(GimnasioSingleton gimnasio, String nombre, String apellido, String dni) {
 	
@@ -54,10 +45,23 @@ public class SoporteTecnico extends Usuario {
 		gimnasio.agregarUsuario(new SoporteTecnico(nombre, apellido, dni));
 	}
 
-	public void crearCliente(GimnasioSingleton gimnasio, String nombre, String apellido, String dni) {
-		gimnasio.agregarUsuario(new Cliente(nombre, apellido, dni));
+	public void crearCliente(GimnasioSingleton gimnasio, String nombre, String apellido, String dni, Nivel nivel1) {
+		
+		gimnasio.agregarUsuario(new Cliente(nombre, apellido, dni, nivel1));
+	}
+	
+	public void crearProfesor(Sede sede, String nombre, String apellido, String dni, double sueldo) {
+			
+		sede.agregarProfesor(new Profesor(nombre, apellido, dni, sueldo));
+		
+	}
+	
+	@Override
+	public boolean soySoporteTecnico() {
+		return true;
 	}
 
+	
 	@Override
 	public boolean soyAdministrativo() {
 		return false;
@@ -66,7 +70,13 @@ public class SoporteTecnico extends Usuario {
 	@Override
 	public String getDNI() {
 		return this.dni;
-	}	
+	}
+	@Override
+	public int getId() {
+		return this.id;
+	}
+
+		
 	
 	
 

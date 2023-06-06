@@ -65,4 +65,24 @@ public class Sede {
 		return this.localidad;
 	}
 
+
+
+	public void agregarProfesor(Profesor profesor) {
+		this.profesores.add(profesor);
+	}
+
+
+
+	public Nivel getnivel() {
+		
+		return this.nivel;
+	}
+
+
+
+	public ArrayList<Clase> getClases() {
+		
+		return this.clases;
+	}
+
 }

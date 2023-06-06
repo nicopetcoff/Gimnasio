@@ -45,7 +45,7 @@ public class Administrativo extends Usuario{
 	
 	public void crearCliente(GimnasioSingleton gimnasio,String nombre, String apellido, String dni, Nivel nivel) {
 		
-		gimnasio.agregarUsuario(new Cliente(nombre, apellido, dni));		
+		gimnasio.agregarUsuario(new Cliente(nombre, apellido, dni, nivel));		
 		
 	}
 	
