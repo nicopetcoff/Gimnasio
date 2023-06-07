@@ -29,6 +29,8 @@ public class Profesor extends Usuario{
 		return this.dni;
 	}
 
-
+	public double getSueldo() {
+		return this.sueldo;
+	}
 
 }
