@@ -12,9 +12,10 @@ public class Articulo {
 	private int durabilidad;
 	private String atributos;
 	private boolean activo;
+	private double precio;
 
 	public Articulo(String marca, String articulo, LocalDate fechaFabricacion, TipoAmortizacion tipoAmortizacion,
-			int durabilidad, String atributos) {
+			int durabilidad, String atributos, double precio) {
 		this.marca = marca;
 		this.articulo = articulo;
 		this.fechaFabricacion = fechaFabricacion;
@@ -23,6 +24,7 @@ public class Articulo {
 		this.durabilidad = durabilidad;
 		this.atributos = atributos;
 		this.activo= true;
+		this.precio = precio;
 	}
 
 	public void sumarClase() {
@@ -34,8 +36,11 @@ public class Articulo {
 	}
 
 	public double calcularDesgaste() {
-		// TODO Auto-generated method stub
-		return tipoAmortizacion.calcular(this.cantClasesUsadas, this.fechaFabricacion);
+		return tipoAmortizacion.calcular(this.cantClasesUsadas, this.fechaFabricacion, this.durabilidad);
+	}
+	
+	public double calcularAmortizacion() {
+		return tipoAmortizacion.calcularAmortizacion(this.cantClasesUsadas, this.fechaFabricacion, this.durabilidad, this.precio)
 	}
 
 	public void darDeBajaArticulo() {

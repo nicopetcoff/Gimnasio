@@ -3,6 +3,7 @@ package modelo.sedes;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import ar.edu.UADE.modelo.Equipo;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Profesor;
 import modelo.utilidad.EstadoClase;
@@ -66,14 +67,14 @@ public class Clase {
 	public void eliminarCliente(Cliente cliente) {
 		inscriptos.remove(cliente);
 	}
+	
+	public boolean esRentable() {
+		return rentabilidadClase() > 0;
+	}
 
+	// TODO: mostrar desglose en la vista al chequear (pop up)
 	public double rentabilidadClase() {
-		/*
-		 * Aca lo que hacemos es segun el emplazamiento elegido se los pasamos al enum para que calcule el valor
-		 *
-		 * Faltaria agregar el sueldo del profesor y las demas cosas
-		 */
-		return emplazamiento.calculate(sede.getAlquiler(), alumnosInscriptos*2);
+		return calcularIngreso() - calcularCosto();
 	}
 
 	public void cambiarEstado(EstadoClase estadoClase) {
@@ -86,5 +87,17 @@ public class Clase {
 
 	}
 
-
+	private double calcularCosto() {
+		return this.profesor.getSueldo() +
+				emplazamiento.calculate(sede.getAlquiler(), alumnosInscriptos * 2); // +
+				// TODO: amortizacion de TODOS los artículos que usa la clase
+	}
+	
+	private double calcularIngreso() {
+		double membresias = 0;
+		for(Cliente inscripto: inscriptos) {
+			membresias += inscripto.getCostoMembresia();
+		}
+		return membresias / 30 * inscriptos.size();
+	}
 }

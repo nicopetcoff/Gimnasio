@@ -49,6 +49,8 @@ public class Cliente extends Usuario implements OperarClase{
 		return this.dni;
 	}
 
-
+	public double getCostoMembresia() {
+		return this.nivel.costoMembresia();
+	}
 
 }
