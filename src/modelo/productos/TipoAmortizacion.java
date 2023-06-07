@@ -15,9 +15,8 @@ public enum TipoAmortizacion {
 		
 		@Override
 		public double calcularAmortizacion(int cantClasesUsadas, LocalDate fechaFabricacion, int diasUtiles, double precio) {
-			LocalDate hoy = LocalDate.now();
-			return (double) diasUtiles - Duration.between(fechaFabricacion, hoy).toDays();
-			
+			// TODO
+			return 0;
 		}
 	},
 	
@@ -26,6 +25,12 @@ public enum TipoAmortizacion {
 		@Override
 		public double calcularDesgaste(int cantClasesUsadas, LocalDate fechaFabricacion, int clasesUtiles) {
 			return (double) cantClasesUsadas - clasesUtiles;
+		}
+		
+		@Override
+		public double calcularAmortizacion(int cantClasesUsadas, LocalDate fechaFabricacion, int clasesUtiles, double precio) {
+			// TODO
+			return 0;
 		}
 	};
 	
