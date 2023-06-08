@@ -12,17 +12,18 @@ public class Sede {
 	private String localidad;
 	private Nivel nivel;
 	private int capacidadMax;
-	private String tipoSede;
+	private String descripcion;
 	private double alquiler;
 	private ArrayList<Clase> clases;
 	private ArrayList<Profesor> profesores;
 	private Stock stock;
 
-	public Sede(String barrio, Nivel nivel, int capacidadMax, String tipoSede) {
-		this.localidad = barrio;
+	public Sede(String localidad, Nivel nivel, double alquiler, int capacidadMax, String descripcion) {
+		this.localidad = localidad;
 		this.nivel = nivel;
+		this.alquiler = alquiler;
 		this.capacidadMax = capacidadMax;
-		this.tipoSede = tipoSede;
+		this.descripcion = descripcion;
 		this.clases= new ArrayList<>();
 		this.profesores= new ArrayList<>();
 		this.stock = new Stock();
@@ -33,7 +34,7 @@ public class Sede {
 	@Override
 	public String toString() {
 		return "Sede [localidad=" + localidad + ", nivel=" + nivel + ", capacidadMax=" + capacidadMax + ", tipoSede="
-				+ tipoSede + "]";
+				+ descripcion + "]";
 	}
 
 
