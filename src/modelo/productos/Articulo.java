@@ -36,11 +36,11 @@ public class Articulo {
 	}
 
 	public double calcularDesgaste() {
-		return tipoAmortizacion.calcular(this.cantClasesUsadas, this.fechaFabricacion, this.durabilidad);
+		return tipoAmortizacion.calcularDesgaste(this.cantClasesUsadas, this.fechaFabricacion, this.durabilidad);
 	}
 	
 	public double calcularAmortizacion() {
-		return tipoAmortizacion.calcularAmortizacion(this.cantClasesUsadas, this.fechaFabricacion, this.durabilidad, this.precio)
+		return tipoAmortizacion.calcularAmortizacion(this.cantClasesUsadas, this.fechaFabricacion, this.durabilidad, this.precio);
 	}
 
 	public void darDeBajaArticulo() {
