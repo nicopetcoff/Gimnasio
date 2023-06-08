@@ -2,11 +2,13 @@ package modelo.sedes;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Map;
 
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Profesor;
 import modelo.utilidad.EstadoClase;
 import modelo.utilidad.Nivel;
+import modelo.productos.Articulo;
 
 public class Clase {
 
@@ -22,7 +24,7 @@ public class Clase {
 	private EstadoClase estado;
 	private double precio;
 	private ArrayList<Cliente> inscriptos;
-	//private Map<Articulo, Integer> articulosTotales; //Ejemplo de entradas luego del metodo calcularTotalArticulos: Pesa, 125 (son la cantidad de pesas totales necesarias para la clase)
+	private Map<Articulo, Integer> articulosTotales; //Ejemplo de entradas luego del metodo calcularTotalArticulos: Pesa, 125 (son la cantidad de pesas totales necesarias para la clase)
 
 	public Clase(Profesor profesor, Sede sede, Emplazamiento emplazamiento, LocalDateTime fecha) {
 		this.idClase = idClaseSig;
@@ -101,14 +103,16 @@ public class Clase {
 		return membresias / 30 * inscriptos.size();
 	}
 	
-	/*public void calcularTotalArticulos(Map<Articulo, Integer> articulos){ //Recibe como parametro un map de articulos (puede ser sacado de Actividad)
+	public void calcularTotalArticulos(Map<Articulo, Integer> articulos){ //Recibe como parametro un map de articulos (puede ser sacado de Actividad)
    		for (Map.Entry<Articulo, Integer> entry : articulos.entrySet()) {
 		Articulo articulo = entry.getKey(); //Obtiene el articulo
 		Integer cantidad = entry.getValue(); //Obtiene la cantidad
 		int totalArticulos = cantidad * this.inscriptos.size(); //Multiplica articulos * cantidad de inscriptos
 		this.articulosTotales.put(articulo, totalArticulos); //Agrega una entrada a articulosTotales con el tipo de articulo y el total.
     }
-    */
+	
+	}
+	
     
 
 }
