@@ -57,5 +57,8 @@ public class Profesor extends Usuario{
 		}
 		return true;
 	}
+	public void agregarClase(Clase clase) {
+		clases.add(clase);
+	}
 
 }

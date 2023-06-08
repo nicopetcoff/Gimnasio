@@ -34,7 +34,9 @@ public class Administrativo extends Usuario{
 	public void agendarClase(Profesor profesor, Sede sede, Emplazamiento emplazamiento, LocalDateTime fecha,double costo) {
 		try {
 			if(profesor.estoyDisponbile(fecha)) {
-				sede.agregarClase(new Clase(profesor, sede, emplazamiento, fecha,costo));
+				Clase clase=new Clase(profesor, sede, emplazamiento, fecha,costo);
+				sede.agregarClase(clase);
+				profesor.agregarClase(clase);
 			}
 		}catch(ProfesorNoDisponibleException e){
 			e.printStackTrace();
