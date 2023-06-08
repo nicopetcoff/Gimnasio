@@ -19,11 +19,11 @@ public class Articulo {
 		this.marca = marca;
 		this.articulo = articulo;
 		this.fechaFabricacion = fechaFabricacion;
-		this.cantClasesUsadas=0;
+		this.cantClasesUsadas = 0;
 		this.tipoAmortizacion = tipoAmortizacion;
 		this.durabilidad = durabilidad;
 		this.atributos = atributos;
-		this.activo= true;
+		this.activo = true;
 		this.precio = precio;
 	}
 
@@ -38,15 +38,14 @@ public class Articulo {
 	public double calcularDesgaste() {
 		return tipoAmortizacion.calcularDesgaste(this.cantClasesUsadas, this.fechaFabricacion, this.durabilidad);
 	}
-	
+
 	public double calcularAmortizacion() {
-		return tipoAmortizacion.calcularAmortizacion(this.cantClasesUsadas, this.fechaFabricacion, this.durabilidad, this.precio);
+		return tipoAmortizacion.calcularAmortizacion(this.cantClasesUsadas, this.fechaFabricacion, this.durabilidad,
+				this.precio);
 	}
 
 	public void darDeBajaArticulo() {
-		this.activo=false;
+		this.activo = false;
 	}
-
-
 
 }

@@ -11,8 +11,7 @@ import modelo.supertlon.GimnasioSingleton;
 import modelo.utilidad.EstadoClase;
 import modelo.utilidad.Nivel;
 
-public class Administrativo extends Usuario{
-
+public class Administrativo extends Usuario {
 
 	private ArrayList<Sede> sedes;
 
@@ -22,12 +21,12 @@ public class Administrativo extends Usuario{
 
 	}
 
-	public void agregarSede( Sede sede) {
+	public void agregarSede(Sede sede) {
 
 		sedes.add(sede);
 	}
 
-	public ArrayList<Sede> getSedes(){
+	public ArrayList<Sede> getSedes() {
 		return sedes;
 	}
 
@@ -42,12 +41,11 @@ public class Administrativo extends Usuario{
 
 	}
 
-	public void crearCliente(GimnasioSingleton gimnasio,String nombre, String apellido, String dni, Nivel nivel) {
+	public void crearCliente(GimnasioSingleton gimnasio, String nombre, String apellido, String dni, Nivel nivel) {
 
 		gimnasio.agregarUsuario(new Cliente(nombre, apellido, dni, nivel));
 
 	}
-
 
 	public void bajaCliente(GimnasioSingleton gimnasio, Cliente cliente) {
 

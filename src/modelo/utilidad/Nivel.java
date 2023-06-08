@@ -2,9 +2,7 @@ package modelo.utilidad;
 
 public enum Nivel {
 
-	BLACK,
-	ORO,
-	PLATINUM;
+	BLACK, ORO, PLATINUM;
 
 	public double costoMembresia() {
 		switch (this) {

@@ -10,6 +10,4 @@ public interface OperarClase {
 
 	void inscribirseClase(Clase clase, Nivel nivel) throws NoMismoNivelException;
 
-
-
 }

@@ -4,11 +4,11 @@ import modelo.sedes.Clase;
 import modelo.sedes.NoMismoNivelException;
 import modelo.utilidad.Nivel;
 
-public class Cliente extends Usuario implements OperarClase{
+public class Cliente extends Usuario implements OperarClase {
 
 	private Nivel nivel;
 
-		public Cliente(String nombre, String apellido, String dni, Nivel nivel) {
+	public Cliente(String nombre, String apellido, String dni, Nivel nivel) {
 		super(nombre, apellido, dni);
 		this.nivel = nivel;
 
@@ -32,7 +32,6 @@ public class Cliente extends Usuario implements OperarClase{
 	public boolean soySoporteTecnico() {
 		return false;
 	}
-
 
 	@Override
 	public boolean soyAdministrativo() {

@@ -6,10 +6,7 @@ public class NoExisteUsuarioExcepcion extends Exception {
 
 	public NoExisteUsuarioExcepcion(String message) {
 		super(message);
-		
+
 	}
-	
-	
-	
 
 }

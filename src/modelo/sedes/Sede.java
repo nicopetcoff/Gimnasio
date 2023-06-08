@@ -24,20 +24,16 @@ public class Sede {
 		this.alquiler = alquiler;
 		this.capacidadMax = capacidadMax;
 		this.descripcion = descripcion;
-		this.clases= new ArrayList<>();
-		this.profesores= new ArrayList<>();
+		this.clases = new ArrayList<>();
+		this.profesores = new ArrayList<>();
 		this.stock = new Stock();
 	}
-
-
 
 	@Override
 	public String toString() {
 		return "Sede [localidad=" + localidad + ", nivel=" + nivel + ", capacidadMax=" + capacidadMax + ", tipoSede="
 				+ descripcion + "]";
 	}
-
-
 
 	public void agregarArticuloAStock(Articulo articulo) {
 
@@ -53,7 +49,7 @@ public class Sede {
 		clases.remove(clase);
 	}
 
-	public ArrayList<Profesor> getProfesores(){
+	public ArrayList<Profesor> getProfesores() {
 		return profesores;
 	}
 
@@ -66,20 +62,14 @@ public class Sede {
 		return this.localidad;
 	}
 
-
-
 	public void agregarProfesor(Profesor profesor) {
 		this.profesores.add(profesor);
 	}
-
-
 
 	public Nivel getnivel() {
 
 		return this.nivel;
 	}
-
-
 
 	public ArrayList<Clase> getClases() {
 
