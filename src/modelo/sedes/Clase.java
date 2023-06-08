@@ -26,14 +26,16 @@ public class Clase {
 	private ArrayList<Cliente> inscriptos;
 	private Map<Articulo, Integer> articulosTotales; //Ejemplo de entradas luego del metodo calcularTotalArticulos: Pesa, 125 (son la cantidad de pesas totales necesarias para la clase)
 
-	public Clase(Profesor profesor, Sede sede, Emplazamiento emplazamiento, LocalDateTime fecha) {
+	public Clase(Profesor profesor, Sede sede, Emplazamiento emplazamiento, LocalDateTime fecha,double costo) {
 		this.idClase = idClaseSig;
 		idClaseSig ++;
 		this.profesor = profesor;
 		this.sede = sede;
 		this.emplazamiento = emplazamiento;
 		this.fecha = fecha;
+		this.precio=costo;
 		this.estado= EstadoClase.AGENDADA;
+		inscriptos=new ArrayList<>();
 	}
 
 
@@ -52,7 +54,9 @@ public class Clase {
 		return this.estado;
 	}
 
-
+	public LocalDateTime getFecha() {
+		return this.fecha;
+	}
 
 	public void agregarCliente(Cliente cliente, Nivel nivel) throws NoMismoNivelException {
 
