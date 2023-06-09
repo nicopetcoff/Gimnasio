@@ -94,7 +94,12 @@ public class Clase {
 	}
 
 	private double calcularCosto() {
-		return this.profesor.getSueldo() + emplazamiento.calculate(sede.getAlquiler(), alumnosInscriptos * 2); // +
+		
+		/* 
+		 * aca da error, tenemos que ver porque
+		 * 
+		 */
+		return this.profesor.getSueldo(); //+ emplazamiento.calculate(sede.getAlquiler(), alumnosInscriptos * 2); // +
 		// TODO: amortizacion de TODOS los artículos que usa la clase
 	}
 
