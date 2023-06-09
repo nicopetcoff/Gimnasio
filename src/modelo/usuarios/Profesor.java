@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import modelo.sedes.*;
 
-public class Profesor extends Usuario{
+public class Profesor extends Usuario {
 
 	private double sueldo;
 	private ArrayList<Clase> clases;

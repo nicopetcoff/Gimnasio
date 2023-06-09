@@ -12,6 +12,4 @@ public class NoMismoNivelException extends Exception {
 
 	}
 
-
-
 }

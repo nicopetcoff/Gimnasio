@@ -7,27 +7,27 @@ import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
+import modelo.usuarios.Excepciones.ExisteLocalidadException;
+import modelo.usuarios.Excepciones.NoPudoException;
 import modelo.utilidad.Nivel;
 
 public class SoporteTecnico extends Usuario {
-
-
 
 	public SoporteTecnico(String nombre, String apellido, String dni) {
 		super(nombre, apellido, dni);
 
 	}
 
-	public void crearSede(GimnasioSingleton gimnasio, String localidad, Nivel nivel, int capidad, String tipoSede) throws ExisteLocalidadException {
+	public Sede crearSede(GimnasioSingleton gimnasio, String localidad, Nivel nivel, double alquiler, int capacidad,
+			String tipoSede) throws ExisteLocalidadException {
 
 		for (Sede element : gimnasio.getSedes()) {
-			if(element.getLocalidad() == localidad) {
+			if (element.getLocalidad().equals(localidad)) {
 				throw new ExisteLocalidadException();
 			}
 
 		}
-
-		gimnasio.agregarSede(new Sede(localidad, nivel, capidad, tipoSede));
+		return new Sede(localidad, nivel, alquiler, capacidad, tipoSede);
 
 	}
 
@@ -37,25 +37,24 @@ public class SoporteTecnico extends Usuario {
 
 	}
 
+	public SoporteTecnico crearSoporteTecnico(String nombre, String apellido, String dni) {
+		return (new SoporteTecnico(nombre, apellido, dni));
+	}
 
-	public void crearAdministrativo(GimnasioSingleton gimnasio, String nombre, String apellido, String dni) {
+	public Administrativo crearAdministrativo(String nombre, String apellido, String dni) {
 
-		gimnasio.agregarUsuario(new Administrativo(nombre, apellido, dni));
+		return (new Administrativo(nombre, apellido, dni));
 
 	}
 
-	public void crearSoporteTecnico(GimnasioSingleton gimnasio, String nombre, String apellido, String dni) {
-		gimnasio.agregarUsuario(new SoporteTecnico(nombre, apellido, dni));
+	public Cliente crearCliente(String nombre, String apellido, String dni, Nivel nivel1) {
+
+		return (new Cliente(nombre, apellido, dni, nivel1));
 	}
 
-	public void crearCliente(GimnasioSingleton gimnasio, String nombre, String apellido, String dni, Nivel nivel1) {
+	public Profesor crearProfesor(String nombre, String apellido, String dni, double sueldo) {
 
-		gimnasio.agregarUsuario(new Cliente(nombre, apellido, dni, nivel1));
-	}
-
-	public void crearProfesor(Sede sede, String nombre, String apellido, String dni, double sueldo) {
-
-		sede.agregarProfesor(new Profesor(nombre, apellido, dni, sueldo));
+		return (new Profesor(nombre, apellido, dni, sueldo));
 
 	}
 
@@ -63,7 +62,6 @@ public class SoporteTecnico extends Usuario {
 	public boolean soySoporteTecnico() {
 		return true;
 	}
-
 
 	@Override
 	public boolean soyAdministrativo() {
@@ -74,10 +72,12 @@ public class SoporteTecnico extends Usuario {
 	public String getDNI() {
 		return this.dni;
 	}
+
 	@Override
 	public int getId() {
 		return this.id;
 	}
+
 
 	public void crearArticulo(String marca,String articulo,LocalDate fechaFabricacion,TipoAmortizacion tipoAmortizacion,int durabilidad,String atributos,double precio) {
 		Articulo Articulo=new Articulo(marca,articulo,fechaFabricacion,tipoAmortizacion,durabilidad,atributos,precio);
@@ -87,9 +87,20 @@ public class SoporteTecnico extends Usuario {
 	//asigna sede a un administrador 
 	public void asignarSede(Administrativo admin,Sede sede) {
 		admin.agregarSede(sede);
+  }
+
+	public void AsignarLaSedeAlAdministrativo(Usuario usuario, Sede sede) throws NoPudoException {
+		if (usuario.soyAdministrativo()) {
+			Administrativo a = (Administrativo) usuario;
+			a.agregarSede(sede);
+		} else {
+			throw new NoPudoException("No se pudo asignarle la sede");
+		}
+
 	}
 
-
-
+	public Actividad crearActividad(String actividad) {
+		return (new Actividad(actividad));		
+	}
 
 }

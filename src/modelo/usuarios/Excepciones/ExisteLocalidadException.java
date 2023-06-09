@@ -1,4 +1,4 @@
-package modelo.usuarios;
+package modelo.usuarios.Excepciones;
 
 public class ExisteLocalidadException extends Exception {
 
@@ -8,7 +8,5 @@ public class ExisteLocalidadException extends Exception {
 		super("Existe la Sede");
 		// TODO Auto-generated constructor stub
 	}
-
-
 
 }

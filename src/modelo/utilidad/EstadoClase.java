@@ -2,8 +2,6 @@ package modelo.utilidad;
 
 public enum EstadoClase {
 
-	AGENDADA,
-	CONFIRMADA,
-	FINALIZADA
+	AGENDADA, CONFIRMADA, FINALIZADA
 
 }
