@@ -1,27 +1,31 @@
 package modelo.sedes;
 
-public enum Emplazamiento {
+public class Emplazamiento {
+	private String tipoEmplazamiento; //Ejemplo Pileta: "Pileta"
+	private double factorCalculo; //Ejemplo Pileta: 150 -- ver consigna
 
-	SALON {
-		@Override
-		public double calculate(double alquiler, double metroCuadrado) {
-			return alquiler / 300;
-		}
-	},
-	PILETA {
-		@Override
-		public double calculate(double alquiler, double metroCuadrado) {
-			return alquiler / 150;
-		}
-	},
-	AIRE_LIBRE {
-		@Override
-		public double calculate(double alquiler, double metroCuadrado) {
+	public Emplazamiento(String tipoEmplazamiento, double factorCalculo) { 
+		this.tipoEmplazamiento = tipoEmplazamiento;
+		this.factorCalculo = factorCalculo;
+	}
 
-			return 500 * metroCuadrado;
-		}
-	};
+	public String getTipoEmplazamiento() {
+		return tipoEmplazamiento;
+	}
 
-	public abstract double calculate(double alquiler, double metroCuadrado);
+	public void setTipoEmplazamiento(String tipoEmplazamiento) {
+		this.tipoEmplazamiento = tipoEmplazamiento;
+	}
 
+	public double getFactorCalculo() {
+		return factorCalculo;
+	}
+
+	public void setFactorCalculo(double factorCalculo) {
+		this.factorCalculo = factorCalculo;
+	}
+
+	public double calcularCosto(double alquilerSede) { //Calcula el costo alquilerSede/factorCalculo
+		return alquilerSede / this.factorCalculo;
+	}
 }
