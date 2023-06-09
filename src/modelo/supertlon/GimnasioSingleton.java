@@ -1,8 +1,10 @@
 package modelo.supertlon;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import modelo.productos.Articulo;
+import modelo.sedes.Actividad;
 import modelo.sedes.Sede;
 import modelo.usuarios.Administrativo;
 import modelo.usuarios.Cliente;
@@ -20,12 +22,14 @@ public class GimnasioSingleton {
 	private ArrayList<Usuario> usuarios;
 	private ArrayList<Sede> sedes;
 	private ArrayList<Articulo> catalogoArticulos;
+	private ArrayList<Actividad> actividades;
 
 	private GimnasioSingleton() {
 
 		this.usuarios = new ArrayList<>();
 		this.sedes = new ArrayList<>();
 		this.catalogoArticulos = new ArrayList<>();
+		this.actividades = new ArrayList<>();
 
 		usuarios.add(new SoporteTecnico("Juan", "Peres", "41577777"));
 	}
@@ -68,14 +72,18 @@ public class GimnasioSingleton {
 	}
 
 	public ArrayList<Usuario> getUsuarios() {
-		return usuarios;
+		return this.usuarios;
 	}
 
 	public ArrayList<Sede> getSedes() {
-		return sedes;
+		return this.sedes;
+	}
+	
+	public ArrayList<Actividad> getActividades(){
+		return this.actividades;
 	}
 
-	public void eliminarUsuario(Cliente cliente) {
+ 	public void eliminarUsuario(Cliente cliente) {
 		usuarios.remove(cliente);
 
 	}
@@ -198,6 +206,20 @@ public class GimnasioSingleton {
 			throw new NoExisteUsuarioExcepcion("No existe el Soporte Tecnico");
 		}
 
+	}
+
+	
+	public void crearActividades(int idSP, String actividad) throws NoExisteUsuarioExcepcion {
+		
+		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
+		
+		if (sp!=null) {
+			
+			Actividad a = sp.crearActividad(actividad);
+		}else {
+			throw new NoExisteUsuarioExcepcion("No existe el Soporte Tecnico");
+		}
+				
 	}
 
 }

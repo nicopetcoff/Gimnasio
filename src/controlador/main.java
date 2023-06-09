@@ -22,7 +22,9 @@ public class main {
 		int opcion;
 		do {
 			System.out.println("1. \t Crear Sede");
-			System.out.println("2.\t Crear Usuario");
+			System.out.println("2. \t Crear Usuario");
+			System.out.println("3. \t Crear Actividades");
+			System.out.println("4. \t Crear Articulos en Catalogo del Gimnasio");
 
 			System.out.println("Elija opcion");
 			opcion = sc.nextInt();
@@ -35,14 +37,42 @@ public class main {
 			case 2:
 				crearUsuarios(gimnasio.getInstance());
 				break;
+				
+			case 3:
+				crearActividades(gimnasio.getInstance());
+				break;
+				
+			case 4:
+				break;
 
 			default:
 				break;
 			}
 			System.out.println();
-		} while (opcion != 4);
+		} while (opcion != 5);
 		sc.close();
 
+	}
+
+	private static void crearActividades(GimnasioSingleton instance) {
+		
+		Scanner sc = new Scanner(System.in);
+
+		int idSP = digaSuId();
+		
+		System.out.println();
+		String actividad = sc.next("Escriba la actividad:"
+				+ "\t CROSSFIT"
+				+ "\t KANGOO"
+				+ "\t YOGA");
+		
+		try {
+			instance.crearActividades(idSP, actividad);
+		} catch (NoExisteUsuarioExcepcion e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	private static void crearUsuarios(GimnasioSingleton instance) {

@@ -84,4 +84,8 @@ public class SoporteTecnico extends Usuario {
 		}
 	}
 
+	public Actividad crearActividad(String actividad) {
+		return (new Actividad(actividad));		
+	}
+
 }
