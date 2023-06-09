@@ -28,13 +28,15 @@ public class Clase {
 														// Pesa, 125 (son la cantidad de pesas totales necesarias para
 														// la clase)
 
-	public Clase(Profesor profesor, Sede sede, Emplazamiento emplazamiento, LocalDateTime fecha) {
+	public Clase(Profesor profesor, Sede sede, Emplazamiento emplazamiento, LocalDateTime fecha,double costo) {
 		this.idClase = idClaseSig;
 		idClaseSig++;
 		this.profesor = profesor;
 		this.sede = sede;
 		this.emplazamiento = emplazamiento;
 		this.fecha = fecha;
+		this.precio=costo;
+		this.inscriptos=new ArrayList<>();
 		this.estado = EstadoClase.AGENDADA;
 	}
 
@@ -51,6 +53,11 @@ public class Clase {
 	public EstadoClase getEstado() {
 		return this.estado;
 	}
+
+	public LocalDateTime getFecha() {
+		return this.fecha;
+	}
+
 
 	public void agregarCliente(Cliente cliente, Nivel nivel) throws NoMismoNivelException {
 

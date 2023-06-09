@@ -30,9 +30,16 @@ public class Administrativo extends Usuario {
 		return sedes;
 	}
 
-	public void agendarClase(Profesor profesor, Sede sede, Emplazamiento emplazamiento, LocalDateTime fecha) {
-
-		sede.agregarClase(new Clase(profesor, sede, emplazamiento, fecha));
+	public void agendarClase(Profesor profesor, Sede sede, Emplazamiento emplazamiento, LocalDateTime fecha,double costo) {
+		try {
+			if(profesor.estoyDisponbile(fecha)) {
+				Clase clase=new Clase(profesor, sede, emplazamiento, fecha,costo);
+				sede.agregarClase(clase);
+				profesor.agregarClase(clase);
+			}
+		}catch(ProfesorNoDisponibleException e){
+			e.printStackTrace();
+		}
 	}
 
 	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) {
