@@ -34,7 +34,27 @@ public class Articulo {
 	public String getArticulo() {
 		return this.articulo;
 	}
-
+	
+	public String getMarca() {
+		return this.marca;
+	}
+	
+	public String getAtributos() {
+		return this.atributos;
+	}
+	
+	public TipoAmortizacion getTipoAmortizacion() {
+		return this.tipoAmortizacion;
+	}
+	
+	public int getDurabilidad() {
+		return this.durabilidad;
+	}
+	
+	public double getPrecio() {
+		return this.precio;
+	}
+	
 	public double calcularDesgaste() {
 		return tipoAmortizacion.calcularDesgaste(this.cantClasesUsadas, this.fechaFabricacion, this.durabilidad);
 	}

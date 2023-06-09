@@ -1,18 +1,17 @@
 package modelo.productos;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Stock {
 
-	private ArrayList<Articulo> articulos;
+	private Map<Articulo,Integer> articulos;
 
 	public Stock() {
-		this.articulos = new ArrayList<>();
+		this.articulos = new HashMap<>();
 	}
 
-	public void agregarArticulo(Articulo articulo) {
-		articulos.add(articulo);
-
+	public void agregarArticulo(Articulo articulo,int cantidad) {
+		articulos.put(articulo, cantidad);
 	}
 
 }
