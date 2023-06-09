@@ -260,7 +260,7 @@ public class GimnasioSingleton {
 		}
 	}
 	
-	public void agregarArticuloAStock(int idA,String localidad,String marca, String articulo, String atributos,int cantidad) throws Exception {
+	public void agregarArticuloAStock(int idA,String localidad,String marca, String articulo, String atributos,int cantidad) throws NoExisteArticuloEnCatalogoException {
 		
 		Administrativo adm = soyEseAdministrativo(idA);
 		
