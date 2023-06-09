@@ -1,9 +1,11 @@
 package modelo.supertlon;
 
 import java.lang.reflect.Array;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import modelo.productos.Articulo;
+import modelo.productos.TipoAmortizacion;
 import modelo.sedes.Actividad;
 import modelo.sedes.Sede;
 import modelo.usuarios.Administrativo;
@@ -186,6 +188,7 @@ public class GimnasioSingleton {
 
 	public void asignarSedeAlAdministrativo(int idSP, String localidad)
 			throws NoExisteSedeException, NoExisteUsuarioExcepcion {
+		
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 		if (sp != null) {
 
@@ -220,6 +223,18 @@ public class GimnasioSingleton {
 			throw new NoExisteUsuarioExcepcion("No existe el Soporte Tecnico");
 		}
 				
+	}
+
+	public void agregarArticuloACatalogo(int idSP, String marca, String articulo, LocalDate fechaFabricacion,
+			TipoAmortizacion tipoAmortizacion, int durabilidad, String atributos, double precio) throws NoExisteUsuarioExcepcion {
+		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
+		
+		if (sp != null) {
+			this.catalogoArticulos.add(sp.crearArticulo(marca, articulo, fechaFabricacion, tipoAmortizacion, durabilidad, atributos, precio));
+		}else {
+			throw new NoExisteUsuarioExcepcion("No Existe el Soporte Tecnico");
+		}
+		
 	}
 
 }

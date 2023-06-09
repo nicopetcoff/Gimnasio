@@ -79,9 +79,10 @@ public class SoporteTecnico extends Usuario {
 	}
 
 
-	public void crearArticulo(String marca,String articulo,LocalDate fechaFabricacion,TipoAmortizacion tipoAmortizacion,int durabilidad,String atributos,double precio) {
-		Articulo Articulo=new Articulo(marca,articulo,fechaFabricacion,tipoAmortizacion,durabilidad,atributos,precio);
-		GimnasioSingleton.getInstance().agregarArticuloACatalogo(Articulo);
+	public Articulo crearArticulo(String marca,String articulo,LocalDate fechaFabricacion,TipoAmortizacion tipoAmortizacion,int durabilidad,String atributos,double precio) {
+	
+		return (new Articulo(marca,articulo,fechaFabricacion,tipoAmortizacion,durabilidad,atributos,precio));
+		
 	}
 	
 	//asigna sede a un administrador 

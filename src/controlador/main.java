@@ -1,8 +1,10 @@
 package controlador;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import modelo.productos.TipoAmortizacion;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
 import modelo.supertlon.NoExisteSedeException;
@@ -43,6 +45,7 @@ public class main {
 				break;
 				
 			case 4:
+				crearArticulosEnCatalogo(gimnasio.getInstance());
 				break;
 
 			default:
@@ -52,6 +55,66 @@ public class main {
 		} while (opcion != 5);
 		sc.close();
 
+	}
+
+	private static void crearArticulosEnCatalogo(GimnasioSingleton instance) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		int idSP = digaSuId();
+		
+		System.out.println("Diga la marca: ");
+		String marca = sc.next();
+		
+		System.out.println("Diga el articulo: ");
+		String articulo = sc.next();
+		
+		LocalDate fechaFabricacion = pedirFechaFabricacion();
+		
+				
+		TipoAmortizacion tipoAmortizacion = seleccionarTipoAmortizacion();
+		
+		System.out.println("Ingrese la durabilidad: ");
+		//que va aca?
+		int durabilidad = sc.nextInt(); 
+		
+		System.out.println("Ingrese los atributos: ");
+		String atributos =sc.next();
+		
+		System.out.println("Ingrese el precio del articulo: ");
+		double precio = sc.nextDouble();
+		
+		try {
+			instance.agregarArticuloACatalogo(idSP, marca, articulo, fechaFabricacion, tipoAmortizacion, durabilidad, atributos, precio);
+		} catch (NoExisteUsuarioExcepcion e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static TipoAmortizacion seleccionarTipoAmortizacion() {
+		
+		TipoAmortizacion[] tipos = TipoAmortizacion.values();
+
+        System.out.println("Seleccione un tipo de amortización:");
+        for (int i = 0; i < tipos.length; i++) {
+            System.out.println((i + 1) + ". " + tipos[i]);
+        }
+
+        Scanner scanner = new Scanner(System.in);
+        int opcion = scanner.nextInt();
+
+        if (opcion >= 1 && opcion <= tipos.length) {
+            return tipos[opcion - 1];
+        }
+		return null;
+	}
+
+	private static LocalDate pedirFechaFabricacion() {
+		Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese la fecha de fabricación (formato: AAAA-MM-DD): ");
+        String fechaStr = scanner.nextLine();
+        LocalDate fechaFabricacion = LocalDate.parse(fechaStr);
+        return fechaFabricacion;
 	}
 
 	private static void crearActividades(GimnasioSingleton instance) {
