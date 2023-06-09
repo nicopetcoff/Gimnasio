@@ -63,18 +63,19 @@ public class GimnasioSingleton {
 
 	}
 
-	public boolean existeEnCatalogo(String nombreArticulo) {
+	public Articulo existeEnCatalogo(String marca, String nombArticulo, String atributos) {
 
 		for (Articulo articulo : catalogoArticulos) {
-
-			if (articulo.getArticulo().equals(nombreArticulo))
-				return true;
-
+			//lo compara por tipo de articulo, marca y atributos ya que es lo q lo identifica de forma univoca
+			if (articulo.getArticulo().equals(nombArticulo) && articulo.getMarca().equals(marca) 
+					&& articulo.getAtributos().equals(atributos)) {
+				return articulo;
+			}
 		}
-
-		return false;
-
+		return null;
 	}
+	
+	
 
 	public ArrayList<Usuario> getUsuarios() {
 		return this.usuarios;
@@ -281,6 +282,21 @@ Administrativo a = soyEseAdministrativo(idA);
 			a.asignarSedeAdministrativo(this, localidadSede, emplazamiento);
 		}else {
 			throw new NoExisteUsuarioExcepcion("No existe el Administrativo");
+		}
+	}
+	
+	public void agregarArticuloAStock(int idA,String localidad,String marca, String articulo, String atributos,int cantidad) throws NoExisteArticuloEnCatalogoException {
+		
+		Administrativo adm = soyEseAdministrativo(idA);
+		
+		if (adm != null) {
+			Sede sede=soyEsaSede(localidad);
+			Articulo art=existeEnCatalogo(articulo,marca,atributos);
+			if (art!=null) {
+				adm.agregarArticulo(sede, art, cantidad);
+			}else {
+				throw new NoExisteArticuloEnCatalogoException("No existe ese articulo en catalogo.");
+			}
 		}
 	}
 

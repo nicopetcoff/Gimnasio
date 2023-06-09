@@ -67,8 +67,11 @@ public class Administrativo extends Usuario {
 
 	}
 
-	public void agregarArticulo(Sede sede, Articulo articulo) {
-		sede.agregarArticuloAStock(articulo);
+	//agrega articulo a sede, necesita mandar cantidad de articulos que quiere agregarle a la sede
+	public void agregarArticulo(Sede sede, Articulo articulo,int cantidad) {
+			sede.agregarArticuloAStock(articulo,cantidad);
+		
+		
 	}
 
 	public double consultarDesgaste(Articulo articulo) {
