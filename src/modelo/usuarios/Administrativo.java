@@ -1,5 +1,6 @@
 package modelo.usuarios;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -30,16 +31,22 @@ public class Administrativo extends Usuario {
 		return sedes;
 	}
 
-	public void agendarClase(Profesor profesor, Sede sede, Emplazamiento emplazamiento, LocalDateTime fecha,double costo) {
-		try {
-			if(profesor.estoyDisponbile(fecha)) {
-				Clase clase=new Clase(profesor, sede, emplazamiento, fecha,costo);
-				sede.agregarClase(clase);
-				profesor.agregarClase(clase);
+	public void agendarClase(String nroDNIProfesor, String localidad,String nombreClase, String emplazamiento, LocalDate fecha) throws Exception {
+		  
+		
+		  Sede sede = soyEsaSede(localidad);
+		  Profesor profesor = sede.soyEseProfesor(nroDNIProfesor);
+		  Emplazamiento empla = sede.soyEseEmplazamiento(emplazamiento);
+		  
+		  try {
+				if(profesor.estoyDisponbile(fecha)) {
+					Clase clase=new Clase(profesor, sede, nombreClase, empla, fecha);
+					sede.agregarClase(clase);
+					profesor.agregarClase(clase);
+				}
+			}catch(ProfesorNoDisponibleException e){
+				e.printStackTrace();
 			}
-		}catch(ProfesorNoDisponibleException e){
-			e.printStackTrace();
-		}
 	}
 
 	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) {
@@ -90,4 +97,21 @@ public class Administrativo extends Usuario {
 	public String getDNI() {
 		return this.dni;
 	}
+	
+
+	private Sede soyEsaSede(String localidad) throws Exception {
+		for (Sede sede : sedes) {
+			if (sede.getLocalidad().equals(localidad)) {
+				return sede;
+			}
+		}
+		lanzarExcepcionSede();
+		return null;
+	}
+
+	private void lanzarExcepcionSede() throws Exception {
+		
+	}
+
+	
 }

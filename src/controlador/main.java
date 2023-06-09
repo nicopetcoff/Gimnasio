@@ -1,10 +1,13 @@
 package controlador;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import modelo.productos.TipoAmortizacion;
+import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
 import modelo.supertlon.NoExisteSedeException;
@@ -26,7 +29,8 @@ public class main {
 			System.out.println("1. \t Crear Sede");
 			System.out.println("2. \t Crear Usuario");
 			System.out.println("3. \t Crear Actividades");
-			System.out.println("4. \t Crear Articulos en Catalogo del Gimnasio");
+			System.out.println("4. \t Crear Articulos en Catalogo del Gimnasio");			
+			System.out.println("5. \t Agendar CLase"); // aca es el administrativo, si no existe da Exception
 
 			System.out.println("Elija opcion");
 			opcion = sc.nextInt();
@@ -47,14 +51,61 @@ public class main {
 			case 4:
 				crearArticulosEnCatalogo(gimnasio.getInstance());
 				break;
+				
+			case 5:
+				agendarClase(gimnasio.getInstance());
+				break;
 
 			default:
 				break;
 			}
 			System.out.println();
-		} while (opcion != 5);
+		} while (opcion != 6);
 		sc.close();
 
+	}
+
+	private static void agendarClase(GimnasioSingleton instance) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		int idA = digaSuId();
+		
+		System.out.println("Ingrese el DNI del profesor: ");
+		String nroDNIProfesor = sc.next();
+		
+		System.out.println("Diga la localidad de la Sede: ");
+		String localidad = sc.next();
+		
+		System.out.println("Diga el nombre de la clase: ");
+		String nombreClase = sc.next();
+		
+		System.out.println("Diga el Emplazamiento: ");
+		String emplazamiento = sc.next(); 
+		
+		LocalDate fecha = pedirFecha();
+		
+		try {
+			instance.agendarClase(idA, nroDNIProfesor, localidad, nombreClase, emplazamiento, fecha);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	private static LocalDate pedirFecha() {
+		Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Ingrese la fecha (formato: dd/MM/yyyy): ");
+        String fechaStr = scanner.nextLine();
+
+        // Definimos el formato de fecha esperado
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        // Convertimos la cadena ingresada a LocalDate
+        LocalDate fecha = LocalDate.parse(fechaStr, formatter);
+
+        return fecha;
 	}
 
 	private static void crearArticulosEnCatalogo(GimnasioSingleton instance) {

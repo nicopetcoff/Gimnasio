@@ -1,6 +1,8 @@
 package modelo.sedes;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import modelo.productos.Articulo;
 import modelo.productos.Stock;
@@ -16,6 +18,7 @@ public class Sede {
 	private double alquiler;
 	private ArrayList<Clase> clases;
 	private ArrayList<Profesor> profesores;
+	private ArrayList<Emplazamiento> emplazamientos;
 	private Stock stock;
 
 	public Sede(String localidad, Nivel nivel, double alquiler, int capacidadMax, String descripcion) {
@@ -26,6 +29,7 @@ public class Sede {
 		this.descripcion = descripcion;
 		this.clases = new ArrayList<>();
 		this.profesores = new ArrayList<>();
+		this.emplazamientos = new ArrayList<>();
 		this.stock = new Stock();
 	}
 
@@ -74,6 +78,29 @@ public class Sede {
 	public ArrayList<Clase> getClases() {
 
 		return this.clases;
+	}
+
+	public Profesor soyEseProfesor(String nroDNIProfesor) throws Exception {
+		for (Profesor profesor : profesores) {
+			if (profesor.getDNI().equals(nroDNIProfesor)) {
+				
+			}
+		}
+		lanzarExcepcion("No existe el profesor");
+		return null;
+	}
+
+	private void lanzarExcepcion(String msg) throws Exception {
+		throw new Exception(msg);
+	}
+
+	public Emplazamiento soyEseEmplazamiento(String emplazamiento) throws Exception {
+		for(Emplazamiento empla : emplazamientos)
+			if (empla.getTipoEmplazamiento().equals(emplazamiento)) {
+				return empla;
+			}
+		lanzarExcepcion("No existe el emplazamiento");
+		return null;
 	}
 
 }

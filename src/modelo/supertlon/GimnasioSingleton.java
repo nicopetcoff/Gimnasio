@@ -118,6 +118,18 @@ public class GimnasioSingleton {
 		}
 		return null;
 	}
+	
+	private Administrativo soyEseAdministrativo (int idUsuario) {
+		
+		for (Usuario usu : usuarios) {
+			if (usu.soyAdministrativo() && usu.getId() == idUsuario) {
+				return (Administrativo) usu;
+
+			}
+		}
+		return null;
+		
+	}
 
 	public void crearSoporteTecnico(int idSP, String nombre, String apellido, String dni)
 			throws NoExisteUsuarioExcepcion {
@@ -235,6 +247,16 @@ public class GimnasioSingleton {
 			throw new NoExisteUsuarioExcepcion("No Existe el Soporte Tecnico");
 		}
 		
+	}
+
+	public void agendarClase(int idA, String nroDNIProfesor, String localidad, String nombreClase, String emplazamiento,
+			LocalDate fecha) throws Exception {
+		
+		Administrativo a = soyEseAdministrativo(idA);
+		
+		if (a != null) {
+			a.agendarClase(nroDNIProfesor, localidad, nombreClase, emplazamiento, fecha);
+		}
 	}
 
 }

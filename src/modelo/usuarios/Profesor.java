@@ -39,9 +39,9 @@ public class Profesor extends Usuario {
 		return this.sueldo;
 	}
 	
-	public boolean estoyDisponbile (LocalDateTime fecha) throws ProfesorNoDisponibleException {
+	public boolean estoyDisponbile (LocalDate fecha) throws ProfesorNoDisponibleException {
 		int clasePorDia=0;
-		LocalDateTime fechaClase;
+		LocalDate fechaClase;
 		for (Clase c: this.clases) {
 			fechaClase=c.getFecha();
 			

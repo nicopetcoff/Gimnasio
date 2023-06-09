@@ -1,5 +1,6 @@
 package modelo.sedes;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
@@ -14,28 +15,29 @@ public class Clase {
 
 	private int idClase;
 	private static int idClaseSig = 1;
+	private String nombreClase;
 	private Profesor profesor;
 	private Sede sede;
 	private int capacidadMax = 30;
 	private int alumnosInscriptos;
 	private Actividad actividad;
 	private Emplazamiento emplazamiento;
-	private LocalDateTime fecha;
+	private LocalDate fecha;
 	private EstadoClase estado;
-	private double precio;
+	private double costo;
 	private ArrayList<Cliente> inscriptos;
 	private Map<Articulo, Integer> articulosTotales; // Ejemplo de entradas luego del metodo calcularTotalArticulos:
 														// Pesa, 125 (son la cantidad de pesas totales necesarias para
 														// la clase)
 
-	public Clase(Profesor profesor, Sede sede, Emplazamiento emplazamiento, LocalDateTime fecha,double costo) {
+	public Clase(Profesor profesor, Sede sede,String nombreClase, Emplazamiento emplazamiento, LocalDate fecha) {
 		this.idClase = idClaseSig;
 		idClaseSig++;
+		this.nombreClase= nombreClase;
 		this.profesor = profesor;
 		this.sede = sede;
 		this.emplazamiento = emplazamiento;
 		this.fecha = fecha;
-		this.precio=costo;
 		this.inscriptos=new ArrayList<>();
 		this.estado = EstadoClase.AGENDADA;
 	}
@@ -54,7 +56,7 @@ public class Clase {
 		return this.estado;
 	}
 
-	public LocalDateTime getFecha() {
+	public LocalDate getFecha() {
 		return this.fecha;
 	}
 
