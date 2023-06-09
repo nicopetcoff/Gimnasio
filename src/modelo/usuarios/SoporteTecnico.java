@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import modelo.productos.*;
 import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
+import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
 import modelo.usuarios.Excepciones.ExisteLocalidadException;
@@ -27,7 +28,7 @@ public class SoporteTecnico extends Usuario {
 			}
 
 		}
-		return new Sede(localidad, nivel, alquiler, capacidad, tipoSede);
+		return (new Sede(localidad, nivel, alquiler, capacidad, tipoSede));
 
 	}
 
@@ -102,6 +103,10 @@ public class SoporteTecnico extends Usuario {
 
 	public Actividad crearActividad(String actividad) {
 		return (new Actividad(actividad));		
+	}
+
+	public Emplazamiento crearEmplazamiento(String tipoEmplazamiento, double factorCalculo) {
+		return (new Emplazamiento(tipoEmplazamiento, factorCalculo));
 	}
 
 }

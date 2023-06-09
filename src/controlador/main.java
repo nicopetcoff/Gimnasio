@@ -29,8 +29,10 @@ public class main {
 			System.out.println("1. \t Crear Sede");
 			System.out.println("2. \t Crear Usuario");
 			System.out.println("3. \t Crear Actividades");
-			System.out.println("4. \t Crear Articulos en Catalogo del Gimnasio");			
-			System.out.println("5. \t Agendar CLase"); // aca es el administrativo, si no existe da Exception
+			System.out.println("4. \t Crear Articulos en Catalogo del Gimnasio");
+			System.out.println("5. \t Crear Emplazamiento");
+			System.out.println("6. \t Asignar Emplazamiento a Sede"); // administrativo
+			System.out.println("7. \t Agendar CLase"); // aca es el administrativo, si no existe da Exception
 
 			System.out.println("Elija opcion");
 			opcion = sc.nextInt();
@@ -53,6 +55,14 @@ public class main {
 				break;
 				
 			case 5:
+				crearEmplazamientos(gimnasio.getInstance());
+				break;
+				
+			case 6:
+				asignarEmplazamientoSede(gimnasio.getInstance());
+				break;
+				
+			case 7:
 				agendarClase(gimnasio.getInstance());
 				break;
 
@@ -64,6 +74,8 @@ public class main {
 		sc.close();
 
 	}
+
+	
 
 	private static void agendarClase(GimnasioSingleton instance) {
 		
@@ -90,6 +102,61 @@ public class main {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+	}
+	
+	private static void asignarEmplazamientoSede(GimnasioSingleton instance) {
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		Scanner sc = new Scanner(System.in);
+		int idA = digaSuId();
+		
+		verSedes(instance.getSedes());
+		
+
+		System.out.println("Elija localidad");
+		String localidadSede = scanner.next();
+		
+		verEmplazamientosDisponibles(instance.getEmplazamientosDisponibles());
+		
+		System.out.println("Elija emplazamiento");
+		String emplazamiento = sc.next();
+		
+		try {
+			instance.AsignarEmplazamientoSede(idA, localidadSede, emplazamiento);
+		} catch (NoExisteUsuarioExcepcion e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private static void verEmplazamientosDisponibles(ArrayList<Emplazamiento> emplazamientosDisponibles) {
+		for (Emplazamiento emplazamiento : emplazamientosDisponibles) {
+			System.out.println(emplazamiento);
+		}
+	}
+
+
+
+	private static void crearEmplazamientos(GimnasioSingleton instance) {
+		
+		Scanner sc = new Scanner(System.in);
+		int idSP = digaSuId();
+		
+		System.out.println("Ingrese el Tipo de Emplazamiento");
+		String tipoEmplazamiento = sc.next();
+		
+		System.out.println("Ingrese el factor calculo: "
+				+ "\t por ejemplo pileta:150");
+		double factorCalculo = sc.nextDouble();
+		
+		try {
+			instance.crearEmplazamiento(idSP, tipoEmplazamiento, factorCalculo);
+		} catch (NoExisteUsuarioExcepcion e) {
+			e.printStackTrace();
+		}
+		
 		
 	}
 

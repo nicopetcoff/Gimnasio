@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import modelo.productos.Articulo;
 import modelo.productos.TipoAmortizacion;
 import modelo.sedes.Actividad;
+import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
 import modelo.usuarios.Administrativo;
 import modelo.usuarios.Cliente;
@@ -25,6 +26,7 @@ public class GimnasioSingleton {
 	private ArrayList<Sede> sedes;
 	private ArrayList<Articulo> catalogoArticulos;
 	private ArrayList<Actividad> actividades;
+	private ArrayList<Emplazamiento> emplazamientos;
 
 	private GimnasioSingleton() {
 
@@ -32,6 +34,7 @@ public class GimnasioSingleton {
 		this.sedes = new ArrayList<>();
 		this.catalogoArticulos = new ArrayList<>();
 		this.actividades = new ArrayList<>();
+		this.emplazamientos = new ArrayList<>();
 
 		usuarios.add(new SoporteTecnico("Juan", "Peres", "41577777"));
 	}
@@ -83,6 +86,10 @@ public class GimnasioSingleton {
 	
 	public ArrayList<Actividad> getActividades(){
 		return this.actividades;
+	}
+	
+	public ArrayList<Emplazamiento> getEmplazamientosDisponibles(){
+		return this.emplazamientos;
 	}
 
  	public void eliminarUsuario(Cliente cliente) {
@@ -252,10 +259,28 @@ public class GimnasioSingleton {
 	public void agendarClase(int idA, String nroDNIProfesor, String localidad, String nombreClase, String emplazamiento,
 			LocalDate fecha) throws Exception {
 		
-		Administrativo a = soyEseAdministrativo(idA);
+		
+	}
+
+	public void crearEmplazamiento(int idSP, String tipoEmplazamiento, double factorCalculo) throws NoExisteUsuarioExcepcion {
+		
+		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
+		
+		if (sp !=null) {
+			this.emplazamientos.add(sp.crearEmplazamiento(tipoEmplazamiento, factorCalculo));			
+		}else {
+			throw new NoExisteUsuarioExcepcion("No existe el Administrativo");
+		}
+	}
+
+	public void AsignarEmplazamientoSede(int idA, String localidadSede, String emplazamiento) throws NoExisteUsuarioExcepcion {
+		
+Administrativo a = soyEseAdministrativo(idA);
 		
 		if (a != null) {
-			a.agendarClase(nroDNIProfesor, localidad, nombreClase, emplazamiento, fecha);
+			a.asignarSedeAdministrativo(this, localidadSede, emplazamiento);
+		}else {
+			throw new NoExisteUsuarioExcepcion("No existe el Administrativo");
 		}
 	}
 

@@ -8,6 +8,15 @@ public class Emplazamiento {
 		this.tipoEmplazamiento = tipoEmplazamiento;
 		this.factorCalculo = factorCalculo;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "Emplazamiento [tipoEmplazamiento=" + tipoEmplazamiento + "]";
+	}
+
+
 
 	public String getTipoEmplazamiento() {
 		return tipoEmplazamiento;

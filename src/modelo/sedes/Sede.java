@@ -18,7 +18,7 @@ public class Sede {
 	private double alquiler;
 	private ArrayList<Clase> clases;
 	private ArrayList<Profesor> profesores;
-	private ArrayList<Emplazamiento> emplazamientos;
+	private ArrayList<Emplazamiento> emplazamientosSede;
 	private Stock stock;
 
 	public Sede(String localidad, Nivel nivel, double alquiler, int capacidadMax, String descripcion) {
@@ -29,7 +29,7 @@ public class Sede {
 		this.descripcion = descripcion;
 		this.clases = new ArrayList<>();
 		this.profesores = new ArrayList<>();
-		this.emplazamientos = new ArrayList<>();
+		this.emplazamientosSede = new ArrayList<>();
 		this.stock = new Stock();
 	}
 
@@ -95,7 +95,7 @@ public class Sede {
 	}
 
 	public Emplazamiento soyEseEmplazamiento(String emplazamiento) throws Exception {
-		for(Emplazamiento empla : emplazamientos)
+		for(Emplazamiento empla : emplazamientosSede)
 			if (empla.getTipoEmplazamiento().equals(emplazamiento)) {
 				return empla;
 			}

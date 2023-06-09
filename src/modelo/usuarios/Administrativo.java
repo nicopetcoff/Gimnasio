@@ -113,5 +113,11 @@ public class Administrativo extends Usuario {
 		
 	}
 
+	public void asignarSedeAdministrativo(GimnasioSingleton gimnasioSingleton, String localidadSede, String emplazamiento) {
+		/*
+		 * me falta terminar, habria que chequear que ambos arraylist tengan asignado el mismo emplazamiento
+		 */
+	}
+
 	
 }
