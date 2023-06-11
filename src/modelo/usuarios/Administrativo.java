@@ -9,6 +9,7 @@ import modelo.sedes.Clase;
 import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
+import modelo.usuarios.Excepciones.ClienteNoRegistradoException;
 import modelo.utilidad.EstadoClase;
 import modelo.utilidad.Nivel;
 
@@ -31,7 +32,7 @@ public class Administrativo extends Usuario {
 		return sedes;
 	}
 
-	public void agendarClase(String nroDNIProfesor, String localidad,String nombreClase, String emplazamiento, LocalDate fecha) throws Exception {
+	public void agendarClase(String nroDNIProfesor, String localidad,String nombreClase, String emplazamiento, LocalDateTime fecha) throws Exception {
 		  
 		
 		  Sede sede = soyEsaSede(localidad);
@@ -97,23 +98,41 @@ public class Administrativo extends Usuario {
 	}
 
 	@Override
+	public boolean soyCliente() {
+		return false;
+	}
+	
+	@Override
 	public String getDNI() {
 		return this.dni;
 	}
 	
 
-	private Sede soyEsaSede(String localidad) throws Exception {
+	private Sede soyEsaSede(String localidad)  {
 		for (Sede sede : sedes) {
 			if (sede.getLocalidad().equals(localidad)) {
 				return sede;
 			}
 		}
-		lanzarExcepcionSede();
+	
 		return null;
 	}
 
-	private void lanzarExcepcionSede() throws Exception {
+	
+	
+	public void darDeAltaCliente(String clienteDNI,String localidad) {
+		Sede sede=soyEsaSede(localidad);
+		try {
+			Cliente cliente=(Cliente) GimnasioSingleton.getInstance().buscarCliente(clienteDNI);
+			sede.darAltaACliente(cliente);
+		}catch (ClienteNoRegistradoException e) {
+			e.printStackTrace();
+		}
 		
+	}
+	public void darDeBajaCliente(String clienteDNI,String localidad) {
+		Sede sede=soyEsaSede(localidad);
+		sede.darBajaACliente(clienteDNI);
 	}
 
 	

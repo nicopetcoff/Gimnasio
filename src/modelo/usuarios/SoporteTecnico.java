@@ -67,6 +67,11 @@ public class SoporteTecnico extends Usuario {
 	public boolean soyAdministrativo() {
 		return false;
 	}
+	
+	@Override
+	public boolean soyCliente() {
+		return false;
+	}
 
 	@Override
 	public String getDNI() {

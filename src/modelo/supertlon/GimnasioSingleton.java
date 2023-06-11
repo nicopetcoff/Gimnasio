@@ -1,7 +1,7 @@
 package modelo.supertlon;
 
 import java.lang.reflect.Array;
-import java.time.LocalDate;
+import java.time.*;
 import java.util.ArrayList;
 
 import modelo.productos.Articulo;
@@ -13,8 +13,8 @@ import modelo.usuarios.Cliente;
 import modelo.usuarios.Profesor;
 import modelo.usuarios.SoporteTecnico;
 import modelo.usuarios.Usuario;
-import modelo.usuarios.Excepciones.ExisteLocalidadException;
-import modelo.usuarios.Excepciones.NoPudoException;
+import modelo.usuarios.Excepciones.*;
+
 import modelo.utilidad.Nivel;
 
 public class GimnasioSingleton {
@@ -251,7 +251,7 @@ public class GimnasioSingleton {
 	}
 
 	public void agendarClase(int idA, String nroDNIProfesor, String localidad, String nombreClase, String emplazamiento,
-			LocalDate fecha) throws Exception {
+			LocalDateTime fecha) throws Exception {
 		
 		Administrativo a = soyEseAdministrativo(idA);
 		
@@ -273,6 +273,15 @@ public class GimnasioSingleton {
 				throw new NoExisteArticuloEnCatalogoException("No existe ese articulo en catalogo.");
 			}
 		}
+	}
+	
+	public Usuario buscarCliente(String dni) throws ClienteNoRegistradoException {
+		for (Usuario c: this.usuarios) {
+			if(c.soyCliente() && c.getDNI().equals(dni)) {
+				return c;
+			}
+		}
+		throw new ClienteNoRegistradoException("Cliente no registrado");
 	}
 
 }

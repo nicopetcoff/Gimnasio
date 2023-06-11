@@ -21,6 +21,7 @@ public abstract class Usuario {
 	public abstract int getId();
 
 	public abstract boolean soyAdministrativo();
+	public abstract boolean soyCliente();
 
 	public abstract String getDNI();
 

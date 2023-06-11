@@ -19,6 +19,11 @@ public class Profesor extends Usuario {
 	public boolean soySoporteTecnico() {
 		return false;
 	}
+	
+	@Override
+	public boolean soyCliente() {
+		return false;
+	}
 
 	@Override
 	public int getId() {
@@ -39,9 +44,9 @@ public class Profesor extends Usuario {
 		return this.sueldo;
 	}
 	
-	public boolean estoyDisponbile (LocalDate fecha) throws ProfesorNoDisponibleException {
+	public boolean estoyDisponbile (LocalDateTime fecha) throws ProfesorNoDisponibleException {
 		int clasePorDia=0;
-		LocalDate fechaClase;
+		LocalDateTime fechaClase;
 		for (Clase c: this.clases) {
 			fechaClase=c.getFecha();
 			

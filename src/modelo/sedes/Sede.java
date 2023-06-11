@@ -7,7 +7,8 @@ import java.util.Iterator;
 
 import modelo.productos.Articulo;
 import modelo.productos.Stock;
-import modelo.usuarios.Profesor;
+import modelo.usuarios.*;
+import modelo.usuarios.Excepciones.ClienteNoRegistradoException;
 import modelo.utilidad.Nivel;
 
 public class Sede {
@@ -20,6 +21,7 @@ public class Sede {
 	private ArrayList<Clase> clases;
 	private ArrayList<Profesor> profesores;
 	private ArrayList<Emplazamiento> emplazamientos;
+	private ArrayList<Cliente> clientes;
 	private Stock stock;
 
 	public Sede(String localidad, Nivel nivel, double alquiler, int capacidadMax, String descripcion) {
@@ -32,6 +34,7 @@ public class Sede {
 		this.profesores = new ArrayList<>();
 		this.emplazamientos = new ArrayList<>();
 		this.stock = new Stock();
+		this.clientes=new ArrayList<>();
 	}
 
 	@Override
@@ -103,6 +106,30 @@ public class Sede {
 			}
 		lanzarExcepcion("No existe el emplazamiento");
 		return null;
+	}
+	
+	public void darAltaACliente(Cliente cliente) {
+		clientes.add(cliente);
+	}
+	
+	public Cliente buscarCliente(String dni) throws ClienteNoRegistradoException {
+		for (Cliente c: this.clientes) {
+			if(c.soyCliente() && c.getDNI().equals(dni)) {
+				return c;
+			}
+		}
+		throw new ClienteNoRegistradoException("Cliente no registrado");
+	}
+	
+	public void darBajaACliente(String clienteDNI ) {
+		
+		try {
+			Cliente cliente = buscarCliente(clienteDNI);
+			this.clientes.remove(cliente);
+		} catch (ClienteNoRegistradoException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

@@ -52,4 +52,9 @@ public class Cliente extends Usuario implements OperarClase {
 		return this.nivel.costoMembresia();
 	}
 
+	@Override
+	public boolean soyCliente() {
+		return true;
+	}
+
 }
