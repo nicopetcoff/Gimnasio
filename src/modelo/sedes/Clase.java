@@ -95,6 +95,10 @@ public class Clase {
 
 	}
 
+	public Actividad getActividad() {
+		return this.actividad;
+	}
+
 	private double calcularCosto() {
 		
 		/* 
