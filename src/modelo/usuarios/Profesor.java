@@ -1,6 +1,7 @@
 package modelo.usuarios;
 import java.time.*;
 import java.util.ArrayList;
+import java.time.LocalTime;
 
 import modelo.sedes.*;
 
@@ -8,6 +9,8 @@ public class Profesor extends Usuario {
 
 	private double sueldo;
 	private ArrayList<Clase> clases;
+	private Sede sedeAsignada;
+	private ArrayList<LocalTime> horariosDisponibles;
 
 	public Profesor(String nombre, String apellido, String dni, double sueldo) {
 		super(nombre, apellido, dni);
@@ -57,8 +60,31 @@ public class Profesor extends Usuario {
 		}
 		return true;
 	}
+	
 	public void agregarClase(Clase clase) {
 		clases.add(clase);
 	}
 
+	public void setSedeAsignada(Sede sede) {
+		this.sedeAsignada = sede;
+	}
+
+	public Sede getSedeAsignada() {
+		return sedeAsignada;
+	}
+	
+	public void agregarHorarioDisponible(LocalTime horario) {
+		this.horariosDisponibles.add(horario);
+	}
+	
+	public ArrayList<LocalTime> getHorariosDisponibles() {
+		return horariosDisponibles;
+	}
+
+	public LocalTime buscarHorarioDisponible(LocalTime horario){
+		if (!horariosAsignados.contains(horario)) {
+	        	return horario;
+	    	}	
+		return null;
+	}
 }
