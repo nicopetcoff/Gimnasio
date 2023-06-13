@@ -82,9 +82,10 @@ public class Profesor extends Usuario {
 	}
 
 	public LocalTime buscarHorarioDisponible(LocalTime horario){
-		if (!horariosAsignados.contains(horario)) {
+		if (!horariosDisponibles.contains(horario)) {
 	        	return horario;
-	    	}	
+	    	}
+	    		
 		return null;
 	}
 }

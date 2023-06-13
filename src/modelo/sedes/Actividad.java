@@ -25,11 +25,11 @@ public class Actividad {
 	}
 
 	public Map<Articulo, Integer> getArticulosPorAlumno() {
-		return articulosRequeridos;
+		return articulosRequeridosPorAlumno;
 	}
 
 	public void agregarArticuloPorAlumno(Articulo articulo, int cantidad) {
-		this.articulosRequeridos.put(articulo, cantidad); // Agrega un articulo solo con su cantidad
+		this.articulosRequeridosPorAlumno.put(articulo, cantidad); // Agrega un articulo solo con su cantidad
 	}
 	
 	public Emplazamiento getEmplazamientoRequerido() {

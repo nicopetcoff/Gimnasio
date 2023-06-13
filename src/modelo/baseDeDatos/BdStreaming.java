@@ -1,5 +1,8 @@
+package modelo.baseDeDatos;
+
+import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
-import modelo.sedes.LimiteClasesException;
+import modelo.baseDeDatos.LimiteClasesException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +60,7 @@ public class BdStreaming {
         return null;
     }
 
-    public void definirLimitePorTipo(Actividad actividad, int limite) {
+    public void definirLimitePorTipo(Actividad actividad, int limite) throws LimiteClasesException {
         limitePorActividad.put(actividad, limite);
         ajustarLimiteClases(actividad);
     }

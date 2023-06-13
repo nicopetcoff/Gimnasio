@@ -35,8 +35,8 @@ public class Administrativo extends Usuario {
 		  
 		
 		  Sede sede = soyEsaSede(localidad);
-		  Profesor profesor = sede.soyEseProfesor(nroDNIProfesor);
-		  Emplazamiento empla = sede.soyEseEmplazamiento(emplazamiento);
+		  Profesor profesor = sede.buscarProfesor(nroDNIProfesor);
+		  Emplazamiento empla = sede.buscarEmplazamiento(emplazamiento);
 		  
 		  try {
 				if(profesor.estoyDisponbile(fecha)) {
