@@ -10,7 +10,7 @@ import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
-import modelo.supertlon.Excepciones.NoExisteUsuarioExcepcion;
+import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.utilidad.Nivel;
 
 public class main {
@@ -90,12 +90,12 @@ public class main {
 		String nombreClase = sc.next();
 
 		System.out.println("Diga el Emplazamiento: ");
-		String emplazamiento = sc.next();
+		String emplazamiento1 = sc.next();
 
 		LocalDate fecha = pedirFecha();
 
 		try {
-			instance.agendarClase(idA, nroDNIProfesor, localidad, nombreClase, emplazamiento, fecha);
+			instance.agendarClase(idA, nroDNIProfesor, localidad, nombreClase, emplazamiento1, fecha);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -111,17 +111,17 @@ public class main {
 
 		verSedes(instance.getSedes());
 
-		System.out.println("Elija localidad");
+		System.out.println("Elija localidad: ");
 		String localidadSede = scanner.next();
 
 		verEmplazamientosDisponibles(instance.getEmplazamientosDisponibles());
 
-		System.out.println("Elija emplazamiento");
+		System.out.println("Elija emplazamiento: ");
 		String emplazamiento = sc.next();
 
 		try {
 			instance.AsignarEmplazamientoSede(idA, localidadSede, emplazamiento);
-		} catch (NoExisteUsuarioExcepcion e) {
+		} catch (NoExisteUsuarioException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -148,7 +148,7 @@ public class main {
 
 		try {
 			instance.crearEmplazamiento(idSP, tipoEmplazamiento, factorCalculo);
-		} catch (NoExisteUsuarioExcepcion e) {
+		} catch (NoExisteUsuarioException e) {
 			e.printStackTrace();
 		}
 
@@ -198,7 +198,7 @@ public class main {
 		try {
 			instance.agregarArticuloACatalogo(idSP, marca, articulo, fechaFabricacion, tipoAmortizacion, durabilidad,
 					atributos, precio);
-		} catch (NoExisteUsuarioExcepcion e) {
+		} catch (NoExisteUsuarioException e) {
 			e.printStackTrace();
 		}
 	}
@@ -235,12 +235,12 @@ public class main {
 
 		int idSP = digaSuId();
 
-		System.out.println();
-		String actividad = sc.next("Escriba la actividad:" + "\t CROSSFIT" + "\t KANGOO" + "\t YOGA");
+		System.out.println("Escriba la actividad:" + "\t CROSSFIT" + "\t KANGOO" + "\t YOGA");
+		String actividad = sc.next();
 
 		try {
 			instance.crearActividades(idSP, actividad);
-		} catch (NoExisteUsuarioExcepcion e) {
+		} catch (NoExisteUsuarioException e) {
 			e.printStackTrace();
 		}
 
@@ -273,7 +273,7 @@ public class main {
 
 			try {
 				instance.crearSoporteTecnico(idSP, nombre, apellido, dni);
-			} catch (NoExisteUsuarioExcepcion e) {
+			} catch (NoExisteUsuarioException e) {
 				e.printStackTrace();
 			}
 			break;
@@ -290,7 +290,7 @@ public class main {
 
 			try {
 				instance.crearAdministrativo(idSP, nombre1, apellido1, dni1);
-			} catch (NoExisteUsuarioExcepcion e) {
+			} catch (NoExisteUsuarioException e) {
 				e.printStackTrace();
 			}
 			asignarSedeAdministrativo(instance, idSP);
@@ -310,7 +310,7 @@ public class main {
 
 			try {
 				instance.crearCliente(idSP, nombre2, apellido2, dni2, nivel);
-			} catch (NoExisteUsuarioExcepcion e) {
+			} catch (NoExisteUsuarioException e) {
 				e.printStackTrace();
 			}
 
@@ -337,7 +337,7 @@ public class main {
 
 			try {
 				instance.crearProfesor(idSP, nombre4, apellido4, dni4, sueldo, localidad);
-			} catch (NoExisteUsuarioExcepcion | NoExisteSedeException e) {
+			} catch (NoExisteUsuarioException | NoExisteSedeException e) {
 				e.printStackTrace();
 			}
 			break;
@@ -370,7 +370,7 @@ public class main {
 				// este metodo
 				try {
 					instance.asignarSedeAlAdministrativo(idSP, localidad);
-				} catch (NoExisteSedeException | NoExisteUsuarioExcepcion e) {
+				} catch (NoExisteSedeException | NoExisteUsuarioException e) {
 					e.printStackTrace();
 				}
 				break;
@@ -411,7 +411,7 @@ public class main {
 		try {
 			gimnasio.crearSede(idUsuario, localidad, nivel, alquiler, capacidad, descripcion);
 
-		} catch (NoExisteUsuarioExcepcion e) {
+		} catch (NoExisteUsuarioException e) {
 			e.printStackTrace();
 		}
 	}

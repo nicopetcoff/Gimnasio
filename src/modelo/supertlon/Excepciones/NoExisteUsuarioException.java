@@ -1,10 +1,10 @@
 package modelo.supertlon.Excepciones;
 
-public class NoExisteUsuarioExcepcion extends Exception {
+public class NoExisteUsuarioException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public NoExisteUsuarioExcepcion(String message) {
+	public NoExisteUsuarioException(String message) {
 		super(message);
 
 	}

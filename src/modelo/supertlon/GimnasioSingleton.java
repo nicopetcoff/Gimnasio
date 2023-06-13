@@ -10,7 +10,7 @@ import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
 import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
-import modelo.supertlon.Excepciones.NoExisteUsuarioExcepcion;
+import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.usuarios.Administrativo;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Profesor;
@@ -100,7 +100,7 @@ public class GimnasioSingleton {
 	}
 
 	public void crearSede(int idUsuario, String localidad, Nivel nivel, double alquiler, int capacidad,
-			String descripcion) throws NoExisteUsuarioExcepcion {
+			String descripcion) throws NoExisteUsuarioException {
 
 		SoporteTecnico sp = soyEseSoporteTecnico(idUsuario);
 
@@ -113,7 +113,7 @@ public class GimnasioSingleton {
 			}
 
 		} else {
-			throw new NoExisteUsuarioExcepcion("No existe el Soporte Tecnico Ingresado");
+			throw new NoExisteUsuarioException("No existe el Soporte Tecnico Ingresado");
 		}
 	}
 
@@ -141,7 +141,7 @@ public class GimnasioSingleton {
 	}
 
 	public void crearSoporteTecnico(int idSP, String nombre, String apellido, String dni)
-			throws NoExisteUsuarioExcepcion {
+			throws NoExisteUsuarioException {
 
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 
@@ -149,37 +149,37 @@ public class GimnasioSingleton {
 			SoporteTecnico nsp = sp.crearSoporteTecnico(nombre, apellido, dni);
 			this.usuarios.add(nsp);
 		} else {
-			throw new NoExisteUsuarioExcepcion("No existe el Soporte Tecnico Ingresado");
+			throw new NoExisteUsuarioException("No existe el Soporte Tecnico Ingresado");
 		}
 
 	}
 
 	public void crearAdministrativo(int idSP, String nombre1, String apellido1, String dni1)
-			throws NoExisteUsuarioExcepcion {
+			throws NoExisteUsuarioException {
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 
 		if (sp != null) {
 			Administrativo ad = sp.crearAdministrativo(nombre1, apellido1, dni1);
 			usuarios.add(ad);
 		} else {
-			throw new NoExisteUsuarioExcepcion("No existe el Soporte Tecnico Ingresado");
+			throw new NoExisteUsuarioException("No existe el Soporte Tecnico Ingresado");
 		}
 	}
 
 	public void crearCliente(int idSP, String nombre2, String apellido2, String dni2, Nivel nivel)
-			throws NoExisteUsuarioExcepcion {
+			throws NoExisteUsuarioException {
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 		if (sp != null) {
 			Cliente cl = sp.crearCliente(nombre2, apellido2, dni2, nivel);
 			usuarios.add(cl);
 		} else {
-			throw new NoExisteUsuarioExcepcion("No existe el Soporte Tecnico Ingresado");
+			throw new NoExisteUsuarioException("No existe el Soporte Tecnico Ingresado");
 		}
 
 	}
 
 	public void crearProfesor(int idSP, String nombre4, String apellido4, String dni4, double sueldo, String localidad)
-			throws NoExisteUsuarioExcepcion, NoExisteSedeException {
+			throws NoExisteUsuarioException, NoExisteSedeException {
 
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 		if (sp != null) {
@@ -187,14 +187,28 @@ public class GimnasioSingleton {
 			Sede s = soyEsaSede(localidad);
 			if (s != null) {
 				s.agregarProfesor(pr);
+				enviarProfesorASedesAdministrativo(s, pr);
 			} else {
 				throw new NoExisteSedeException("No existe la Sede");
 			}
 
 		} else {
-			throw new NoExisteUsuarioExcepcion("No existe el Soporte Tecnico Ingresado");
+			throw new NoExisteUsuarioException("No existe el Soporte Tecnico ingresado");
 		}
 
+	}
+
+	private void enviarProfesorASedesAdministrativo(Sede s, Profesor pr) {
+		for (Usuario usuario: usuarios) {
+			if (usuario.soyAdministrativo()) {
+				Administrativo a = 	(Administrativo) usuario;
+				for (int i = 0; i < a.getSedes().size(); i++) {
+					if (a.getSedes().get(i).getLocalidad().equals(s.getLocalidad())) {
+						a.getSedes().get(i).agregarProfesor(pr);
+					}
+				}
+			}
+		}
 	}
 
 	private Sede soyEsaSede(String localidad) {
@@ -208,7 +222,7 @@ public class GimnasioSingleton {
 	}
 
 	public void asignarSedeAlAdministrativo(int idSP, String localidad)
-			throws NoExisteSedeException, NoExisteUsuarioExcepcion {
+			throws NoExisteSedeException, NoExisteUsuarioException {
 
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 		if (sp != null) {
@@ -227,12 +241,12 @@ public class GimnasioSingleton {
 			}
 
 		} else {
-			throw new NoExisteUsuarioExcepcion("No existe el Soporte Tecnico");
+			throw new NoExisteUsuarioException("No existe el Soporte Tecnico");
 		}
 
 	}
 
-	public void crearActividades(int idSP, String actividad) throws NoExisteUsuarioExcepcion {
+	public void crearActividades(int idSP, String actividad) throws NoExisteUsuarioException {
 
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 
@@ -240,21 +254,22 @@ public class GimnasioSingleton {
 
 			Actividad a = sp.crearActividad(actividad);
 		} else {
-			throw new NoExisteUsuarioExcepcion("No existe el Soporte Tecnico");
+			throw new NoExisteUsuarioException("No existe el Soporte Tecnico");
 		}
 
 	}
 
 	public void agregarArticuloACatalogo(int idSP, String marca, String articulo, LocalDate fechaFabricacion,
 			TipoAmortizacion tipoAmortizacion, int durabilidad, String atributos, double precio)
-			throws NoExisteUsuarioExcepcion {
+			throws NoExisteUsuarioException {
+
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 
 		if (sp != null) {
 			this.catalogoArticulos.add(sp.crearArticulo(marca, articulo, fechaFabricacion, tipoAmortizacion,
 					durabilidad, atributos, precio));
 		} else {
-			throw new NoExisteUsuarioExcepcion("No Existe el Soporte Tecnico");
+			throw new NoExisteUsuarioException("No Existe el Soporte Tecnico");
 		}
 
 	}
@@ -271,34 +286,46 @@ public class GimnasioSingleton {
 		if (a != null) {
 
 			if (s != null) {
+				
 				s.agregarClase(a.agendarClase(nroDNIProfesor, localidad, nombreClase, emplazamiento, fecha));
+			} else {
+				throw new NoExisteSedeException("No existe la Sede");
 			}
+		}else {
+			throw new NoExisteUsuarioException("No existe el Administrativo");
 		}
 
 	}
 
-	private Emplazamiento soyEseEmplazamiento(String emplazamiento) {
+	private Emplazamiento soyEseEmplazamiento(String emplazamiento) throws Exception {
 
 		for (Emplazamiento emp : emplazamientos)
 			if (emp.getTipoEmplazamiento().equals(emplazamiento)) {
 				return emp;
 			}
+		lanzarExcepcion("No existe el emplazamiento");
 		return null;
 	}
 
+	private void lanzarExcepcion(String string) throws Exception {
+		
+		throw new Exception(string);
+	}
+
 	public void crearEmplazamiento(int idSP, String tipoEmplazamiento, double factorCalculo)
-			throws NoExisteUsuarioExcepcion {
+			throws NoExisteUsuarioException {
 
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 
 		if (sp != null) {
 			this.emplazamientos.add(sp.crearEmplazamiento(tipoEmplazamiento, factorCalculo));
 		} else {
-			throw new NoExisteUsuarioExcepcion("No existe el Administrativo");
+			throw new NoExisteUsuarioException("No existe el Administrativo");
 		}
 	}
 
 	public void AsignarEmplazamientoSede(int idA, String localidadSede, String emplazamiento) throws Exception {
+
 		Administrativo a = soyEseAdministrativo(idA);
 		Sede s = soyEsaSede(localidadSede);
 
@@ -308,7 +335,7 @@ public class GimnasioSingleton {
 		if (a != null) {
 			a.asignarEmplazamientoSede(s, em);
 		} else {
-			throw new NoExisteUsuarioExcepcion("No existe el Administrativo");
+			throw new NoExisteUsuarioException("No existe el Administrativo");
 		}
 	}
 
