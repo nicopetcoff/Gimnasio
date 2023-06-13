@@ -10,8 +10,11 @@ public class Stock {
 		this.articulos = new HashMap<>();
 	}
 
-	public void agregarArticulo(Articulo articulo,int cantidad) {
-		articulos.put(articulo, cantidad);
+	public void agregarArticulo(Articulo articulo, int cantidad) {
+	    if (articulos.containsKey(articulo)) {
+	        int cantidadExistente = articulos.get(articulo);
+	        cantidad += cantidadExistente;
+	    }
+	    articulos.put(articulo, cantidad);
 	}
-
 }
