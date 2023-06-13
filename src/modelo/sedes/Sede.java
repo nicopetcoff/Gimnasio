@@ -82,7 +82,7 @@ public class Sede {
 		return this.clases;
 	}
 
-	public Profesor soyEseProfesor(String nroDNIProfesor) throws Exception {
+	public Profesor buscarProfesor(String nroDNIProfesor) throws Exception {
 		for (Profesor profesor : profesores) {
 			if (profesor.getDNI().equals(nroDNIProfesor)) {
 				
@@ -96,7 +96,7 @@ public class Sede {
 		throw new Exception(msg);
 	}
 
-	public Emplazamiento soyEseEmplazamiento(String emplazamiento) throws Exception {
+	public Emplazamiento buscarEmplazamiento(String emplazamiento) throws Exception {
 		for(Emplazamiento empla : emplazamientosSede)
 			if (empla.getTipoEmplazamiento().equals(emplazamiento)) {
 				return empla;
