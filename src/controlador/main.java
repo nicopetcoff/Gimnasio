@@ -16,6 +16,8 @@ import modelo.utilidad.Nivel;
 public class main {
 
 	public static void main(String[] args) {
+		
+		int prueba;
 
 		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
