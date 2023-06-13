@@ -42,7 +42,6 @@ public class GimnasioSingleton {
 	}
 
 	// Método estático para obtener la única instancia de la clase
-
 	public static GimnasioSingleton getInstance() {
 		if (instance == null) {
 			instance = new GimnasioSingleton();
@@ -106,7 +105,7 @@ public class GimnasioSingleton {
 
 		if (sp != null) {
 			try {
-				Sede s = sp.crearSede(this, localidad, nivel, alquiler, capacidad, descripcion);
+				Sede s = sp.crearSede(localidad, nivel, alquiler, capacidad, descripcion);
 				sedes.add(s);
 			} catch (ExisteLocalidadException e) {
 				e.printStackTrace();
