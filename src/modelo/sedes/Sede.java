@@ -1,9 +1,7 @@
 package modelo.sedes;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import modelo.productos.Articulo;
 import modelo.productos.Stock;
@@ -40,10 +38,12 @@ public class Sede {
 				+ descripcion + "]";
 	}
 
-	//"crea" el objeto antes de agregarlo a stock ya que el q esta en catalogo solo es una muestra y su fechaFabricacion podria ser mucho tiempo atras 
-	public void agregarArticuloAStock(Articulo articulo,int cantidad) {
-		stock.agregarArticulo(new Articulo(articulo.getMarca(),articulo.getArticulo(),LocalDate.now(),articulo.getTipoAmortizacion(),articulo.getDurabilidad(),articulo.getAtributos(),articulo.getPrecio())
-								,cantidad);
+	// "crea" el objeto antes de agregarlo a stock ya que el q esta en catalogo solo
+	// es una muestra y su fechaFabricacion podria ser mucho tiempo atras
+	public void agregarArticuloAStock(Articulo articulo, int cantidad) {
+		stock.agregarArticulo(new Articulo(articulo.getMarca(), articulo.getArticulo(), LocalDate.now(),
+				articulo.getTipoAmortizacion(), articulo.getDurabilidad(), articulo.getAtributos(),
+				articulo.getPrecio()), cantidad);
 	}
 
 	public void agregarClase(Clase clase) {
@@ -85,7 +85,7 @@ public class Sede {
 	public Profesor buscarProfesor(String nroDNIProfesor) throws Exception {
 		for (Profesor profesor : profesores) {
 			if (profesor.getDNI().equals(nroDNIProfesor)) {
-				
+
 			}
 		}
 		lanzarExcepcion("No existe el profesor");
@@ -97,12 +97,16 @@ public class Sede {
 	}
 
 	public Emplazamiento buscarEmplazamiento(String emplazamiento) throws Exception {
-		for(Emplazamiento empla : emplazamientosSede)
+		for (Emplazamiento empla : emplazamientosSede)
 			if (empla.getTipoEmplazamiento().equals(emplazamiento)) {
 				return empla;
 			}
 		lanzarExcepcion("No existe el emplazamiento");
 		return null;
+	}
+
+	public void agregarEmplazamiento(Emplazamiento em) {
+		this.emplazamientosSede.add(em);
 	}
 
 }

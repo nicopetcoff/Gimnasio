@@ -1,4 +1,4 @@
-package modelo.supertlon;
+package modelo.supertlon.Excepciones;
 
 public class NoExisteUsuarioExcepcion extends Exception {
 

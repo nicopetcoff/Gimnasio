@@ -1,7 +1,6 @@
 package controlador;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -10,8 +9,8 @@ import modelo.productos.TipoAmortizacion;
 import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
-import modelo.supertlon.NoExisteSedeException;
-import modelo.supertlon.NoExisteUsuarioExcepcion;
+import modelo.supertlon.Excepciones.NoExisteSedeException;
+import modelo.supertlon.Excepciones.NoExisteUsuarioExcepcion;
 import modelo.utilidad.Nivel;
 
 public class main {
@@ -45,23 +44,23 @@ public class main {
 			case 2:
 				crearUsuarios(gimnasio.getInstance());
 				break;
-				
+
 			case 3:
 				crearActividades(gimnasio.getInstance());
 				break;
-				
+
 			case 4:
 				crearArticulosEnCatalogo(gimnasio.getInstance());
 				break;
-				
+
 			case 5:
 				crearEmplazamientos(gimnasio.getInstance());
 				break;
-				
+
 			case 6:
 				asignarEmplazamientoSede(gimnasio.getInstance());
 				break;
-				
+
 			case 7:
 				agendarClase(gimnasio.getInstance());
 				break;
@@ -75,185 +74,176 @@ public class main {
 
 	}
 
-	
-
 	private static void agendarClase(GimnasioSingleton instance) {
-		
+
 		Scanner sc = new Scanner(System.in);
-		
+
 		int idA = digaSuId();
-		
+
 		System.out.println("Ingrese el DNI del profesor: ");
 		String nroDNIProfesor = sc.next();
-		
+
 		System.out.println("Diga la localidad de la Sede: ");
 		String localidad = sc.next();
-		
+
 		System.out.println("Diga el nombre de la clase: ");
 		String nombreClase = sc.next();
-		
+
 		System.out.println("Diga el Emplazamiento: ");
-		String emplazamiento = sc.next(); 
-		
+		String emplazamiento = sc.next();
+
 		LocalDate fecha = pedirFecha();
-		
+
 		try {
 			instance.agendarClase(idA, nroDNIProfesor, localidad, nombreClase, emplazamiento, fecha);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	private static void asignarEmplazamientoSede(GimnasioSingleton instance) {
-		
+
 		Scanner scanner = new Scanner(System.in);
-		
+
 		Scanner sc = new Scanner(System.in);
 		int idA = digaSuId();
-		
+
 		verSedes(instance.getSedes());
-		
 
 		System.out.println("Elija localidad");
 		String localidadSede = scanner.next();
-		
+
 		verEmplazamientosDisponibles(instance.getEmplazamientosDisponibles());
-		
+
 		System.out.println("Elija emplazamiento");
 		String emplazamiento = sc.next();
-		
+
 		try {
 			instance.AsignarEmplazamientoSede(idA, localidadSede, emplazamiento);
 		} catch (NoExisteUsuarioExcepcion e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	private static void verEmplazamientosDisponibles(ArrayList<Emplazamiento> emplazamientosDisponibles) {
 		for (Emplazamiento emplazamiento : emplazamientosDisponibles) {
 			System.out.println(emplazamiento);
 		}
 	}
 
-
-
 	private static void crearEmplazamientos(GimnasioSingleton instance) {
-		
+
 		Scanner sc = new Scanner(System.in);
 		int idSP = digaSuId();
-		
+
 		System.out.println("Ingrese el Tipo de Emplazamiento");
 		String tipoEmplazamiento = sc.next();
-		
-		System.out.println("Ingrese el factor calculo: "
-				+ "\t por ejemplo pileta:150");
+
+		System.out.println("Ingrese el factor calculo: " + "\t por ejemplo pileta:150");
 		double factorCalculo = sc.nextDouble();
-		
+
 		try {
 			instance.crearEmplazamiento(idSP, tipoEmplazamiento, factorCalculo);
 		} catch (NoExisteUsuarioExcepcion e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
 	private static LocalDate pedirFecha() {
 		Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Ingrese la fecha (formato: dd/MM/yyyy): ");
-        String fechaStr = scanner.nextLine();
+		System.out.print("Ingrese la fecha (formato: dd/MM/yyyy): ");
+		String fechaStr = scanner.nextLine();
 
-        // Definimos el formato de fecha esperado
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		// Definimos el formato de fecha esperado
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        // Convertimos la cadena ingresada a LocalDate
-        LocalDate fecha = LocalDate.parse(fechaStr, formatter);
+		// Convertimos la cadena ingresada a LocalDate
+		LocalDate fecha = LocalDate.parse(fechaStr, formatter);
 
-        return fecha;
+		return fecha;
 	}
 
 	private static void crearArticulosEnCatalogo(GimnasioSingleton instance) {
-		
+
 		Scanner sc = new Scanner(System.in);
-		
+
 		int idSP = digaSuId();
-		
+
 		System.out.println("Diga la marca: ");
 		String marca = sc.next();
-		
+
 		System.out.println("Diga el articulo: ");
 		String articulo = sc.next();
-		
+
 		LocalDate fechaFabricacion = pedirFechaFabricacion();
-		
-				
+
 		TipoAmortizacion tipoAmortizacion = seleccionarTipoAmortizacion();
-		
+
 		System.out.println("Ingrese la durabilidad: ");
-		//que va aca?
-		int durabilidad = sc.nextInt(); 
-		
+		// que va aca?
+		int durabilidad = sc.nextInt();
+
 		System.out.println("Ingrese los atributos: ");
-		String atributos =sc.next();
-		
+		String atributos = sc.next();
+
 		System.out.println("Ingrese el precio del articulo: ");
 		double precio = sc.nextDouble();
-		
+
 		try {
-			instance.agregarArticuloACatalogo(idSP, marca, articulo, fechaFabricacion, tipoAmortizacion, durabilidad, atributos, precio);
+			instance.agregarArticuloACatalogo(idSP, marca, articulo, fechaFabricacion, tipoAmortizacion, durabilidad,
+					atributos, precio);
 		} catch (NoExisteUsuarioExcepcion e) {
 			e.printStackTrace();
 		}
 	}
 
 	private static TipoAmortizacion seleccionarTipoAmortizacion() {
-		
+
 		TipoAmortizacion[] tipos = TipoAmortizacion.values();
 
-        System.out.println("Seleccione un tipo de amortización:");
-        for (int i = 0; i < tipos.length; i++) {
-            System.out.println((i + 1) + ". " + tipos[i]);
-        }
+		System.out.println("Seleccione un tipo de amortización:");
+		for (int i = 0; i < tipos.length; i++) {
+			System.out.println((i + 1) + ". " + tipos[i]);
+		}
 
-        Scanner scanner = new Scanner(System.in);
-        int opcion = scanner.nextInt();
+		Scanner scanner = new Scanner(System.in);
+		int opcion = scanner.nextInt();
 
-        if (opcion >= 1 && opcion <= tipos.length) {
-            return tipos[opcion - 1];
-        }
+		if (opcion >= 1 && opcion <= tipos.length) {
+			return tipos[opcion - 1];
+		}
 		return null;
 	}
 
 	private static LocalDate pedirFechaFabricacion() {
 		Scanner scanner = new Scanner(System.in);
-        System.out.print("Ingrese la fecha de fabricación (formato: AAAA-MM-DD): ");
-        String fechaStr = scanner.nextLine();
-        LocalDate fechaFabricacion = LocalDate.parse(fechaStr);
-        return fechaFabricacion;
+		System.out.print("Ingrese la fecha de fabricación (formato: AAAA-MM-DD): ");
+		String fechaStr = scanner.nextLine();
+		LocalDate fechaFabricacion = LocalDate.parse(fechaStr);
+		return fechaFabricacion;
 	}
 
 	private static void crearActividades(GimnasioSingleton instance) {
-		
+
 		Scanner sc = new Scanner(System.in);
 
 		int idSP = digaSuId();
-		
+
 		System.out.println();
-		String actividad = sc.next("Escriba la actividad:"
-				+ "\t CROSSFIT"
-				+ "\t KANGOO"
-				+ "\t YOGA");
-		
+		String actividad = sc.next("Escriba la actividad:" + "\t CROSSFIT" + "\t KANGOO" + "\t YOGA");
+
 		try {
 			instance.crearActividades(idSP, actividad);
 		} catch (NoExisteUsuarioExcepcion e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
 	private static void crearUsuarios(GimnasioSingleton instance) {
@@ -323,7 +313,7 @@ public class main {
 			} catch (NoExisteUsuarioExcepcion e) {
 				e.printStackTrace();
 			}
-			
+
 			break;
 
 		case 4:

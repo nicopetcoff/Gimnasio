@@ -1,6 +1,5 @@
 package modelo.supertlon;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -9,6 +8,9 @@ import modelo.productos.TipoAmortizacion;
 import modelo.sedes.Actividad;
 import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
+import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
+import modelo.supertlon.Excepciones.NoExisteSedeException;
+import modelo.supertlon.Excepciones.NoExisteUsuarioExcepcion;
 import modelo.usuarios.Administrativo;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Profesor;
@@ -66,16 +68,15 @@ public class GimnasioSingleton {
 	public Articulo existeEnCatalogo(String marca, String nombArticulo, String atributos) {
 
 		for (Articulo articulo : catalogoArticulos) {
-			//lo compara por tipo de articulo, marca y atributos ya que es lo q lo identifica de forma univoca
-			if (articulo.getArticulo().equals(nombArticulo) && articulo.getMarca().equals(marca) 
+			// lo compara por tipo de articulo, marca y atributos ya que es lo q lo
+			// identifica de forma univoca
+			if (articulo.getArticulo().equals(nombArticulo) && articulo.getMarca().equals(marca)
 					&& articulo.getAtributos().equals(atributos)) {
 				return articulo;
 			}
 		}
 		return null;
 	}
-	
-	
 
 	public ArrayList<Usuario> getUsuarios() {
 		return this.usuarios;
@@ -84,16 +85,16 @@ public class GimnasioSingleton {
 	public ArrayList<Sede> getSedes() {
 		return this.sedes;
 	}
-	
-	public ArrayList<Actividad> getActividades(){
+
+	public ArrayList<Actividad> getActividades() {
 		return this.actividades;
 	}
-	
-	public ArrayList<Emplazamiento> getEmplazamientosDisponibles(){
+
+	public ArrayList<Emplazamiento> getEmplazamientosDisponibles() {
 		return this.emplazamientos;
 	}
 
- 	public void eliminarUsuario(Cliente cliente) {
+	public void eliminarUsuario(Cliente cliente) {
 		usuarios.remove(cliente);
 
 	}
@@ -126,9 +127,9 @@ public class GimnasioSingleton {
 		}
 		return null;
 	}
-	
-	private Administrativo soyEseAdministrativo (int idUsuario) {
-		
+
+	private Administrativo soyEseAdministrativo(int idUsuario) {
+
 		for (Usuario usu : usuarios) {
 			if (usu.soyAdministrativo() && usu.getId() == idUsuario) {
 				return (Administrativo) usu;
@@ -136,7 +137,7 @@ public class GimnasioSingleton {
 			}
 		}
 		return null;
-		
+
 	}
 
 	public void crearSoporteTecnico(int idSP, String nombre, String apellido, String dni)
@@ -208,7 +209,7 @@ public class GimnasioSingleton {
 
 	public void asignarSedeAlAdministrativo(int idSP, String localidad)
 			throws NoExisteSedeException, NoExisteUsuarioExcepcion {
-		
+
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 		if (sp != null) {
 
@@ -231,70 +232,97 @@ public class GimnasioSingleton {
 
 	}
 
-	
 	public void crearActividades(int idSP, String actividad) throws NoExisteUsuarioExcepcion {
-		
+
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
-		
-		if (sp!=null) {
-			
+
+		if (sp != null) {
+
 			Actividad a = sp.crearActividad(actividad);
-		}else {
+		} else {
 			throw new NoExisteUsuarioExcepcion("No existe el Soporte Tecnico");
 		}
-				
+
 	}
 
 	public void agregarArticuloACatalogo(int idSP, String marca, String articulo, LocalDate fechaFabricacion,
-			TipoAmortizacion tipoAmortizacion, int durabilidad, String atributos, double precio) throws NoExisteUsuarioExcepcion {
+			TipoAmortizacion tipoAmortizacion, int durabilidad, String atributos, double precio)
+			throws NoExisteUsuarioExcepcion {
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
-		
+
 		if (sp != null) {
-			this.catalogoArticulos.add(sp.crearArticulo(marca, articulo, fechaFabricacion, tipoAmortizacion, durabilidad, atributos, precio));
-		}else {
+			this.catalogoArticulos.add(sp.crearArticulo(marca, articulo, fechaFabricacion, tipoAmortizacion,
+					durabilidad, atributos, precio));
+		} else {
 			throw new NoExisteUsuarioExcepcion("No Existe el Soporte Tecnico");
 		}
-		
+
 	}
 
 	public void agendarClase(int idA, String nroDNIProfesor, String localidad, String nombreClase, String emplazamiento,
 			LocalDate fecha) throws Exception {
-		
-		
-	}
 
-	public void crearEmplazamiento(int idSP, String tipoEmplazamiento, double factorCalculo) throws NoExisteUsuarioExcepcion {
-		
-		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
-		
-		if (sp !=null) {
-			this.emplazamientos.add(sp.crearEmplazamiento(tipoEmplazamiento, factorCalculo));			
-		}else {
-			throw new NoExisteUsuarioExcepcion("No existe el Administrativo");
-		}
-	}
+		Administrativo a = soyEseAdministrativo(idA);
 
-	public void AsignarEmplazamientoSede(int idA, String localidadSede, String emplazamiento) throws NoExisteUsuarioExcepcion {
-		
-Administrativo a = soyEseAdministrativo(idA);
-		
+		Sede s = soyEsaSede(localidad);
+
+		Emplazamiento emp = soyEseEmplazamiento(emplazamiento);
+
 		if (a != null) {
-			a.asignarSedeAdministrativo(this, localidadSede, emplazamiento);
-		}else {
+
+			if (s != null) {
+				s.agregarClase(a.agendarClase(nroDNIProfesor, localidad, nombreClase, emplazamiento, fecha));
+			}
+		}
+
+	}
+
+	private Emplazamiento soyEseEmplazamiento(String emplazamiento) {
+
+		for (Emplazamiento emp : emplazamientos)
+			if (emp.getTipoEmplazamiento().equals(emplazamiento)) {
+				return emp;
+			}
+		return null;
+	}
+
+	public void crearEmplazamiento(int idSP, String tipoEmplazamiento, double factorCalculo)
+			throws NoExisteUsuarioExcepcion {
+
+		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
+
+		if (sp != null) {
+			this.emplazamientos.add(sp.crearEmplazamiento(tipoEmplazamiento, factorCalculo));
+		} else {
 			throw new NoExisteUsuarioExcepcion("No existe el Administrativo");
 		}
 	}
-	
-	public void agregarArticuloAStock(int idA,String localidad,String marca, String articulo, String atributos,int cantidad) throws NoExisteArticuloEnCatalogoException {
-		
+
+	public void AsignarEmplazamientoSede(int idA, String localidadSede, String emplazamiento) throws Exception {
+		Administrativo a = soyEseAdministrativo(idA);
+		Sede s = soyEsaSede(localidadSede);
+
+		Emplazamiento em = soyEseEmplazamiento(emplazamiento);
+		s.agregarEmplazamiento(em);
+
+		if (a != null) {
+			a.asignarEmplazamientoSede(s, em);
+		} else {
+			throw new NoExisteUsuarioExcepcion("No existe el Administrativo");
+		}
+	}
+
+	public void agregarArticuloAStock(int idA, String localidad, String marca, String articulo, String atributos,
+			int cantidad) throws NoExisteArticuloEnCatalogoException {
+
 		Administrativo adm = soyEseAdministrativo(idA);
-		
+
 		if (adm != null) {
-			Sede sede=soyEsaSede(localidad);
-			Articulo art=existeEnCatalogo(articulo,marca,atributos);
-			if (art!=null) {
+			Sede sede = soyEsaSede(localidad);
+			Articulo art = existeEnCatalogo(articulo, marca, atributos);
+			if (art != null) {
 				adm.agregarArticulo(sede, art, cantidad);
-			}else {
+			} else {
 				throw new NoExisteArticuloEnCatalogoException("No existe ese articulo en catalogo.");
 			}
 		}

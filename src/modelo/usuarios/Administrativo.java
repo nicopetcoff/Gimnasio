@@ -1,7 +1,6 @@
 package modelo.usuarios;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import modelo.productos.Articulo;
@@ -9,6 +8,7 @@ import modelo.sedes.Clase;
 import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
+import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
 import modelo.utilidad.EstadoClase;
 import modelo.utilidad.Nivel;
 
@@ -31,22 +31,31 @@ public class Administrativo extends Usuario {
 		return sedes;
 	}
 
-	public void agendarClase(String nroDNIProfesor, String localidad,String nombreClase, String emplazamiento, LocalDate fecha) throws Exception {
-		  
-		
-		  Sede sede = soyEsaSede(localidad);
-		  Profesor profesor = sede.buscarProfesor(nroDNIProfesor);
-		  Emplazamiento empla = sede.buscarEmplazamiento(emplazamiento);
-		  
-		  try {
-				if(profesor.estoyDisponbile(fecha)) {
-					Clase clase=new Clase(profesor, sede, nombreClase, empla, fecha);
-					sede.agregarClase(clase);
-					profesor.agregarClase(clase);
-				}
-			}catch(ProfesorNoDisponibleException e){
-				e.printStackTrace();
+	public Clase agendarClase(String nroDNIProfesor, String localidad, String nombreClase, String emplazamiento,
+			LocalDate fecha) throws Exception {
+
+		Sede sede = soyEsaSede(localidad);
+		Profesor profesor = sede.buscarProfesor(nroDNIProfesor);
+		Emplazamiento empla = sede.buscarEmplazamiento(emplazamiento);
+
+		try {
+			if (profesor.estoyDisponbile(fecha)) {
+				Clase clase = new Clase(profesor, sede, nombreClase, empla, fecha);
+				sede.agregarClase(clase);
+				profesor.agregarClase(clase);
+				return clase;
 			}
+		} catch (ProfesorNoDisponibleException e) {
+			e.printStackTrace();
+		}
+
+		lanzarExcepcion("No se pudo agendar");
+		return null;
+
+	}
+
+	private void lanzarExcepcion(String string) throws Exception {
+		throw new Exception(string);
 	}
 
 	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) {
@@ -67,11 +76,11 @@ public class Administrativo extends Usuario {
 
 	}
 
-	//agrega articulo a sede, necesita mandar cantidad de articulos que quiere agregarle a la sede
-	public void agregarArticulo(Sede sede, Articulo articulo,int cantidad) {
-			sede.agregarArticuloAStock(articulo,cantidad);
-		
-		
+	// agrega articulo a sede, necesita mandar cantidad de articulos que quiere
+	// agregarle a la sede
+	public void agregarArticulo(Sede sede, Articulo articulo, int cantidad) {
+		sede.agregarArticuloAStock(articulo, cantidad);
+
 	}
 
 	public double consultarDesgaste(Articulo articulo) {
@@ -100,7 +109,6 @@ public class Administrativo extends Usuario {
 	public String getDNI() {
 		return this.dni;
 	}
-	
 
 	private Sede soyEsaSede(String localidad) throws Exception {
 		for (Sede sede : sedes) {
@@ -113,14 +121,14 @@ public class Administrativo extends Usuario {
 	}
 
 	private void lanzarExcepcionSede() throws Exception {
-		
+
 	}
 
-	public void asignarSedeAdministrativo(GimnasioSingleton gimnasioSingleton, String localidadSede, String emplazamiento) {
-		/*
-		 * me falta terminar, habria que chequear que ambos arraylist tengan asignado el mismo emplazamiento
-		 */
+	public void asignarEmplazamientoSede(Sede s, Emplazamiento em) throws Exception {
+
+		Sede s1 = soyEsaSede(s.getLocalidad());
+
+		s1.agregarEmplazamiento(em);
 	}
 
-	
 }

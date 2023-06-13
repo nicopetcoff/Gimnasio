@@ -1,20 +1,21 @@
 package modelo.productos;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Stock {
 
-	private Map<Articulo,Integer> articulos;
+	private Map<Articulo, Integer> articulos;
 
 	public Stock() {
 		this.articulos = new HashMap<>();
 	}
 
 	public void agregarArticulo(Articulo articulo, int cantidad) {
-	    if (articulos.containsKey(articulo)) {
-	        int cantidadExistente = articulos.get(articulo);
-	        cantidad += cantidadExistente;
-	    }
-	    articulos.put(articulo, cantidad);
+		if (articulos.containsKey(articulo)) {
+			int cantidadExistente = articulos.get(articulo);
+			cantidad += cantidadExistente;
+		}
+		articulos.put(articulo, cantidad);
 	}
 }

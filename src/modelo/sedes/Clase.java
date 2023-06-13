@@ -1,7 +1,6 @@
 package modelo.sedes;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -30,15 +29,15 @@ public class Clase {
 														// Pesa, 125 (son la cantidad de pesas totales necesarias para
 														// la clase)
 
-	public Clase(Profesor profesor, Sede sede,String nombreClase, Emplazamiento emplazamiento, LocalDate fecha) {
+	public Clase(Profesor profesor, Sede sede, String nombreClase, Emplazamiento emplazamiento, LocalDate fecha) {
 		this.idClase = idClaseSig;
 		idClaseSig++;
-		this.nombreClase= nombreClase;
+		this.nombreClase = nombreClase;
 		this.profesor = profesor;
 		this.sede = sede;
 		this.emplazamiento = emplazamiento;
 		this.fecha = fecha;
-		this.inscriptos=new ArrayList<>();
+		this.inscriptos = new ArrayList<>();
 		this.estado = EstadoClase.AGENDADA;
 	}
 
@@ -59,7 +58,6 @@ public class Clase {
 	public LocalDate getFecha() {
 		return this.fecha;
 	}
-
 
 	public void agregarCliente(Cliente cliente, Nivel nivel) throws NoMismoNivelException {
 
@@ -100,12 +98,12 @@ public class Clase {
 	}
 
 	private double calcularCosto() {
-		
-		/* 
+
+		/*
 		 * aca da error, tenemos que ver porque
 		 * 
 		 */
-		return this.profesor.getSueldo(); //+ emplazamiento.calculate(sede.getAlquiler(), alumnosInscriptos * 2); // +
+		return this.profesor.getSueldo(); // + emplazamiento.calculate(sede.getAlquiler(), alumnosInscriptos * 2); // +
 		// TODO: amortizacion de TODOS los artículos que usa la clase
 	}
 

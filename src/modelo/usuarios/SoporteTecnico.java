@@ -2,7 +2,8 @@ package modelo.usuarios;
 
 import java.time.LocalDate;
 
-import modelo.productos.*;
+import modelo.productos.Articulo;
+import modelo.productos.TipoAmortizacion;
 import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
 import modelo.sedes.Emplazamiento;
@@ -79,17 +80,17 @@ public class SoporteTecnico extends Usuario {
 		return this.id;
 	}
 
+	public Articulo crearArticulo(String marca, String articulo, LocalDate fechaFabricacion,
+			TipoAmortizacion tipoAmortizacion, int durabilidad, String atributos, double precio) {
 
-	public Articulo crearArticulo(String marca,String articulo,LocalDate fechaFabricacion,TipoAmortizacion tipoAmortizacion,int durabilidad,String atributos,double precio) {
-	
-		return (new Articulo(marca,articulo,fechaFabricacion,tipoAmortizacion,durabilidad,atributos,precio));
-		
+		return (new Articulo(marca, articulo, fechaFabricacion, tipoAmortizacion, durabilidad, atributos, precio));
+
 	}
-	
-	//asigna sede a un administrador 
-	public void asignarSede(Administrativo admin,Sede sede) {
+
+	// asigna sede a un administrador
+	public void asignarSede(Administrativo admin, Sede sede) {
 		admin.agregarSede(sede);
-  }
+	}
 
 	public void AsignarLaSedeAlAdministrativo(Usuario usuario, Sede sede) throws NoPudoException {
 		if (usuario.soyAdministrativo()) {
@@ -102,7 +103,7 @@ public class SoporteTecnico extends Usuario {
 	}
 
 	public Actividad crearActividad(String actividad) {
-		return (new Actividad(actividad));		
+		return (new Actividad(actividad));
 	}
 
 	public Emplazamiento crearEmplazamiento(String tipoEmplazamiento, double factorCalculo) {

@@ -6,10 +6,11 @@ import modelo.productos.Articulo;
 
 public class Actividad {
 	private String tipoClase; // Crossfit, kangoo, etc
-	private Map<Articulo, Integer> articulosRequeridosPorAlumno; // Articulo, Cantidad de articulos -- Requeridos por alumno
-														// (Ejemplo Map<pesaDeMano, 3>)
+	private Map<Articulo, Integer> articulosRequeridosPorAlumno; // Articulo, Cantidad de articulos -- Requeridos por
+																	// alumno
+	// (Ejemplo Map<pesaDeMano, 3>)
 	private Emplazamiento emplazamientoRequerido;
-	
+
 	public Actividad(String tipoClase) {
 		this.tipoClase = tipoClase;
 	}
@@ -31,7 +32,7 @@ public class Actividad {
 	public void agregarArticuloPorAlumno(Articulo articulo, int cantidad) {
 		this.articulosRequeridosPorAlumno.put(articulo, cantidad); // Agrega un articulo solo con su cantidad
 	}
-	
+
 	public Emplazamiento getEmplazamientoRequerido() {
 		return emplazamientoRequerido;
 	}
