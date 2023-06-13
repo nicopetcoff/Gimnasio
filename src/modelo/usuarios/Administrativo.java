@@ -64,14 +64,14 @@ public class Administrativo extends Usuario {
 
 	}
 
-	public void crearCliente(GimnasioSingleton gimnasio, String nombre, String apellido, String dni, Nivel nivel) {
-
+	public void crearCliente(String nombre, String apellido, String dni, Nivel nivel) {
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 		gimnasio.agregarUsuario(new Cliente(nombre, apellido, dni, nivel));
 
 	}
 
-	public void bajaCliente(GimnasioSingleton gimnasio, Cliente cliente) {
-
+	public void bajaCliente(Cliente cliente) {
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 		gimnasio.eliminarUsuario(cliente);
 
 	}

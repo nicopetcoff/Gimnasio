@@ -40,31 +40,31 @@ public class main {
 			switch (opcion) {
 			case 1:
 
-				crearSede(gimnasio.getInstance());
+				crearSede();
 				break;
 
 			case 2:
-				crearUsuarios(gimnasio.getInstance());
+				crearUsuarios();
 				break;
 
 			case 3:
-				crearActividades(gimnasio.getInstance());
+				crearActividades();
 				break;
 
 			case 4:
-				crearArticulosEnCatalogo(gimnasio.getInstance());
+				crearArticulosEnCatalogo();
 				break;
 
 			case 5:
-				crearEmplazamientos(gimnasio.getInstance());
+				crearEmplazamientos();
 				break;
 
 			case 6:
-				asignarEmplazamientoSede(gimnasio.getInstance());
+				asignarEmplazamientoSede();
 				break;
 
 			case 7:
-				agendarClase(gimnasio.getInstance());
+				agendarClase();
 				break;
 
 			default:
@@ -76,8 +76,9 @@ public class main {
 
 	}
 
-	private static void agendarClase(GimnasioSingleton instance) {
-
+	private static void agendarClase() {
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+		
 		Scanner sc = new Scanner(System.in);
 
 		int idA = digaSuId();
@@ -97,32 +98,33 @@ public class main {
 		LocalDate fecha = pedirFecha();
 
 		try {
-			instance.agendarClase(idA, nroDNIProfesor, localidad, nombreClase, emplazamiento1, fecha);
+			gimnasio.agendarClase(idA, nroDNIProfesor, localidad, nombreClase, emplazamiento1, fecha);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	private static void asignarEmplazamientoSede(GimnasioSingleton instance) {
-
+	private static void asignarEmplazamientoSede() {
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+		
 		Scanner scanner = new Scanner(System.in);
 
 		Scanner sc = new Scanner(System.in);
 		int idA = digaSuId();
 
-		verSedes(instance.getSedes());
+		verSedes(gimnasio.getSedes());
 
 		System.out.println("Elija localidad: ");
 		String localidadSede = scanner.next();
 
-		verEmplazamientosDisponibles(instance.getEmplazamientosDisponibles());
+		verEmplazamientosDisponibles(gimnasio.getEmplazamientosDisponibles());
 
 		System.out.println("Elija emplazamiento: ");
 		String emplazamiento = sc.next();
 
 		try {
-			instance.AsignarEmplazamientoSede(idA, localidadSede, emplazamiento);
+			gimnasio.AsignarEmplazamientoSede(idA, localidadSede, emplazamiento);
 		} catch (NoExisteUsuarioException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -137,8 +139,9 @@ public class main {
 		}
 	}
 
-	private static void crearEmplazamientos(GimnasioSingleton instance) {
-
+	private static void crearEmplazamientos() {
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+		
 		Scanner sc = new Scanner(System.in);
 		int idSP = digaSuId();
 
@@ -149,7 +152,7 @@ public class main {
 		double factorCalculo = sc.nextDouble();
 
 		try {
-			instance.crearEmplazamiento(idSP, tipoEmplazamiento, factorCalculo);
+			gimnasio.crearEmplazamiento(idSP, tipoEmplazamiento, factorCalculo);
 		} catch (NoExisteUsuarioException e) {
 			e.printStackTrace();
 		}
@@ -171,7 +174,8 @@ public class main {
 		return fecha;
 	}
 
-	private static void crearArticulosEnCatalogo(GimnasioSingleton instance) {
+	private static void crearArticulosEnCatalogo() {
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
 		Scanner sc = new Scanner(System.in);
 
@@ -198,7 +202,7 @@ public class main {
 		double precio = sc.nextDouble();
 
 		try {
-			instance.agregarArticuloACatalogo(idSP, marca, articulo, fechaFabricacion, tipoAmortizacion, durabilidad,
+			gimnasio.agregarArticuloACatalogo(idSP, marca, articulo, fechaFabricacion, tipoAmortizacion, durabilidad,
 					atributos, precio);
 		} catch (NoExisteUsuarioException e) {
 			e.printStackTrace();
@@ -231,8 +235,9 @@ public class main {
 		return fechaFabricacion;
 	}
 
-	private static void crearActividades(GimnasioSingleton instance) {
-
+	private static void crearActividades() {
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+		
 		Scanner sc = new Scanner(System.in);
 
 		int idSP = digaSuId();
@@ -241,14 +246,15 @@ public class main {
 		String actividad = sc.next();
 
 		try {
-			instance.crearActividades(idSP, actividad);
+			gimnasio.crearActividades(idSP, actividad);
 		} catch (NoExisteUsuarioException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	private static void crearUsuarios(GimnasioSingleton instance) {
+	private static void crearUsuarios() {
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
 		Scanner sc = new Scanner(System.in);
 
@@ -274,7 +280,7 @@ public class main {
 			String dni = sc.next();
 
 			try {
-				instance.crearSoporteTecnico(idSP, nombre, apellido, dni);
+				gimnasio.crearSoporteTecnico(idSP, nombre, apellido, dni);
 			} catch (NoExisteUsuarioException e) {
 				e.printStackTrace();
 			}
@@ -291,11 +297,11 @@ public class main {
 			String dni1 = sc.next();
 
 			try {
-				instance.crearAdministrativo(idSP, nombre1, apellido1, dni1);
+				gimnasio.crearAdministrativo(idSP, nombre1, apellido1, dni1);
 			} catch (NoExisteUsuarioException e) {
 				e.printStackTrace();
 			}
-			asignarSedeAdministrativo(instance, idSP);
+			asignarSedeAdministrativo(idSP);
 			break;
 
 		case 3:
@@ -311,7 +317,7 @@ public class main {
 			Nivel nivel = seleccionarNivel();
 
 			try {
-				instance.crearCliente(idSP, nombre2, apellido2, dni2, nivel);
+				gimnasio.crearCliente(idSP, nombre2, apellido2, dni2, nivel);
 			} catch (NoExisteUsuarioException e) {
 				e.printStackTrace();
 			}
@@ -320,7 +326,7 @@ public class main {
 
 		case 4:
 			System.out.println("Elija que Sede");
-			verSedes(instance.getSedes());
+			verSedes(gimnasio.getSedes());
 
 			System.out.println("Elija la localidad de la sede");
 			String localidad = sc.next();
@@ -338,7 +344,7 @@ public class main {
 			double sueldo = sc.nextDouble();
 
 			try {
-				instance.crearProfesor(idSP, nombre4, apellido4, dni4, sueldo, localidad);
+				gimnasio.crearProfesor(idSP, nombre4, apellido4, dni4, sueldo, localidad);
 			} catch (NoExisteUsuarioException | NoExisteSedeException e) {
 				e.printStackTrace();
 			}
@@ -350,7 +356,9 @@ public class main {
 		}
 	}
 
-	private static void asignarSedeAdministrativo(GimnasioSingleton instance, int idSP) {
+	private static void asignarSedeAdministrativo(int idSP) {
+		
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
 		Scanner scanner = new Scanner(System.in);
 
@@ -363,7 +371,7 @@ public class main {
 
 			switch (op) {
 			case 1:
-				verSedes(instance.getSedes());
+				verSedes(gimnasio.getSedes());
 
 				System.out.println("Elija localidad");
 				String localidad = scanner.next();
@@ -371,7 +379,7 @@ public class main {
 				// aca le vamos a asignar la sede al ultimo administrativo creado, cuidado con
 				// este metodo
 				try {
-					instance.asignarSedeAlAdministrativo(idSP, localidad);
+					gimnasio.asignarSedeAlAdministrativo(idSP, localidad);
 				} catch (NoExisteSedeException | NoExisteUsuarioException e) {
 					e.printStackTrace();
 				}
@@ -390,7 +398,8 @@ public class main {
 		}
 	}
 
-	private static void crearSede(GimnasioSingleton gimnasio) {
+	private static void crearSede() {
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
 		Scanner sc = new Scanner(System.in);
 

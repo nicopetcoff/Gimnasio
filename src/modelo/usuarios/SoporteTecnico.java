@@ -20,8 +20,10 @@ public class SoporteTecnico extends Usuario {
 
 	}
 
-	public Sede crearSede(GimnasioSingleton gimnasio, String localidad, Nivel nivel, double alquiler, int capacidad,
+	public Sede crearSede(String localidad, Nivel nivel, double alquiler, int capacidad,
 			String tipoSede) throws ExisteLocalidadException {
+		
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
 		for (Sede element : gimnasio.getSedes()) {
 			if (element.getLocalidad().equals(localidad)) {
