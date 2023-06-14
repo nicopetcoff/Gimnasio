@@ -33,7 +33,8 @@ public class main {
 			System.out.println("4. \t Crear Articulos en Catalogo del Gimnasio");
 			System.out.println("5. \t Crear Emplazamiento");
 			System.out.println("6. \t Asignar Emplazamiento a Sede"); // administrativo
-			System.out.println("7. \t Agendar CLase"); // aca es el administrativo, si no existe da Exception
+			System.out.println("7. \t Agendar Clase"); // aca es el administrativo, si no existe da Exception
+			System.out.println("8. \t Cambiar profesor de Sede");
 
 			System.out.println("Elija opcion");
 			opcion = sc.nextInt();
@@ -66,6 +67,9 @@ public class main {
 			case 7:
 				agendarClase();
 				break;
+				
+			case 8:
+				cambiarProfesorDeSede();
 
 			default:
 				break;
@@ -112,7 +116,7 @@ public class main {
 		Scanner sc = new Scanner(System.in);
 		int idA = digaSuId();
 
-		verSedes(gimnasio.getSedes());
+		verSedes();
 
 		System.out.println("Elija localidad: ");
 		String localidadSede = scanner.next();
@@ -327,7 +331,7 @@ public class main {
 
 		case 4:
 			System.out.println("Elija que Sede");
-			verSedes(gimnasio.getSedes());
+			verSedes();
 
 			System.out.println("Elija la localidad de la sede");
 			String localidad = sc.next();
@@ -357,6 +361,27 @@ public class main {
 
 		}
 	}
+	
+	private static void cambiarProfesorDeSede() {
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+		
+		Scanner sc = new Scanner(System.in);
+		int idSP = digaSuId();
+		
+		verSedes();
+		
+		System.out.println("Ingrese el DNI del profesor: ");
+		String nroDNIProfesor = sc.next();
+
+		System.out.println("Diga la localidad de la nueva Sede: ");
+		String localidad = sc.next();
+		
+		try {
+			gimnasio.cambiarProfesorDeSede(idSP, localidad, nroDNIProfesor);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	private static void asignarSedeAdministrativo(int idSP) {
 		
@@ -373,7 +398,7 @@ public class main {
 
 			switch (op) {
 			case 1:
-				verSedes(gimnasio.getSedes());
+				verSedes();
 
 				System.out.println("Elija localidad");
 				String localidad = scanner.next();
@@ -394,7 +419,8 @@ public class main {
 		} while (op != 2);
 	}
 
-	private static void verSedes(ArrayList<Sede> sedes) {
+	private static void verSedes() {
+		ArrayList<Sede> sedes = GimnasioSingleton.getInstance().getSedes();
 		for (Sede sede : sedes) {
 			System.out.println(sede);
 		}

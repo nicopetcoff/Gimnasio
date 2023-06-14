@@ -124,7 +124,5 @@ public class Clase {
 			this.articulosTotales.put(articulo, totalArticulos); // Agrega una entrada a articulosTotales con el tipo de
 																	// articulo y el total.
 		}
-
 	}
-
 }
