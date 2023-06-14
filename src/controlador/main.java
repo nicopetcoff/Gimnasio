@@ -73,7 +73,6 @@ public class main {
 			System.out.println();
 		} while (1 != 6);
 //		sc.close();
-
 	}
 
 	private static void agendarClase() {
@@ -349,7 +348,6 @@ public class main {
 				e.printStackTrace();
 			}
 			
-			System.out.println(GimnasioSingleton.getInstance().getSedes().get(0).getProfesores());
 			break;
 
 		default:
