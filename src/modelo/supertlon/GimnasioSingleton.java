@@ -186,7 +186,6 @@ public class GimnasioSingleton {
 			Sede s = soyEsaSede(localidad);
 			if (s != null) {
 				s.agregarProfesor(pr);
-				enviarProfesorASedesAdministrativo(s, pr);
 			} else {
 				throw new NoExisteSedeException("No existe la Sede");
 			}
@@ -195,19 +194,6 @@ public class GimnasioSingleton {
 			throw new NoExisteUsuarioException("No existe el Soporte Tecnico ingresado");
 		}
 
-	}
-
-	private void enviarProfesorASedesAdministrativo(Sede s, Profesor pr) {
-		for (Usuario usuario: usuarios) {
-			if (usuario.soyAdministrativo()) {
-				Administrativo a = 	(Administrativo) usuario;
-				for (int i = 0; i < a.getSedes().size(); i++) {
-					if (a.getSedes().get(i).getLocalidad().equals(s.getLocalidad())) {
-						a.getSedes().get(i).agregarProfesor(pr);
-					}
-				}
-			}
-		}
 	}
 
 	private Sede soyEsaSede(String localidad) {
@@ -324,15 +310,17 @@ public class GimnasioSingleton {
 	}
 
 	public void AsignarEmplazamientoSede(int idA, String localidadSede, String emplazamiento) throws Exception {
-
 		Administrativo a = soyEseAdministrativo(idA);
 		Sede s = soyEsaSede(localidadSede);
 
 		Emplazamiento em = soyEseEmplazamiento(emplazamiento);
-		s.agregarEmplazamiento(em);
 
 		if (a != null) {
-			a.asignarEmplazamientoSede(s, em);
+			if(s != null) {
+				a.asignarEmplazamientoSede(s, em);
+			} else {
+				throw new NoExisteSedeException("No existe la sede");
+			}
 		} else {
 			throw new NoExisteUsuarioException("No existe el Administrativo");
 		}

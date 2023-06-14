@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import modelo.productos.Articulo;
 import modelo.productos.Stock;
+import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.usuarios.Profesor;
 import modelo.utilidad.Nivel;
 
@@ -85,7 +86,7 @@ public class Sede {
 	public Profesor buscarProfesor(String nroDNIProfesor) throws Exception {
 		for (Profesor profesor : profesores) {
 			if (profesor.getDNI().equals(nroDNIProfesor)) {
-
+				return profesor;
 			}
 		}
 		lanzarExcepcion("No existe el profesor");
@@ -93,7 +94,7 @@ public class Sede {
 	}
 
 	private void lanzarExcepcion(String msg) throws Exception {
-		throw new Exception(msg);
+		throw new NoExisteSedeException(msg);
 	}
 
 	public Emplazamiento buscarEmplazamiento(String emplazamiento) throws Exception {

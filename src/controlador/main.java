@@ -71,9 +71,8 @@ public class main {
 				break;
 			}
 			System.out.println();
-		} while (opcion != 6);
-		sc.close();
-
+		} while (1 != 6);
+//		sc.close();
 	}
 
 	private static void agendarClase() {
@@ -126,6 +125,8 @@ public class main {
 		try {
 			gimnasio.AsignarEmplazamientoSede(idA, localidadSede, emplazamiento);
 		} catch (NoExisteUsuarioException e) {
+			e.printStackTrace();
+		} catch (NoExisteSedeException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -348,6 +349,7 @@ public class main {
 			} catch (NoExisteUsuarioException | NoExisteSedeException e) {
 				e.printStackTrace();
 			}
+			
 			break;
 
 		default:
