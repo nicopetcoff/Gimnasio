@@ -6,14 +6,12 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 import modelo.sedes.Clase;
-import modelo.sedes.Sede;
 import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
 
 public class Profesor extends Usuario {
 
 	private double sueldo;
 	private ArrayList<Clase> clases;
-	private Sede sedeAsignada;
 	private ArrayList<LocalTime> horariosDisponibles;
 
 	public Profesor(String nombre, String apellido, String dni, double sueldo) {
@@ -70,14 +68,6 @@ public class Profesor extends Usuario {
 
 	public void agregarClase(Clase clase) {
 		clases.add(clase);
-	}
-
-	public void setSedeAsignada(Sede sede) {
-		this.sedeAsignada = sede;
-	}
-
-	public Sede getSedeAsignada() {
-		return sedeAsignada;
 	}
 
 	public void agregarHorarioDisponible(LocalTime horario) {

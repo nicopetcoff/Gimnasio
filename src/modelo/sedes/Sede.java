@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import modelo.productos.Articulo;
 import modelo.productos.Stock;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
+import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.usuarios.Profesor;
 import modelo.utilidad.Nivel;
 
@@ -70,7 +71,9 @@ public class Sede {
 	}
 
 	public void agregarProfesor(Profesor profesor) {
-		this.profesores.add(profesor);
+		if (!this.profesores.contains(profesor)) {
+			this.profesores.add(profesor);
+		}
 	}
 
 	public Nivel getnivel() {
@@ -83,13 +86,12 @@ public class Sede {
 		return this.clases;
 	}
 
-	public Profesor buscarProfesor(String nroDNIProfesor) throws Exception {
+	public Profesor buscarProfesor(String nroDNIProfesor) {
 		for (Profesor profesor : profesores) {
 			if (profesor.getDNI().equals(nroDNIProfesor)) {
 				return profesor;
 			}
 		}
-		lanzarExcepcion("No existe el profesor");
 		return null;
 	}
 
@@ -109,5 +111,10 @@ public class Sede {
 	public void agregarEmplazamiento(Emplazamiento em) {
 		this.emplazamientosSede.add(em);
 	}
-
+	
+	public void removerProfesor(Profesor profesor) {
+		if(this.profesores.contains(profesor)) {
+			this.profesores.remove(profesor);
+		}
+	}
 }

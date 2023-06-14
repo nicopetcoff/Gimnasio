@@ -305,7 +305,7 @@ public class GimnasioSingleton {
 		if (sp != null) {
 			this.emplazamientos.add(sp.crearEmplazamiento(tipoEmplazamiento, factorCalculo));
 		} else {
-			throw new NoExisteUsuarioException("No existe el Administrativo");
+			throw new NoExisteUsuarioException("No existe el Soporte Técnico");
 		}
 	}
 
@@ -341,5 +341,17 @@ public class GimnasioSingleton {
 			}
 		}
 	}
-
+	
+	public void cambiarProfesorDeSede(int idSP, String localidad, String nroDNIProfesor) throws Exception {
+		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
+		
+		if (sp != null) {
+			Sede nuevaSede = soyEsaSede(localidad);
+			System.out.println(nuevaSede.getProfesores());
+			sp.cambiarProfesorDeSede(nroDNIProfesor, nuevaSede);
+			System.out.println(nuevaSede.getProfesores());
+		} else {
+			throw new NoExisteUsuarioException("No existe el Soporte Técnico");
+		}
+	}
 }

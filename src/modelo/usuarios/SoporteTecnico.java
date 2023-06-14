@@ -103,6 +103,16 @@ public class SoporteTecnico extends Usuario {
 		}
 
 	}
+	
+	public void cambiarProfesorDeSede(String dniProfesor, Sede nuevaSede) {
+		for(Sede sede: GimnasioSingleton.getInstance().getSedes()) {
+			Profesor profesor  = sede.buscarProfesor(dniProfesor);
+			if (profesor != null && sede.getProfesores().contains(profesor)) {
+				sede.removerProfesor(profesor);
+				nuevaSede.agregarProfesor(profesor);
+			}
+		}
+	}
 
 	public Actividad crearActividad(String actividad) {
 		return (new Actividad(actividad));
