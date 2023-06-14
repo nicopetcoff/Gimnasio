@@ -126,6 +126,8 @@ public class main {
 			gimnasio.AsignarEmplazamientoSede(idA, localidadSede, emplazamiento);
 		} catch (NoExisteUsuarioException e) {
 			e.printStackTrace();
+		} catch (NoExisteSedeException e) {
+			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

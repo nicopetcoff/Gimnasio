@@ -310,14 +310,17 @@ public class GimnasioSingleton {
 	}
 
 	public void AsignarEmplazamientoSede(int idA, String localidadSede, String emplazamiento) throws Exception {
-
 		Administrativo a = soyEseAdministrativo(idA);
 		Sede s = soyEsaSede(localidadSede);
 
 		Emplazamiento em = soyEseEmplazamiento(emplazamiento);
 
 		if (a != null) {
-			a.asignarEmplazamientoSede(s, em);
+			if(s != null) {
+				a.asignarEmplazamientoSede(s, em);
+			} else {
+				throw new NoExisteSedeException("No existe la sede");
+			}
 		} else {
 			throw new NoExisteUsuarioException("No existe el Administrativo");
 		}

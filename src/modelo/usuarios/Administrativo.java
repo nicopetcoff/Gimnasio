@@ -8,6 +8,7 @@ import modelo.sedes.Clase;
 import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
+import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
 import modelo.utilidad.EstadoClase;
 import modelo.utilidad.Nivel;
@@ -121,7 +122,7 @@ public class Administrativo extends Usuario {
 	}
 
 	private void lanzarExcepcionSede(String mensaje) throws Exception {
-		throw new Exception(mensaje);
+		throw new NoExisteSedeException(mensaje);
 	}
 
 	public void asignarEmplazamientoSede(Sede s, Emplazamiento em) throws Exception {
