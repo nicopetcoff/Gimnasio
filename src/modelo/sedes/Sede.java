@@ -85,7 +85,7 @@ public class Sede {
 	public Profesor buscarProfesor(String nroDNIProfesor) throws Exception {
 		for (Profesor profesor : profesores) {
 			if (profesor.getDNI().equals(nroDNIProfesor)) {
-
+				return profesor;
 			}
 		}
 		lanzarExcepcion("No existe el profesor");
