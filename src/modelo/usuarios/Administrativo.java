@@ -116,12 +116,12 @@ public class Administrativo extends Usuario {
 				return sede;
 			}
 		}
-		lanzarExcepcionSede();
+		lanzarExcepcionSede("No existe la sede");
 		return null;
 	}
 
-	private void lanzarExcepcionSede() throws Exception {
-
+	private void lanzarExcepcionSede(String mensaje) throws Exception {
+		throw new Exception(mensaje);
 	}
 
 	public void asignarEmplazamientoSede(Sede s, Emplazamiento em) throws Exception {

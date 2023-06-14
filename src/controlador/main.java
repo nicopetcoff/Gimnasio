@@ -71,8 +71,8 @@ public class main {
 				break;
 			}
 			System.out.println();
-		} while (opcion != 6);
-		sc.close();
+		} while (1 != 6);
+//		sc.close();
 
 	}
 
@@ -348,6 +348,8 @@ public class main {
 			} catch (NoExisteUsuarioException | NoExisteSedeException e) {
 				e.printStackTrace();
 			}
+			
+			System.out.println(GimnasioSingleton.getInstance().getSedes().get(0).getProfesores());
 			break;
 
 		default:
