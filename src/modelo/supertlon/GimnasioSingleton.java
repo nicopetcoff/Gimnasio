@@ -1,6 +1,7 @@
 package modelo.supertlon;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import modelo.productos.Articulo;
@@ -260,7 +261,7 @@ public class GimnasioSingleton {
 	}
 
 	public void agendarClase(int idA, String nroDNIProfesor, String localidad, String nombreClase, String emplazamiento,
-			LocalDate fecha) throws Exception {
+			LocalDateTime fecha) throws Exception {
 
 		Administrativo a = soyEseAdministrativo(idA);
 

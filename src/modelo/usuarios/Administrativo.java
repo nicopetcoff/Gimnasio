@@ -1,6 +1,7 @@
 package modelo.usuarios;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import modelo.productos.Articulo;
@@ -33,7 +34,7 @@ public class Administrativo extends Usuario {
 	}
 
 	public Clase agendarClase(String nroDNIProfesor, String localidad, String nombreClase, String emplazamiento,
-			LocalDate fecha) throws Exception {
+			LocalDateTime fecha) throws Exception {
 
 		Sede sede = soyEsaSede(localidad);
 		Profesor profesor = sede.buscarProfesor(nroDNIProfesor);
@@ -42,7 +43,6 @@ public class Administrativo extends Usuario {
 		try {
 			if (profesor.estoyDisponbile(fecha)) {
 				Clase clase = new Clase(profesor, sede, nombreClase, empla, fecha);
-				sede.agregarClase(clase);
 				profesor.agregarClase(clase);
 				return clase;
 			}

@@ -1,5 +1,6 @@
 package modelo.productos;
 
+import java.time.Duration;
 import java.time.LocalDate;
 
 public class Articulo {
@@ -56,12 +57,34 @@ public class Articulo {
 	}
 
 	public double calcularDesgaste() {
-		return tipoAmortizacion.calcularDesgaste(this.cantClasesUsadas, this.fechaFabricacion, this.durabilidad);
+		
+		// Si el resultado es negativo, el artículo no sirve más
+		
+		if (this.tipoAmortizacion.equals(TipoAmortizacion.CLASES_USADAS)) {
+			return (double) durabilidad - cantClasesUsadas;
+		}
+		
+		else if (this.tipoAmortizacion.equals(TipoAmortizacion.DIAS_FABRICACION)) {
+			LocalDate hoy = LocalDate.now();
+			return (double) durabilidad - Duration.between(fechaFabricacion, hoy).toDays();
+		}
+		return 0;
 	}
 
 	public double calcularAmortizacion() {
-		return tipoAmortizacion.calcularAmortizacion(this.cantClasesUsadas, this.fechaFabricacion, this.durabilidad,
-				this.precio);
+		
+		if (this.tipoAmortizacion.equals(TipoAmortizacion.CLASES_USADAS)) {
+			
+			// falta calculo
+		}
+		
+		else if (this.tipoAmortizacion.equals(TipoAmortizacion.DIAS_FABRICACION)) {
+			
+			// falta calculo;
+			
+		}
+		
+		return 0;
 	}
 
 	public void darDeBajaArticulo() {

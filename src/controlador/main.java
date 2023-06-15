@@ -1,6 +1,7 @@
 package controlador;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -98,7 +99,7 @@ public class main {
 		System.out.println("Diga el Emplazamiento: ");
 		String emplazamiento1 = sc.next();
 
-		LocalDate fecha = pedirFecha();
+		LocalDateTime fecha = pedirFechaHora();
 
 		try {
 			gimnasio.agendarClase(idA, nroDNIProfesor, localidad, nombreClase, emplazamiento1, fecha);
@@ -164,19 +165,16 @@ public class main {
 
 	}
 
-	private static LocalDate pedirFecha() {
-		Scanner scanner = new Scanner(System.in);
+	private static LocalDateTime pedirFechaHora() {
+        Scanner scanner = new Scanner(System.in);
 
-		System.out.print("Ingrese la fecha (formato: dd/MM/yyyy): ");
-		String fechaStr = scanner.nextLine();
+        System.out.print("Ingrese la fecha y hora (Formato: yyyy-MM-dd HH:mm:ss): ");
+        String fechaHoraString = scanner.nextLine();
 
-		// Definimos el formato de fecha esperado
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime fechaHora = LocalDateTime.parse(fechaHoraString, formatter);
 
-		// Convertimos la cadena ingresada a LocalDate
-		LocalDate fecha = LocalDate.parse(fechaStr, formatter);
-
-		return fecha;
+        return fechaHora;
 	}
 
 	private static void crearArticulosEnCatalogo() {

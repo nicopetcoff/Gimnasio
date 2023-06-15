@@ -1,6 +1,7 @@
 package modelo.sedes;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class Clase {
 	private int alumnosInscriptos;
 	private Actividad actividad;
 	private Emplazamiento emplazamiento;
-	private LocalDate fecha;
+	private LocalDateTime fecha;
 	private EstadoClase estado;
 	private double costo;
 	private ArrayList<Cliente> inscriptos;
@@ -29,7 +30,7 @@ public class Clase {
 														// Pesa, 125 (son la cantidad de pesas totales necesarias para
 														// la clase)
 
-	public Clase(Profesor profesor, Sede sede, String nombreClase, Emplazamiento emplazamiento, LocalDate fecha) {
+	public Clase(Profesor profesor, Sede sede, String nombreClase, Emplazamiento emplazamiento, LocalDateTime fecha) {
 		this.idClase = idClaseSig;
 		idClaseSig++;
 		this.nombreClase = nombreClase;
@@ -55,7 +56,7 @@ public class Clase {
 		return this.estado;
 	}
 
-	public LocalDate getFecha() {
+	public LocalDateTime getFecha() {
 		return this.fecha;
 	}
 
