@@ -4,12 +4,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import modelo.productos.TipoAmortizacion;
 import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
+import modelo.supertlon.NoExisteActividadException;
+import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.utilidad.Nivel;
@@ -36,6 +39,9 @@ public class main {
 			System.out.println("6. \t Asignar Emplazamiento a Sede"); // administrativo
 			System.out.println("7. \t Agendar Clase"); // aca es el administrativo, si no existe da Exception
 			System.out.println("8. \t Cambiar profesor de Sede");
+			System.out.println("9. \t Ver Clases agendadas");
+			System.out.println("10. \t Setear Articulo/s requerido por Actividad"); // Soporte Tecnico
+			System.out.println("11. \t Asignar Stock a Sede");
 
 			System.out.println("Elija opcion");
 			opcion = sc.nextInt();
@@ -71,6 +77,18 @@ public class main {
 				
 			case 8:
 				cambiarProfesorDeSede();
+				
+			case 9:
+				verClasesAgendadas();
+				break;
+				
+			case 10:
+				setearArticuloRequeridoPorActividad(); //soporte tecnico
+				break;
+				
+			case 11:
+				AsignarleStockASede(); //administrador
+				break;
 
 			default:
 				break;
@@ -78,6 +96,161 @@ public class main {
 			System.out.println();
 		} while (1 != 6);
 //		sc.close();
+	}
+
+	private static void AsignarleStockASede() {
+		
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+		
+		Scanner sc = new Scanner(System.in);		
+		
+		int id = digaSuId();
+		
+		boolean ejecutar = true;
+		
+		do {
+		
+		verArticulosEnCatalogo();
+		
+		System.out.println("Ingrese Marca: ");
+		String marca = sc.next();
+		
+		System.out.println("Ingrese nombre del articulo: ");
+		String nombArticulo = sc.next();
+		
+		System.out.println("Ingrese los atributos: ");
+		String atributos = sc.next();
+		
+		System.out.println("Ingrese la cantidad que desea agregar");
+		int cantidad =sc.nextInt();
+		
+		verSedes();
+		
+		System.out.println("Elija la localidad");
+		
+		String localidad = sc.next();
+		
+		try {
+			gimnasio.AsignarStockASede(id, marca, nombArticulo, atributos, cantidad, localidad);
+		} catch (NoExisteArticuloEnCatalogoException e) {
+			e.printStackTrace();
+		} catch (NoExisteUsuarioException e) {
+			e.printStackTrace();
+		} catch (NoExisteSedeException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		System.out.println("¿Desea volver a agregar? (s/n): ");
+        String respuesta = sc.nextLine();
+
+        if (respuesta.equalsIgnoreCase("n")) {
+            ejecutar = false;
+        }
+    } while (ejecutar);
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+
+	private static void setearArticuloRequeridoPorActividad() {
+		
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+		
+		Scanner sc = new Scanner(System.in);		
+		
+		int id = digaSuId();
+		
+		boolean ejecutar = true;
+
+        do {
+        	
+        	verActividades();
+    		
+    		String actividad = sc.next();
+    		
+    		verArticulosEnCatalogo();
+    		
+    		System.out.println("Ingrese Marca: ");
+    		String marca = sc.next();
+    		
+    		System.out.println("Ingrese nombre del articulo: ");
+    		String nombArticulo = sc.next();
+    		
+    		System.out.println("Ingrese los atributos: ");
+    		String atributos = sc.next();
+    		
+    		System.out.println("Ingrese la cantidad requerida para ese articulo");
+    		int cantidad = sc.nextInt();
+    		
+    		try {
+    			gimnasio.setearArticuloRequeridoPorActividad(id, actividad, marca, nombArticulo, atributos, cantidad);
+    		} catch (NoExisteUsuarioException | NoExisteActividadException | NoExisteArticuloEnCatalogoException e) {
+    			e.printStackTrace();
+    		}
+            
+            System.out.println("¿Desea volver a agregar? (s/n): ");
+            String respuesta = sc.nextLine();
+
+            if (respuesta.equalsIgnoreCase("n")) {
+                ejecutar = false;
+            }
+        } while (ejecutar);
+		
+		
+		
+		
+		
+	}
+
+	private static void verActividades() {
+		
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+		
+		for (int i = 0; i < gimnasio.getActividades().size(); i++) {
+			System.out.println(gimnasio.getActividades().get(i));
+		}
+		
+	}
+
+	private static void verArticulosEnCatalogo() {
+		
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+		
+		for (int i = 0; i < gimnasio.getArticulosEnCatalogo().size(); i++) {
+			System.out.println(gimnasio.getArticulosEnCatalogo().get(i));
+		}
+		
+	}
+
+	private static void verClasesAgendadas() {
+		
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+		
+		Scanner sc = new Scanner(System.in);
+
+		verSedes();
+		
+		System.out.println("Elija la localidad de la Sede ");
+		String localidad = sc.next();
+		
+		try {
+			for (int i = 0; i < gimnasio.verClasesAgendadas(localidad).size(); i++) {
+				System.out.println(gimnasio.verClasesAgendadas(localidad).get(i));
+				
+			}
+		} catch (NoExisteSedeException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	private static void agendarClase() {

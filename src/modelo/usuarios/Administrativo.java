@@ -33,10 +33,9 @@ public class Administrativo extends Usuario {
 		return sedes;
 	}
 
-	public Clase agendarClase(String nroDNIProfesor, String localidad, String nombreClase, String emplazamiento,
+	public Clase agendarClase(String nroDNIProfesor, Sede sede, String nombreClase, String emplazamiento,
 			LocalDateTime fecha) throws Exception {
 
-		Sede sede = soyEsaSede(localidad);
 		Profesor profesor = sede.buscarProfesor(nroDNIProfesor);
 		Emplazamiento empla = sede.buscarEmplazamiento(emplazamiento);
 
@@ -77,9 +76,12 @@ public class Administrativo extends Usuario {
 
 	}
 
-	// agrega articulo a sede, necesita mandar cantidad de articulos que quiere
+	/*
+	 *  agrega articulo a sede, necesita mandar cantidad de articulos que quiere
 	// agregarle a la sede
-	public void agregarArticulo(Sede sede, Articulo articulo, int cantidad) {
+	 */
+	
+	public void agregarArticulos(Sede sede, Articulo articulo, int cantidad) {
 		sede.agregarArticuloAStock(articulo, cantidad);
 
 	}
@@ -109,27 +111,12 @@ public class Administrativo extends Usuario {
 	@Override
 	public String getDNI() {
 		return this.dni;
+	}	
+
+	public void asignarEmplazamientoSede(Sede s, Emplazamiento em)  {
+		
+		s.agregarEmplazamiento(em);
 	}
 
-	private Sede soyEsaSede(String localidad) throws Exception {
-		for (Sede sede : sedes) {
-			if (sede.getLocalidad().equals(localidad)) {
-				return sede;
-			}
-		}
-		lanzarExcepcionSede("No existe la sede");
-		return null;
-	}
-
-	private void lanzarExcepcionSede(String mensaje) throws Exception {
-		throw new NoExisteSedeException(mensaje);
-	}
-
-	public void asignarEmplazamientoSede(Sede s, Emplazamiento em) throws Exception {
-
-		Sede s1 = soyEsaSede(s.getLocalidad());
-
-		s1.agregarEmplazamiento(em);
-	}
 
 }

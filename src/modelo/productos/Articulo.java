@@ -27,6 +27,15 @@ public class Articulo {
 		this.activo = true;
 		this.precio = precio;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "Articulo [marca=" + marca + ", articulo=" + articulo + ", atributos=" + atributos + "]";
+	}
+
+
 
 	public void sumarClase() {
 		this.cantClasesUsadas++;

@@ -122,4 +122,10 @@ public class SoporteTecnico extends Usuario {
 		return (new Emplazamiento(tipoEmplazamiento, factorCalculo));
 	}
 
+	public void setearArticuloRequeridoPorActividad(Actividad act, Articulo art, int cantidad) {		
+		
+		act.agregarArticuloPorAlumno(art, cantidad);
+		
+	}
+
 }

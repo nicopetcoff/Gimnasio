@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import modelo.productos.Articulo;
 import modelo.productos.TipoAmortizacion;
 import modelo.sedes.Actividad;
+import modelo.sedes.Clase;
 import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
 import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
@@ -92,6 +93,10 @@ public class GimnasioSingleton {
 
 	public ArrayList<Emplazamiento> getEmplazamientosDisponibles() {
 		return this.emplazamientos;
+	}
+	
+	public ArrayList<Articulo> getArticulosEnCatalogo(){
+		return this.catalogoArticulos;
 	}
 
 	public void eliminarUsuario(Cliente cliente) {
@@ -273,7 +278,7 @@ public class GimnasioSingleton {
 
 			if (s != null) {
 				
-				s.agregarClase(a.agendarClase(nroDNIProfesor, localidad, nombreClase, emplazamiento, fecha));
+				a.agendarClase(nroDNIProfesor, s, nombreClase, emplazamiento, fecha);
 			} else {
 				throw new NoExisteSedeException("No existe la Sede");
 			}
@@ -336,7 +341,7 @@ public class GimnasioSingleton {
 			Sede sede = soyEsaSede(localidad);
 			Articulo art = existeEnCatalogo(articulo, marca, atributos);
 			if (art != null) {
-				adm.agregarArticulo(sede, art, cantidad);
+				adm.agregarArticulos(sede, art, cantidad);
 			} else {
 				throw new NoExisteArticuloEnCatalogoException("No existe ese articulo en catalogo.");
 			}
@@ -355,4 +360,88 @@ public class GimnasioSingleton {
 			throw new NoExisteUsuarioException("No existe el Soporte Técnico");
 		}
 	}
+
+	public ArrayList<Clase> verClasesAgendadas(String localidad) throws NoExisteSedeException {
+		
+		Sede s = soyEsaSede(localidad);
+		
+		if (s!=null) {
+			return s.getClases();
+		}else {
+			throw new NoExisteSedeException("No existe la Sede ");
+		}	
+		
+		
+	}
+
+	public void setearArticuloRequeridoPorActividad(int id, String actividad, String marca, String nombArticulo,
+			String atributos, int cantidad) throws NoExisteUsuarioException, NoExisteActividadException, NoExisteArticuloEnCatalogoException {
+		
+		SoporteTecnico sp = soyEseSoporteTecnico(id);
+		
+		Actividad act = soyEsaActividad(actividad);
+		
+		Articulo art = existeEnCatalogo(marca, nombArticulo, atributos);
+		
+		
+		
+		if (sp != null) {
+			if (act != null) {
+				
+				if (art != null) {
+					sp.setearArticuloRequeridoPorActividad(act,art, cantidad);
+				}else {
+					throw new NoExisteArticuloEnCatalogoException("No Existe el articulo");
+				}
+				
+				
+			}else {
+				throw new NoExisteActividadException("No existe la Actividad");
+			}
+			
+		}else {
+			throw new NoExisteUsuarioException("No existe el Soporte Tecnico");
+		}
+		
+	}
+
+	private Actividad soyEsaActividad(String actividad) {
+		for (Actividad act : actividades) {
+			if (act.getTipoClase().equals(actividad)) {
+				return act;
+			}
+		}
+		return null;
+	}
+
+	public void AsignarStockASede(int idAdministrativo, String marca, String nombArticulo, String atributos, int cantidad,
+			String localidad) throws NoExisteArticuloEnCatalogoException, NoExisteUsuarioException, NoExisteSedeException {
+		
+		Administrativo a = soyEseAdministrativo(idAdministrativo);
+		
+		Sede s = soyEsaSede(localidad);
+		
+		Articulo art = existeEnCatalogo(marca, nombArticulo, atributos);		
+		
+		if (a != null) {
+			if (s!=null) {
+				if (art != null) {
+					
+					a.agregarArticulos(s, art, cantidad);
+					
+				}else {
+					throw new NoExisteArticuloEnCatalogoException("No existe el articulo");
+				}
+			}else {
+				throw new NoExisteSedeException("No existe la Sede");
+			}
+		}else {
+			throw new NoExisteUsuarioException("No existe el Administrador");
+		}
+		
+		
+		
+	}
+
+	
 }

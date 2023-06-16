@@ -42,6 +42,7 @@ public class Sede {
 
 	// "crea" el objeto antes de agregarlo a stock ya que el q esta en catalogo solo
 	// es una muestra y su fechaFabricacion podria ser mucho tiempo atras
+	
 	public void agregarArticuloAStock(Articulo articulo, int cantidad) {
 		stock.agregarArticulo(new Articulo(articulo.getMarca(), articulo.getArticulo(), LocalDate.now(),
 				articulo.getTipoAmortizacion(), articulo.getDurabilidad(), articulo.getAtributos(),
