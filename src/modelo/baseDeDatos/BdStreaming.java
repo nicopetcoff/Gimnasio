@@ -60,9 +60,33 @@ public class BdStreaming {
 		return null;
 	}
 
-	public void definirLimitePorTipo(Actividad actividad, int limite) throws LimiteClasesException {
+	public List<Clase> buscarClasesPorActividad(Actividad actividad){ //devuelve array de clases guardadas
+		for (Actividad a : clasesAlmacenadas.keySet()) {
+			if(a.getTipoClase() == actividad.getTipoClase()) {
+				return clasesAlmacenadas.get(a);
+			}
+		}
+		return null;
+	}
+
+	public void definirLimitePorTipo(Actividad actividad, int limite) {
 		limitePorActividad.put(actividad, limite);
-		ajustarLimiteClases(actividad);
+	}
+
+	public void cambiarLimite(Actividad actividad, int limite) {
+		if (limitePorActividad.containsKey(actividad)) {
+			limitePorActividad.replace(actividad, limite);
+		} else {
+			definirLimitePorTipo(actividad, limite);
+		}
+	}
+
+	public int buscarLimite(Actividad actividad) throws LimiteClasesException{
+		if (limitePorActividad.containsKey(actividad)) {
+			return limitePorActividad.get(actividad);
+		} else {
+			throw new LimiteClasesException("No hay un limite agregado");
+		}
 	}
 
 	private void ajustarLimiteClases(Actividad actividad) throws LimiteClasesException {
@@ -82,5 +106,24 @@ public class BdStreaming {
 				}
 			}
 		}
+	}
+
+	public void eliminarClase(String idClase) {
+		Clase claseAEliminar = buscarClase(idClase);
+		if (claseAEliminar != null) {
+		        Actividad actividad = claseAEliminar.getActividad();
+		        List<Clase> clases = clasesAlmacenadas.get(actividad);
+		        if (clases != null) {
+		            clases.remove(claseAEliminar);
+	        }
+	    }
+	}
+	
+	public Map<Actividad, List<Clase>> getClasesAlmacenadas() {
+		return clasesAlmacenadas;
+	}
+
+	public Map<Actividad, Integer> getLimitePorActividad() {
+		return limitePorActividad;
 	}
 }
