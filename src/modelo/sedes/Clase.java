@@ -1,8 +1,8 @@
 package modelo.sedes;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import modelo.productos.Articulo;
@@ -26,14 +26,15 @@ public class Clase {
 	private EstadoClase estado;
 	private double costo;
 	private ArrayList<Cliente> inscriptos;
-	private Map<Articulo, Integer> articulosTotales; // Ejemplo de entradas luego del metodo calcularTotalArticulos:
+	private HashMap<Articulo, Integer> articulosTotales; // Ejemplo de entradas luego del metodo calcularTotalArticulos:
 														// Pesa, 125 (son la cantidad de pesas totales necesarias para
 														// la clase)
 
-	public Clase(Profesor profesor, Sede sede, String nombreClase, Emplazamiento emplazamiento, LocalDateTime fecha) {
+	public Clase(Profesor profesor, Sede sede, String nombreClase, Actividad actividad, Emplazamiento emplazamiento, LocalDateTime fecha) {
 		this.idClase = idClaseSig;
 		idClaseSig++;
 		this.nombreClase = nombreClase;
+		this.actividad = actividad;
 		this.profesor = profesor;
 		this.sede = sede;
 		this.emplazamiento = emplazamiento;
@@ -46,6 +47,9 @@ public class Clase {
 	public String toString() {
 		return "Clase [idClase=" + idClase + ", profesor=" + profesor + ", sede=" + sede + ", capacidadMax="
 				+ capacidadMax + ", emplazamiento=" + emplazamiento + ", fecha=" + fecha + ", estado=" + estado + "]";
+	}
+	public String getnombre() {
+		return this.nombreClase;
 	}
 
 	public int getId() {
@@ -64,11 +68,23 @@ public class Clase {
 
 		if (sede.getnivel().equals(nivel) && this.alumnosInscriptos < this.capacidadMax) {
 			inscriptos.add(cliente);
+			tomarArticulos();
 			this.alumnosInscriptos++;
 		} else {
 			throw new NoMismoNivelException("No tiene el nivel de la Sede");
 		}
 
+	}
+
+	private void tomarArticulos() {
+		
+		this.actividad.getArticulosPorAlumno();
+		
+		/*
+		 * aca tendriamos que poner la logica para que vaya tomando los articulos
+		 * 
+		 */
+			sede.tomarArticulosClase();
 	}
 
 	public void eliminarCliente(Cliente cliente) {
@@ -126,4 +142,6 @@ public class Clase {
 																	// articulo y el total.
 		}
 	}
+
+	
 }

@@ -24,4 +24,6 @@ public abstract class Usuario {
 
 	public abstract String getDNI();
 
+	public abstract boolean soyCliente();
+
 }

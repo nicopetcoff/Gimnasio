@@ -5,9 +5,10 @@ import java.util.Map;
 
 public class Stock {
 
-	private Map<Articulo, Integer> articulos;
+	private HashMap<Articulo, Integer> articulos;
 
 	public Stock() {
+		this.articulos = new HashMap<>();
 		this.articulos = new HashMap<>();
 	}
 

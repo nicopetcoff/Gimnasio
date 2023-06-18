@@ -1,7 +1,6 @@
 package modelo.usuarios;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class Profesor extends Usuario {
 
 			// diferenciaHs se le asigna la diferencia en horas entre la fecha que se quiere
 			// agregar la clase y las que tiene el profesor
-			
+
 			long diferenciaHs = Duration.between(fechaClase, fecha).toHours();
 			if (3 > diferenciaHs && diferenciaHs > -3) {
 				throw new ProfesorNoDisponibleException("El profesor " + this.nombre + ", " + this.apellido
@@ -86,5 +85,10 @@ public class Profesor extends Usuario {
 		}
 
 		return null;
+	}
+
+	@Override
+	public boolean soyCliente() {
+		return false;
 	}
 }

@@ -47,9 +47,18 @@ public class Cliente extends Usuario implements OperarClase {
 	public String getDNI() {
 		return this.dni;
 	}
+	
+	public Nivel getNivel() {
+		return this.nivel;
+	}
 
 	public double getCostoMembresia() {
 		return this.nivel.costoMembresia();
+	}
+
+	@Override
+	public boolean soyCliente() {
+		return true;
 	}
 
 }

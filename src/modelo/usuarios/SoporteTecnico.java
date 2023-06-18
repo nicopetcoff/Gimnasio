@@ -20,9 +20,9 @@ public class SoporteTecnico extends Usuario {
 
 	}
 
-	public Sede crearSede(String localidad, Nivel nivel, double alquiler, int capacidad,
-			String tipoSede) throws ExisteLocalidadException {
-		
+	public Sede crearSede(String localidad, Nivel nivel, double alquiler, int capacidad, String tipoSede)
+			throws ExisteLocalidadException {
+
 		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
 		for (Sede element : gimnasio.getSedes()) {
@@ -103,10 +103,10 @@ public class SoporteTecnico extends Usuario {
 		}
 
 	}
-	
+
 	public void cambiarProfesorDeSede(String dniProfesor, Sede nuevaSede) {
-		for(Sede sede: GimnasioSingleton.getInstance().getSedes()) {
-			Profesor profesor  = sede.buscarProfesor(dniProfesor);
+		for (Sede sede : GimnasioSingleton.getInstance().getSedes()) {
+			Profesor profesor = sede.buscarProfesor(dniProfesor);
 			if (profesor != null && sede.getProfesores().contains(profesor)) {
 				sede.removerProfesor(profesor);
 				nuevaSede.agregarProfesor(profesor);
@@ -122,10 +122,15 @@ public class SoporteTecnico extends Usuario {
 		return (new Emplazamiento(tipoEmplazamiento, factorCalculo));
 	}
 
-	public void setearArticuloRequeridoPorActividad(Actividad act, Articulo art, int cantidad) {		
-		
+	public void setearArticuloRequeridoPorActividad(Actividad act, Articulo art, int cantidad) {
+
 		act.agregarArticuloPorAlumno(art, cantidad);
-		
+
+	}
+
+	@Override
+	public boolean soyCliente() {
+		return false;
 	}
 
 }

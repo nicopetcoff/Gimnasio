@@ -1,24 +1,24 @@
 package modelo.sedes;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import modelo.productos.Articulo;
 
 public class Actividad {
-	
+
 	private String tipoClase; // Crossfit, kangoo, etc
-	private Map<Articulo, Integer> articulosRequeridosPorAlumno; // Articulo, Cantidad de articulos -- Requeridos por
+	private HashMap<Articulo, Integer> articulosRequeridosPorAlumno; // Articulo, Cantidad de articulos -- Requeridos por
 																	// alumno
 	// (Ejemplo Map<pesaDeMano, 3>)
 	private Emplazamiento emplazamientoRequerido;
 
 	public Actividad(String tipoClase) {
 		this.tipoClase = tipoClase;
+		this.articulosRequeridosPorAlumno = new HashMap<>();
 	}
 
 	// Getter y Setter para cada atributo
-	
-	
 
 	public String getTipoClase() {
 		return tipoClase;
@@ -33,7 +33,7 @@ public class Actividad {
 		this.tipoClase = tipoClase;
 	}
 
-	public Map<Articulo, Integer> getArticulosPorAlumno() {
+	public HashMap<Articulo, Integer> getArticulosPorAlumno() {
 		return articulosRequeridosPorAlumno;
 	}
 

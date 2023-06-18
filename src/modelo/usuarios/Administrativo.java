@@ -1,15 +1,14 @@
 package modelo.usuarios;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import modelo.productos.Articulo;
+import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
 import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
-import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
 import modelo.utilidad.EstadoClase;
 import modelo.utilidad.Nivel;
@@ -33,7 +32,7 @@ public class Administrativo extends Usuario {
 		return sedes;
 	}
 
-	public Clase agendarClase(String nroDNIProfesor, Sede sede, String nombreClase, String emplazamiento,
+	public Clase agendarClase(String nroDNIProfesor, Sede sede, String nombreClase, Actividad actividad,String emplazamiento,
 			LocalDateTime fecha) throws Exception {
 
 		Profesor profesor = sede.buscarProfesor(nroDNIProfesor);
@@ -41,7 +40,7 @@ public class Administrativo extends Usuario {
 
 		try {
 			if (profesor.estoyDisponbile(fecha)) {
-				Clase clase = new Clase(profesor, sede, nombreClase, empla, fecha);
+				Clase clase = new Clase(profesor, sede, nombreClase,actividad, empla, fecha);
 				profesor.agregarClase(clase);
 				return clase;
 			}
@@ -77,10 +76,10 @@ public class Administrativo extends Usuario {
 	}
 
 	/*
-	 *  agrega articulo a sede, necesita mandar cantidad de articulos que quiere
-	// agregarle a la sede
+	 * agrega articulo a sede, necesita mandar cantidad de articulos que quiere //
+	 * agregarle a la sede
 	 */
-	
+
 	public void agregarArticulos(Sede sede, Articulo articulo, int cantidad) {
 		sede.agregarArticuloAStock(articulo, cantidad);
 
@@ -111,12 +110,18 @@ public class Administrativo extends Usuario {
 	@Override
 	public String getDNI() {
 		return this.dni;
-	}	
-
-	public void asignarEmplazamientoSede(Sede s, Emplazamiento em)  {
-		
-		s.agregarEmplazamiento(em);
 	}
 
+	public void asignarEmplazamientoSede(Sede s, Emplazamiento em) {
+		
+		Emplazamiento empla = new Emplazamiento(em.getTipoEmplazamiento(), em.getFactorCalculo());
+
+		s.agregarEmplazamiento(empla);
+	}
+
+	@Override
+	public boolean soyCliente() {
+		return false;
+	}
 
 }

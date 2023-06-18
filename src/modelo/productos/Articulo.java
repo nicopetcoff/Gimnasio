@@ -12,8 +12,9 @@ public class Articulo {
 	private TipoAmortizacion tipoAmortizacion;
 	private int durabilidad;
 	private String atributos;
-	private boolean activo;
 	private double precio;
+	private boolean disponible;
+	private boolean activo;
 
 	public Articulo(String marca, String articulo, LocalDate fechaFabricacion, TipoAmortizacion tipoAmortizacion,
 			int durabilidad, String atributos, double precio) {
@@ -26,16 +27,13 @@ public class Articulo {
 		this.atributos = atributos;
 		this.activo = true;
 		this.precio = precio;
+		this.disponible = true;
 	}
-	
-	
 
 	@Override
 	public String toString() {
 		return "Articulo [marca=" + marca + ", articulo=" + articulo + ", atributos=" + atributos + "]";
 	}
-
-
 
 	public void sumarClase() {
 		this.cantClasesUsadas++;
@@ -66,13 +64,13 @@ public class Articulo {
 	}
 
 	public double calcularDesgaste() {
-		
+
 		// Si el resultado es negativo, el artículo no sirve más
-		
+
 		if (this.tipoAmortizacion.equals(TipoAmortizacion.CLASES_USADAS)) {
 			return (double) durabilidad - cantClasesUsadas;
 		}
-		
+
 		else if (this.tipoAmortizacion.equals(TipoAmortizacion.DIAS_FABRICACION)) {
 			LocalDate hoy = LocalDate.now();
 			return (double) durabilidad - Duration.between(fechaFabricacion, hoy).toDays();
@@ -81,23 +79,27 @@ public class Articulo {
 	}
 
 	public double calcularAmortizacion() {
-		
+
 		if (this.tipoAmortizacion.equals(TipoAmortizacion.CLASES_USADAS)) {
-			
+
 			// falta calculo
 		}
-		
+
 		else if (this.tipoAmortizacion.equals(TipoAmortizacion.DIAS_FABRICACION)) {
-			
+
 			// falta calculo;
-			
+
 		}
-		
+
 		return 0;
 	}
 
 	public void darDeBajaArticulo() {
 		this.activo = false;
+	}
+	
+	public void tomarArituclo() {
+		this.disponible = false;
 	}
 
 }

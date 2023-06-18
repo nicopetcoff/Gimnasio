@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import modelo.productos.Articulo;
 import modelo.productos.Stock;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
-import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.usuarios.Profesor;
 import modelo.utilidad.Nivel;
 
@@ -42,7 +41,7 @@ public class Sede {
 
 	// "crea" el objeto antes de agregarlo a stock ya que el q esta en catalogo solo
 	// es una muestra y su fechaFabricacion podria ser mucho tiempo atras
-	
+
 	public void agregarArticuloAStock(Articulo articulo, int cantidad) {
 		stock.agregarArticulo(new Articulo(articulo.getMarca(), articulo.getArticulo(), LocalDate.now(),
 				articulo.getTipoAmortizacion(), articulo.getDurabilidad(), articulo.getAtributos(),
@@ -112,10 +111,19 @@ public class Sede {
 	public void agregarEmplazamiento(Emplazamiento em) {
 		this.emplazamientosSede.add(em);
 	}
-	
+
 	public void removerProfesor(Profesor profesor) {
-		if(this.profesores.contains(profesor)) {
+		if (this.profesores.contains(profesor)) {
 			this.profesores.remove(profesor);
 		}
+	}
+
+	public void tomarArticulosClase() {
+		
+		/*
+		 * falta desarrollar logica
+		 */
+		
+		
 	}
 }

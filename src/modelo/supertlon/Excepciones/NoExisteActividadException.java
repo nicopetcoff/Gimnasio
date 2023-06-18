@@ -1,4 +1,4 @@
-package modelo.supertlon;
+package modelo.supertlon.Excepciones;
 
 public class NoExisteActividadException extends Exception {
 
@@ -6,9 +6,7 @@ public class NoExisteActividadException extends Exception {
 
 	public NoExisteActividadException(String message) {
 		super(message);
-		
+
 	}
-	
-	
 
 }
