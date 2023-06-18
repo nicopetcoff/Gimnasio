@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import modelo.baseDeDatos.*;
 import modelo.productos.Articulo;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Profesor;
@@ -29,7 +30,8 @@ public class Clase {
 	private HashMap<Articulo, Integer> articulosTotales; // Ejemplo de entradas luego del metodo calcularTotalArticulos:
 														// Pesa, 125 (son la cantidad de pesas totales necesarias para
 														// la clase)
-
+	private boolean onLine = false;
+	
 	public Clase(Profesor profesor, Sede sede, String nombreClase, Actividad actividad, Emplazamiento emplazamiento, LocalDateTime fecha) {
 		this.idClase = idClaseSig;
 		idClaseSig++;
@@ -100,9 +102,11 @@ public class Clase {
 		return calcularIngreso() - calcularCosto();
 	}
 
-	public void cambiarEstado(EstadoClase estadoClase) {
-
+	public void cambiarEstado(EstadoClase estadoClase) throws LimiteClasesException {
 		this.estado = estadoClase;
+		if(estadoClase == EstadoClase.FINALIZADA && this.onLine) {
+			BdStreaming.getInstance().agregarClase(this);
+		}
 	}
 
 	public void setActividad(Actividad actividad) {
@@ -142,6 +146,13 @@ public class Clase {
 																	// articulo y el total.
 		}
 	}
+	
+	public boolean isOnLine() {
+		return onLine;
+	}
 
+	public void setOnLine(boolean onLine) {
+		this.onLine = onLine;
+	}
 	
 }
