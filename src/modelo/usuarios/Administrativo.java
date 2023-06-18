@@ -3,6 +3,7 @@ package modelo.usuarios;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import modelo.baseDeDatos.LimiteClasesException;
 import modelo.productos.Articulo;
 import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
@@ -57,10 +58,8 @@ public class Administrativo extends Usuario {
 		throw new Exception(string);
 	}
 
-	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) {
-
+	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) throws LimiteClasesException{
 		clase.cambiarEstado(estadoClase);
-
 	}
 
 	public void crearCliente(String nombre, String apellido, String dni, Nivel nivel) {
