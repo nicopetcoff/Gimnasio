@@ -21,15 +21,18 @@ import javax.swing.table.DefaultTableModel;
 
 import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
+import modelo.supertlon.GimnasioSingleton;
 import modelo.baseDeDatos.LimiteClasesException;
 import controlador.ControladorBdStreaming;
 
 public class VistaBdSAdmin extends JFrame {
 
     private ControladorBdStreaming controlador;
+    private GimnasioSingleton gimnasio;
 
     private JTable tablaClases;
     private DefaultTableModel modeloTablaClases;
+    private JComboBox<Actividad> comboActividadesGim;
     private JComboBox<Actividad> comboActividades;
     private JTextField txtLimite;
     private JButton btnDefinirLimite;
@@ -38,6 +41,7 @@ public class VistaBdSAdmin extends JFrame {
 
     public VistaBdSAdmin() {
         this.controlador = new ControladorBdStreaming();
+        this.gimnasio = GimnasioSingleton.getInstance(); //Cambiar y que se comunique con el controlador del gim
         this.setTitle("Administración de Clases");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
@@ -48,9 +52,18 @@ public class VistaBdSAdmin extends JFrame {
         
         // Panel superior
         JPanel panelSuperior = new JPanel();
-        panelSuperior.setLayout(new GridLayout(2, 2, 5, 5));
+        panelSuperior.setLayout(new GridLayout(3, 2, 5, 5));
         
-        // Combo de actividades
+        // Combo de actividades existentes en el gimnasio
+        comboActividadesGim = new JComboBox<>();
+        List<Actividad> actividadesGim = gimnasio.getActividades(); 
+        for (Actividad a : actividadesGim) {
+        	comboActividadesGim.addItem(a);
+        }
+        panelSuperior.add(new JLabel("Actividades Existentes en el Gimnasio:"));
+        panelSuperior.add(comboActividadesGim);
+        
+        // Combo de actividades existentes en la BD
         comboActividades = new JComboBox<>();
         List<Actividad> actividades = controlador.getActividades();
         for (Actividad actividad : actividades) {
