@@ -105,7 +105,8 @@ public class Clase {
 	public void cambiarEstado(EstadoClase estadoClase) throws LimiteClasesException {
 		this.estado = estadoClase;
 		if(estadoClase == EstadoClase.FINALIZADA && this.onLine) {
-			BdStreaming.getInstance().agregarClase(this);
+			ControladorBdStreaming controladorBdStreaming = new ControladorBdStreaming();
+			controladorBdStreaming.agregarClase(this);
 		}
 	}
 
