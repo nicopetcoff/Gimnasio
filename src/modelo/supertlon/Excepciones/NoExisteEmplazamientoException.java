@@ -6,9 +6,7 @@ public class NoExisteEmplazamientoException extends Exception {
 
 	public NoExisteEmplazamientoException(String message) {
 		super(message);
-		
+
 	}
-	
-	
 
 }

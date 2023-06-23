@@ -3,9 +3,9 @@ package modelo.supertlon;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import modelo.productos.Articulo;
+import modelo.productos.NoHayStockException;
 import modelo.productos.TipoAmortizacion;
 import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
@@ -17,6 +17,7 @@ import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteEmplazamientoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
+import modelo.supertlon.Excepciones.NoexisteClaseException;
 import modelo.usuarios.Administrativo;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Profesor;
@@ -149,6 +150,58 @@ public class GimnasioSingleton {
 
 	}
 
+	private Sede soyEsaSede(String localidad) {
+
+		for (Sede sede : sedes) {
+			if (sede.getLocalidad().equals(localidad)) {
+				return sede;
+			}
+		}
+		return null;
+	}
+
+	private Emplazamiento soyEseEmplazamiento(String emplazamiento) throws Exception {
+
+		for (Emplazamiento emp : emplazamientos)
+			if (emp.getTipoEmplazamiento().equals(emplazamiento)) {
+				return emp;
+			}
+
+		return null;
+	}
+
+	private Actividad soyEsaActividad(String actividad) {
+		for (Actividad act : actividades) {
+			if (act.getTipoClase().equals(actividad)) {
+				return act;
+			}
+		}
+		return null;
+	}
+
+	private Clase soyEsaClase(String nombreClase, LocalDateTime horario) {
+
+		for (Sede sede : sedes) {
+			for (int i = 0; i < sede.getClases().size(); i++) {
+				if (sede.getClases().get(i).getnombre().equals(nombreClase)
+						&& sede.getClases().get(i).getFecha().equals(horario)) {
+					return sede.getClases().get(i);
+				}
+			}
+		}
+		return null;
+	}
+
+	private Cliente soyEseCliente(int idCliente) {
+
+		for (Usuario usuario : usuarios) {
+			if (usuario.soyCliente() && usuario.getId() == idCliente) {
+				return (Cliente) usuario;
+			}
+		}
+		return null;
+	}
+
 	public void crearSoporteTecnico(int idSP, String nombre, String apellido, String dni)
 			throws NoExisteUsuarioException {
 
@@ -206,16 +259,6 @@ public class GimnasioSingleton {
 
 	}
 
-	private Sede soyEsaSede(String localidad) {
-
-		for (Sede sede : sedes) {
-			if (sede.getLocalidad().equals(localidad)) {
-				return sede;
-			}
-		}
-		return null;
-	}
-
 	public void asignarSedeAlAdministrativo(int idSP, String localidad)
 			throws NoExisteSedeException, NoExisteUsuarioException {
 
@@ -248,6 +291,7 @@ public class GimnasioSingleton {
 		if (sp != null) {
 
 			Actividad a = sp.crearActividad(actividad);
+			actividades.add(a);
 		} else {
 			throw new NoExisteUsuarioException("No existe el Soporte Tecnico");
 		}
@@ -269,52 +313,41 @@ public class GimnasioSingleton {
 
 	}
 
-	public void agendarClase(int idA, String nroDNIProfesor, String localidad, String nombreClase, String actividad,String emplazamiento,
-			LocalDateTime fecha) throws Exception {
+	public void agendarClase(int idA, String nroDNIProfesor, String localidad, String nombreClase, String actividad,
+			String emplazamiento, LocalDateTime fecha) throws Exception {
 
 		Administrativo a = soyEseAdministrativo(idA);
 
 		Sede s = soyEsaSede(localidad);
 
 		Actividad act = soyEsaActividad(actividad);
-		
+
 		Emplazamiento emp = soyEseEmplazamiento(emplazamiento);
-		
-		if (a !=null) {
-			
-			if (s!=null) {
-				
-				if (act!=null) {
-					
-					if (emp!=null) {
+
+		if (a != null) {
+
+			if (s != null) {
+
+				if (act != null) {
+
+					if (emp != null) {
 						a.agendarClase(nroDNIProfesor, s, nombreClase, act, emplazamiento, fecha);
-					}else {
+					} else {
 						throw new NoExisteEmplazamientoException("No existe el emplazamiento");
 					}
-					
-				}else {
+
+				} else {
 					throw new NoExisteActividadException("No existe la actividad");
 				}
-				
-			}else {
+
+			} else {
 				throw new NoExisteSedeException("No existe la Sede");
 			}
-			
-		}else {
+
+		} else {
 			throw new NoExisteUsuarioException("No existe el Administrativo");
 		}
 
-	}
-
-
-	private Emplazamiento soyEseEmplazamiento(String emplazamiento) throws Exception {
-
-		for (Emplazamiento emp : emplazamientos)
-			if (emp.getTipoEmplazamiento().equals(emplazamiento)) {
-				return emp;
-			}
-		
-		return null;
 	}
 
 	public void crearEmplazamiento(int idSP, String tipoEmplazamiento, double factorCalculo)
@@ -416,15 +449,6 @@ public class GimnasioSingleton {
 
 	}
 
-	private Actividad soyEsaActividad(String actividad) {
-		for (Actividad act : actividades) {
-			if (act.getTipoClase().equals(actividad)) {
-				return act;
-			}
-		}
-		return null;
-	}
-
 	public void AsignarStockASede(int idAdministrativo, String marca, String nombArticulo, String atributos,
 			int cantidad, String localidad)
 			throws NoExisteArticuloEnCatalogoException, NoExisteUsuarioException, NoExisteSedeException {
@@ -453,40 +477,22 @@ public class GimnasioSingleton {
 
 	}
 
-	public void inscribirseEnClase(int idCliente, String nombreClase, LocalDateTime horario) throws NoExisteUsuarioException, NoMismoNivelException {
-		
+	public void inscribirseEnClase(int idCliente, String nombreClase, LocalDateTime horario)
+			throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException {
+
 		Cliente cliente = soyEseCliente(idCliente);
-		
+
 		Clase clase = soyEsaClase(nombreClase, horario);
-		
-		
+
 		if (cliente != null) {
-			cliente.inscribirseClase(clase, cliente.getNivel());
-		}else {
+			if (clase != null) {
+				cliente.inscribirseClase(clase, cliente.getNivel());
+			} else {
+				throw new NoexisteClaseException("No existe la clase seleccionada");
+			}
+		} else {
 			throw new NoExisteUsuarioException("No existe el Cliente");
 		}
-	}
-
-	private Clase soyEsaClase(String nombreClase, LocalDateTime horario) {
-		
-		for(Sede sede:sedes) {
-			for (int i = 0; i < sede.getClases().size(); i++) {
-				if (sede.getClases().get(i).getnombre().equals(nombreClase) && sede.getClases().get(i).getFecha().equals(horario) ) {
-					return sede.getClases().get(i);
-				}
-			}
-		}
-		return null;
-	}
-
-	private Cliente soyEseCliente(int idCliente) {
-		
-		for(Usuario usuario: usuarios) {
-			if (usuario.soyCliente() && usuario.getId()== idCliente) {
-				return (Cliente) usuario;
-			}
-		}
-		return null;
 	}
 
 }

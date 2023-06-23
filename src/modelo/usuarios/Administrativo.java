@@ -33,15 +33,15 @@ public class Administrativo extends Usuario {
 		return sedes;
 	}
 
-	public Clase agendarClase(String nroDNIProfesor, Sede sede, String nombreClase, Actividad actividad,String emplazamiento,
-			LocalDateTime fecha) throws Exception {
+	public Clase agendarClase(String nroDNIProfesor, Sede sede, String nombreClase, Actividad actividad,
+			String emplazamiento, LocalDateTime fecha) throws Exception {
 
 		Profesor profesor = sede.buscarProfesor(nroDNIProfesor);
 		Emplazamiento empla = sede.buscarEmplazamiento(emplazamiento);
 
 		try {
 			if (profesor.estoyDisponbile(fecha)) {
-				Clase clase = new Clase(profesor, sede, nombreClase,actividad, empla, fecha);
+				Clase clase = new Clase(profesor, sede, nombreClase, actividad, empla, fecha);
 				profesor.agregarClase(clase);
 				return clase;
 			}
@@ -58,7 +58,7 @@ public class Administrativo extends Usuario {
 		throw new Exception(string);
 	}
 
-	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) throws LimiteClasesException{
+	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) throws LimiteClasesException {
 		clase.cambiarEstado(estadoClase);
 	}
 
@@ -112,7 +112,7 @@ public class Administrativo extends Usuario {
 	}
 
 	public void asignarEmplazamientoSede(Sede s, Emplazamiento em) {
-		
+
 		Emplazamiento empla = new Emplazamiento(em.getTipoEmplazamiento(), em.getFactorCalculo());
 
 		s.agregarEmplazamiento(empla);

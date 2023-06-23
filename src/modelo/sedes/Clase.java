@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import modelo.baseDeDatos.*;
+import controlador.ControladorBdStreaming;
+import modelo.baseDeDatos.LimiteClasesException;
 import modelo.productos.Articulo;
+import modelo.productos.NoHayStockException;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Profesor;
 import modelo.utilidad.EstadoClase;
@@ -27,12 +29,14 @@ public class Clase {
 	private EstadoClase estado;
 	private double costo;
 	private ArrayList<Cliente> inscriptos;
-	private HashMap<Articulo, Integer> articulosTotales; // Ejemplo de entradas luego del metodo calcularTotalArticulos:
-														// Pesa, 125 (son la cantidad de pesas totales necesarias para
-														// la clase)
+	private ArrayList<Articulo> articulosDeLaClase; // Ejemplo de entradas luego del metodo calcularTotalArticulos:
+													// Pesa, 125 (son la cantidad de pesas totales necesarias
+													// para
+													// la clase)
 	private boolean onLine = false;
-	
-	public Clase(Profesor profesor, Sede sede, String nombreClase, Actividad actividad, Emplazamiento emplazamiento, LocalDateTime fecha) {
+
+	public Clase(Profesor profesor, Sede sede, String nombreClase, Actividad actividad, Emplazamiento emplazamiento,
+			LocalDateTime fecha) {
 		this.idClase = idClaseSig;
 		idClaseSig++;
 		this.nombreClase = nombreClase;
@@ -43,6 +47,7 @@ public class Clase {
 		this.fecha = fecha;
 		this.inscriptos = new ArrayList<>();
 		this.estado = EstadoClase.AGENDADA;
+		this.articulosDeLaClase = new ArrayList<>();
 	}
 
 	@Override
@@ -50,6 +55,7 @@ public class Clase {
 		return "Clase [idClase=" + idClase + ", profesor=" + profesor + ", sede=" + sede + ", capacidadMax="
 				+ capacidadMax + ", emplazamiento=" + emplazamiento + ", fecha=" + fecha + ", estado=" + estado + "]";
 	}
+
 	public String getnombre() {
 		return this.nombreClase;
 	}
@@ -66,7 +72,7 @@ public class Clase {
 		return this.fecha;
 	}
 
-	public void agregarCliente(Cliente cliente, Nivel nivel) throws NoMismoNivelException {
+	public void agregarCliente(Cliente cliente, Nivel nivel) throws NoMismoNivelException, NoHayStockException {
 
 		if (sede.getnivel().equals(nivel) && this.alumnosInscriptos < this.capacidadMax) {
 			inscriptos.add(cliente);
@@ -78,15 +84,16 @@ public class Clase {
 
 	}
 
-	private void tomarArticulos() {
-		
-		this.actividad.getArticulosPorAlumno();
-		
-		/*
-		 * aca tendriamos que poner la logica para que vaya tomando los articulos
-		 * 
-		 */
-			sede.tomarArticulosClase();
+	private void tomarArticulos() throws NoHayStockException {
+
+		Articulo articulo = null;
+		int cantidad = 0;
+
+		for (Map.Entry<Articulo, Integer> entry : this.actividad.getArticulosPorAlumno().entrySet()) {
+			articulo = entry.getKey();
+			cantidad = entry.getValue();
+		}
+		this.articulosDeLaClase.addAll(sede.tomarArticulosClase(articulo, cantidad));
 	}
 
 	public void eliminarCliente(Cliente cliente) {
@@ -104,7 +111,7 @@ public class Clase {
 
 	public void cambiarEstado(EstadoClase estadoClase) throws LimiteClasesException {
 		this.estado = estadoClase;
-		if(estadoClase == EstadoClase.FINALIZADA && this.onLine) {
+		if (estadoClase == EstadoClase.FINALIZADA && this.onLine) {
 			ControladorBdStreaming controladorBdStreaming = new ControladorBdStreaming();
 			controladorBdStreaming.agregarClase(this);
 		}
@@ -137,17 +144,19 @@ public class Clase {
 		return membresias / 30 * inscriptos.size();
 	}
 
-	public void calcularTotalArticulos(Map<Articulo, Integer> articulos) { // Recibe como parametro un map de articulos
-																			// (puede ser sacado de Actividad)
-		for (Map.Entry<Articulo, Integer> entry : articulos.entrySet()) {
-			Articulo articulo = entry.getKey(); // Obtiene el articulo
-			Integer cantidad = entry.getValue(); // Obtiene la cantidad
-			int totalArticulos = cantidad * this.inscriptos.size(); // Multiplica articulos * cantidad de inscriptos
-			this.articulosTotales.put(articulo, totalArticulos); // Agrega una entrada a articulosTotales con el tipo de
-																	// articulo y el total.
-		}
-	}
-	
+	/*
+	 * esto estaria para borrar
+	 * 
+	 * public void calcularTotalArticulos(Map<Articulo, Integer> articulos) { //
+	 * Recibe como parametro un map de articulos // (puede ser sacado de Actividad)
+	 * for (Map.Entry<Articulo, Integer> entry : articulos.entrySet()) { Articulo
+	 * articulo = entry.getKey(); // Obtiene el articulo Integer cantidad =
+	 * entry.getValue(); // Obtiene la cantidad int totalArticulos = cantidad *
+	 * this.inscriptos.size(); // Multiplica articulos * cantidad de inscriptos
+	 * this.articulosTotales.put(articulo, totalArticulos); // Agrega una entrada a
+	 * articulosTotales con el tipo de // articulo y el total. } }
+	 */
+
 	public boolean isOnLine() {
 		return onLine;
 	}
@@ -155,5 +164,5 @@ public class Clase {
 	public void setOnLine(boolean onLine) {
 		this.onLine = onLine;
 	}
-	
+
 }

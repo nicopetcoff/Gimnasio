@@ -60,9 +60,9 @@ public class BdStreaming {
 		return null;
 	}
 
-	public List<Clase> buscarClasesPorActividad(Actividad actividad){ //devuelve array de clases guardadas
+	public List<Clase> buscarClasesPorActividad(Actividad actividad) { // devuelve array de clases guardadas
 		for (Actividad a : clasesAlmacenadas.keySet()) {
-			if(a.getTipoClase() == actividad.getTipoClase()) {
+			if (a.getTipoClase() == actividad.getTipoClase()) {
 				return clasesAlmacenadas.get(a);
 			}
 		}
@@ -81,7 +81,7 @@ public class BdStreaming {
 		}
 	}
 
-	public int buscarLimite(Actividad actividad) throws LimiteClasesException{
+	public int buscarLimite(Actividad actividad) throws LimiteClasesException {
 		if (limitePorActividad.containsKey(actividad)) {
 			return limitePorActividad.get(actividad);
 		} else {
@@ -111,14 +111,14 @@ public class BdStreaming {
 	public void eliminarClase(String idClase) {
 		Clase claseAEliminar = buscarClase(idClase);
 		if (claseAEliminar != null) {
-		        Actividad actividad = claseAEliminar.getActividad();
-		        List<Clase> clases = clasesAlmacenadas.get(actividad);
-		        if (clases != null) {
-		            clases.remove(claseAEliminar);
-	        }
-	    }
+			Actividad actividad = claseAEliminar.getActividad();
+			List<Clase> clases = clasesAlmacenadas.get(actividad);
+			if (clases != null) {
+				clases.remove(claseAEliminar);
+			}
+		}
 	}
-	
+
 	public Map<Actividad, List<Clase>> getClasesAlmacenadas() {
 		return clasesAlmacenadas;
 	}
@@ -126,4 +126,11 @@ public class BdStreaming {
 	public Map<Actividad, Integer> getLimitePorActividad() {
 		return limitePorActividad;
 	}
+
+	@RevisarAca
+	public List<Actividad> getActividades() {
+		// revisar esto
+		return null;
+	}
+
 }

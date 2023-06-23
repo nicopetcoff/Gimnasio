@@ -1,15 +1,15 @@
 package modelo.sedes;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import modelo.productos.Articulo;
 
 public class Actividad {
 
 	private String tipoClase; // Crossfit, kangoo, etc
-	private HashMap<Articulo, Integer> articulosRequeridosPorAlumno; // Articulo, Cantidad de articulos -- Requeridos por
-																	// alumno
+	private HashMap<Articulo, Integer> articulosRequeridosPorAlumno; // Articulo, Cantidad de articulos -- Requeridos
+																		// por
+																		// alumno
 	// (Ejemplo Map<pesaDeMano, 3>)
 	private Emplazamiento emplazamientoRequerido;
 

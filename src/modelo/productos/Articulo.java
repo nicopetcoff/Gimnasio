@@ -97,8 +97,12 @@ public class Articulo {
 	public void darDeBajaArticulo() {
 		this.activo = false;
 	}
-	
-	public void tomarArituclo() {
+
+	public LocalDate getFechaFabricacion() {
+		return this.fechaFabricacion;
+	}
+
+	public void indisponibilizar() {
 		this.disponible = false;
 	}
 

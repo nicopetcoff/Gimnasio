@@ -1,5 +1,6 @@
 package modelo.usuarios;
 
+import modelo.productos.NoHayStockException;
 import modelo.sedes.Clase;
 import modelo.sedes.NoMismoNivelException;
 import modelo.utilidad.Nivel;
@@ -15,7 +16,7 @@ public class Cliente extends Usuario implements OperarClase {
 	}
 
 	@Override
-	public void inscribirseClase(Clase clase, Nivel nivel) throws NoMismoNivelException {
+	public void inscribirseClase(Clase clase, Nivel nivel) throws NoMismoNivelException, NoHayStockException {
 
 		clase.agregarCliente(this, this.nivel);
 
@@ -47,7 +48,7 @@ public class Cliente extends Usuario implements OperarClase {
 	public String getDNI() {
 		return this.dni;
 	}
-	
+
 	public Nivel getNivel() {
 		return this.nivel;
 	}

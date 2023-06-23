@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import modelo.productos.Articulo;
+import modelo.productos.NoHayStockException;
 import modelo.productos.Stock;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.usuarios.Profesor;
@@ -118,12 +119,9 @@ public class Sede {
 		}
 	}
 
-	public void tomarArticulosClase() {
-		
-		/*
-		 * falta desarrollar logica
-		 */
-		
-		
+	public ArrayList<Articulo> tomarArticulosClase(Articulo articulo, int cantidad) throws NoHayStockException {
+
+		return stock.tomarArticulos(articulo, cantidad);
+
 	}
 }
