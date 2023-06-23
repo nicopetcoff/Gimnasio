@@ -110,7 +110,7 @@ public class Sede {
 	}
 
 	public void agregarEmplazamiento(Emplazamiento em) {
-		
+
 		Emplazamiento empla = new Emplazamiento(em.getTipoEmplazamiento(), em.getFactorCalculo());
 		this.emplazamientosSede.add(empla);
 	}

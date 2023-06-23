@@ -30,14 +30,11 @@ public class Clase {
 	private EstadoClase estado;
 	private double costo;
 	private ArrayList<Cliente> inscriptos;
-	private ArrayList<Articulo> articulosDeLaClase; // Ejemplo de entradas luego del metodo calcularTotalArticulos:
-													// Pesa, 125 (son la cantidad de pesas totales necesarias
-													// para
-													// la clase)
+	private ArrayList<Articulo> articulosDeLaClase;
 	private boolean onLine = false;
 
 	public Clase(Profesor profesor, Sede sede, String nombreClase, Actividad actividad, Emplazamiento emplazamiento,
-			LocalDateTime fecha) {
+			LocalDateTime fecha, int duracionClase) {
 		this.idClase = idClaseSig;
 		idClaseSig++;
 		this.nombreClase = nombreClase;
@@ -49,6 +46,7 @@ public class Clase {
 		this.inscriptos = new ArrayList<>();
 		this.estado = EstadoClase.AGENDADA;
 		this.articulosDeLaClase = new ArrayList<>();
+		this.duracionClase = duracionClase;
 	}
 
 	@Override

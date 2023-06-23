@@ -35,8 +35,6 @@ public class SoporteTecnico extends Usuario {
 
 	}
 
-	
-
 	public SoporteTecnico crearSoporteTecnico(String nombre, String apellido, String dni) {
 		return (new SoporteTecnico(nombre, apellido, dni));
 	}

@@ -38,7 +38,7 @@ public class Stock {
 		if (validarSiTengoLacantidad(articulo, cantidad)) {
 
 			for (Articulo articulo2 : articulos) {
-				if (articulo2.getMarca().equals(articulo.getMarca())
+				if (articulo2.getDisponibilidad() && articulo2.getMarca().equals(articulo.getMarca())
 						&& articulo2.getArticulo().equals(articulo.getArticulo())
 						&& articulo2.getAtributos().equals(articulo.getAtributos())) {
 

@@ -82,12 +82,12 @@ public class Articulo {
 
 		if (this.tipoAmortizacion.equals(TipoAmortizacion.CLASES_USADAS)) {
 
-			return (this.precio/this.durabilidad);
+			return (this.precio / this.durabilidad);
 		}
 
 		else if (this.tipoAmortizacion.equals(TipoAmortizacion.DIAS_FABRICACION)) {
 
-			return ((cantHoras/8)* this.precio/this.durabilidad);
+			return ((cantHoras / 8) * this.precio / this.durabilidad);
 
 		}
 
@@ -104,6 +104,10 @@ public class Articulo {
 
 	public void indisponibilizar() {
 		this.disponible = false;
+	}
+
+	public boolean getDisponibilidad() {
+		return this.disponible;
 	}
 
 }

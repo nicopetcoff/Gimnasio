@@ -94,7 +94,7 @@ public class main {
 				break;
 
 			case 12:
-				agendarseEnClase();
+				anotarseEnClase();
 				break;
 
 			default:
@@ -105,7 +105,7 @@ public class main {
 //		sc.close();
 	}
 
-	private static void agendarseEnClase() {
+	private static void anotarseEnClase() {
 
 		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
@@ -285,8 +285,12 @@ public class main {
 
 		LocalDateTime fecha = pedirFechaHora();
 
+		System.out.println("Ingrese la duracion de la clase");
+		int duracionClase = sc.nextInt();
+
 		try {
-			gimnasio.agendarClase(idA, nroDNIProfesor, localidad, nombreClase, actividad, emplazamiento1, fecha);
+			gimnasio.agendarClase(idA, nroDNIProfesor, localidad, nombreClase, actividad, emplazamiento1, fecha,
+					duracionClase);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
