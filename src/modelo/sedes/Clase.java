@@ -81,9 +81,8 @@ public class Clase {
 		} else {
 			throw new NoMismoNivelException("No tiene el nivel de la Sede");
 		}
-
 	}
-
+	
 	private void tomarArticulos() throws NoHayStockException {
 
 		Articulo articulo = null;
@@ -95,6 +94,8 @@ public class Clase {
 		}
 		this.articulosDeLaClase.addAll(sede.tomarArticulosClase(articulo, cantidad));
 	}
+
+	
 
 	public void eliminarCliente(Cliente cliente) {
 		inscriptos.remove(cliente);
