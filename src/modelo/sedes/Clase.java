@@ -26,6 +26,7 @@ public class Clase {
 	private Actividad actividad;
 	private Emplazamiento emplazamiento;
 	private LocalDateTime fecha;
+	private int duracionClase;
 	private EstadoClase estado;
 	private double costo;
 	private ArrayList<Cliente> inscriptos;
@@ -82,7 +83,7 @@ public class Clase {
 			throw new NoMismoNivelException("No tiene el nivel de la Sede");
 		}
 	}
-	
+
 	private void tomarArticulos() throws NoHayStockException {
 
 		Articulo articulo = null;
@@ -95,8 +96,6 @@ public class Clase {
 		this.articulosDeLaClase.addAll(sede.tomarArticulosClase(articulo, cantidad));
 	}
 
-	
-
 	public void eliminarCliente(Cliente cliente) {
 		inscriptos.remove(cliente);
 	}
@@ -105,7 +104,8 @@ public class Clase {
 		return rentabilidadClase() > 0;
 	}
 
-	// TODO: mostrar desglose en la vista al chequear (pop up)
+	// mostrar desglose en la vista al chequear (pop up)
+
 	public double rentabilidadClase() {
 		return calcularIngreso() - calcularCosto();
 	}
@@ -118,23 +118,24 @@ public class Clase {
 		}
 	}
 
-	public void setActividad(Actividad actividad) {
-		this.actividad = actividad;
-
-	}
-
 	public Actividad getActividad() {
 		return this.actividad;
 	}
 
 	private double calcularCosto() {
 
-		/*
-		 * aca da error, tenemos que ver porque
-		 * 
-		 */
-		return this.profesor.getSueldo(); // + emplazamiento.calculate(sede.getAlquiler(), alumnosInscriptos * 2); // +
-		// TODO: amortizacion de TODOS los artículos que usa la clase
+		return ((this.profesor.getSueldo() / 90) + (this.sede.getAlquiler() / this.emplazamiento.getFactorCalculo())
+				+ amortizarArticulos());
+	}
+
+	private double amortizarArticulos() {
+
+		double amortizacion = 0;
+
+		for (Articulo articulo : articulosDeLaClase) {
+			amortizacion = amortizacion + articulo.calcularAmortizacion(this.duracionClase);
+		}
+		return amortizacion;
 	}
 
 	private double calcularIngreso() {

@@ -111,11 +111,9 @@ public class Administrativo extends Usuario {
 		return this.dni;
 	}
 
-	public void asignarEmplazamientoSede(Sede s, Emplazamiento em) {
+	public void asignarEmplazamientoSede(Sede s, Emplazamiento em) {		
 
-		Emplazamiento empla = new Emplazamiento(em.getTipoEmplazamiento(), em.getFactorCalculo());
-
-		s.agregarEmplazamiento(empla);
+		s.agregarEmplazamiento(em);
 	}
 
 	@Override

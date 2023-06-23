@@ -78,16 +78,16 @@ public class Articulo {
 		return 0;
 	}
 
-	public double calcularAmortizacion() {
+	public double calcularAmortizacion(int cantHoras) {
 
 		if (this.tipoAmortizacion.equals(TipoAmortizacion.CLASES_USADAS)) {
 
-			// falta calculo
+			return (this.precio/this.durabilidad);
 		}
 
 		else if (this.tipoAmortizacion.equals(TipoAmortizacion.DIAS_FABRICACION)) {
 
-			// falta calculo;
+			return ((cantHoras/8)* this.precio/this.durabilidad);
 
 		}
 

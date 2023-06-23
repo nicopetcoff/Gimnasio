@@ -35,11 +35,7 @@ public class SoporteTecnico extends Usuario {
 
 	}
 
-	public void cargarTipoClase(Clase clase, Actividad actividad) {
-
-		clase.setActividad(actividad);
-
-	}
+	
 
 	public SoporteTecnico crearSoporteTecnico(String nombre, String apellido, String dni) {
 		return (new SoporteTecnico(nombre, apellido, dni));

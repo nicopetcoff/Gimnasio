@@ -110,7 +110,9 @@ public class Sede {
 	}
 
 	public void agregarEmplazamiento(Emplazamiento em) {
-		this.emplazamientosSede.add(em);
+		
+		Emplazamiento empla = new Emplazamiento(em.getTipoEmplazamiento(), em.getFactorCalculo());
+		this.emplazamientosSede.add(empla);
 	}
 
 	public void removerProfesor(Profesor profesor) {
