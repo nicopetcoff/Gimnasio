@@ -2,6 +2,7 @@ package modelo.usuarios;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Map;
 
 import modelo.baseDeDatos.LimiteClasesException;
 import modelo.productos.Articulo;
@@ -119,6 +120,20 @@ public class Administrativo extends Usuario {
 	@Override
 	public boolean soyCliente() {
 		return false;
+	}
+
+	public ArrayList<Articulo> listarArticulosSede(Sede s) {
+		
+		return s.listarArticulos();
+	
+	}
+
+	public Map<Articulo, Integer> visualizarDesgasteArticulos(Sede s) {
+		return s.visualizarDesgasteArticulos();
+	}
+
+	public void darBajaArticulo(Sede s, Articulo art) {
+		s.darBajaArticulo(art);
 	}
 
 }

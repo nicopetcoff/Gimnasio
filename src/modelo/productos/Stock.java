@@ -3,6 +3,7 @@ package modelo.productos;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class Stock {
 
@@ -38,7 +39,8 @@ public class Stock {
 		if (validarSiTengoLacantidad(articulo, cantidad)) {
 
 			for (Articulo articulo2 : articulos) {
-				if (articulo2.getMarca().equals(articulo.getMarca())
+				if ((articulo2.calcularDesgaste() > 0) && articulo2.getDisponible()
+						&& articulo2.getMarca().equals(articulo.getMarca())
 						&& articulo2.getArticulo().equals(articulo.getArticulo())
 						&& articulo2.getAtributos().equals(articulo.getAtributos())) {
 
@@ -62,7 +64,8 @@ public class Stock {
 		// caracteristicas
 
 		for (Articulo articulo2 : articulos) {
-			if (articulo2.getMarca().equals(articulo.getMarca())
+			if ((articulo2.calcularDesgaste() > 0) && articulo2.getDisponible()
+					&& articulo2.getMarca().equals(articulo.getMarca())
 					&& articulo2.getArticulo().equals(articulo.getArticulo())
 					&& articulo2.getAtributos().equals(articulo.getAtributos())) {
 
@@ -76,4 +79,27 @@ public class Stock {
 			return false;
 		}
 	}
+
+	public ArrayList<Articulo> listarArticulos() {
+		return articulos;
+	}
+
+	public Map<Articulo, Integer> visualizarDesgasteArticulo() {
+		
+		Map<Articulo, Integer> articuloDesgaste = new HashMap<>();
+		
+		for (Articulo articulo : articulos) {
+			
+			int desgaste = (int) (articulo.getDurabilidad() /  articulo.calcularDesgaste());
+			articuloDesgaste.put(articulo, desgaste);			
+		}
+		
+		return articuloDesgaste;
+	}
+
+	public void bajaArticulo(Articulo art) {
+		this.articulos.remove(art);
+	}
+
+	
 }

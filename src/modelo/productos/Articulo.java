@@ -30,10 +30,28 @@ public class Articulo {
 		this.disponible = true;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "Articulo [marca=" + marca + ", articulo=" + articulo + ", atributos=" + atributos + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Articulo [marca=");
+		builder.append(marca);
+		builder.append(", articulo=");
+		builder.append(articulo);
+		builder.append(", atributos=");
+		builder.append(atributos);
+		builder.append(", precio=");
+		builder.append(precio);
+		builder.append(", disponible=");
+		builder.append(disponible);
+		builder.append(", activo=");
+		builder.append(activo);
+		builder.append("]");
+		return builder.toString();
 	}
+
+
 
 	public void sumarClase() {
 		this.cantClasesUsadas++;
@@ -61,6 +79,10 @@ public class Articulo {
 
 	public double getPrecio() {
 		return this.precio;
+	}
+	
+	public boolean getDisponible() {
+		return this.disponible;
 	}
 
 	public double calcularDesgaste() {
@@ -105,5 +127,7 @@ public class Articulo {
 	public void indisponibilizar() {
 		this.disponible = false;
 	}
+
+	
 
 }

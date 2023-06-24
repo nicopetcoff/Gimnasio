@@ -2,6 +2,7 @@ package modelo.sedes;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Map;
 
 import modelo.productos.Articulo;
 import modelo.productos.NoHayStockException;
@@ -125,5 +126,18 @@ public class Sede {
 
 		return stock.tomarArticulos(articulo, cantidad);
 
+	}
+
+	public ArrayList<Articulo> listarArticulos() {
+		return stock.listarArticulos();
+	}
+
+	public Map<Articulo, Integer> visualizarDesgasteArticulos() {
+		return stock.visualizarDesgasteArticulo();
+	}
+
+	public void darBajaArticulo(Articulo art) {
+		
+		this.stock.bajaArticulo(art);
 	}
 }
