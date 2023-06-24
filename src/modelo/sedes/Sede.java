@@ -153,4 +153,8 @@ public class Sede {
 	public void darBajaArticulo(Articulo art) {
 		this.stock.bajaArticulo(art);
 	}
+
+	public Object getCapacidadMax() {
+		return this.capacidadMax;
+	}
 }

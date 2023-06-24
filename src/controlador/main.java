@@ -2,10 +2,13 @@ package controlador;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import usuarios.vistas.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Map.Entry;
+
+import javax.swing.SwingUtilities;
 
 import modelo.baseDeDatos.LimiteClasesException;
 import modelo.productos.Articulo;
@@ -27,7 +30,10 @@ public class main {
 
 	public static void main(String[] args) {
 
-		int prueba;
+		SwingUtilities.invokeLater(() -> {
+            InterfazSeleccionRol interfaz = new InterfazSeleccionRol();
+            interfaz.setVisible(true);
+        });
 
 		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
