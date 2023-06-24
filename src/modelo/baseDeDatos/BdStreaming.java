@@ -129,8 +129,9 @@ public class BdStreaming {
 
 	@RevisarAca
 	public List<Actividad> getActividades() {
-		// revisar esto
-		return null;
+		// revisar esto, probable error?
+	    List<Actividad> actividades = new ArrayList<>(clasesAlmacenadas.keySet());
+	    return actividades;
 	}
 
 }
