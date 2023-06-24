@@ -53,6 +53,7 @@ public class main {
 			System.out.println("14. \t Visualizar Desgaste de los Articulos de una Sede (Administrativo)");
 			System.out.println("15. \t Dar de baja un Articulo de una Sede (Administrativ)");
 			System.out.println("16. \t Confirmar Clase (Administrativo)");
+			System.out.println("17. \t Ver rentabilidad de la Clase");
 
 			System.out.println("Elija opcion");
 			opcion = sc.nextInt();
@@ -120,6 +121,10 @@ public class main {
 			case 16:
 				confirmarClase();
 				break;
+				
+			case 17:
+				verRentabilidadClase();
+				break;
 
 
 			default:
@@ -134,6 +139,31 @@ public class main {
 	
 	
 	
+
+	private static void verRentabilidadClase() {
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+
+		Scanner sc = new Scanner(System.in);
+
+		int id = digaSuId();
+
+		verClasesAgendadas();
+
+		System.out.println("Ingrese el nombre de la clase: ");
+
+		String nombreClase = sc.next();
+
+		System.out.println("Ingrese el horario");
+
+		LocalDateTime horario = pedirFechaHora();
+		
+		try {
+			System.out.println("La rentabilidad de la Clase es: " +	gimnasio.verRentabilidadClase(id, nombreClase, horario));
+		} catch (NoexisteClaseException | NoExisteUsuarioException e) {
+			e.printStackTrace();
+		}
+				
+	}
 
 	private static void confirmarClase() {
 		

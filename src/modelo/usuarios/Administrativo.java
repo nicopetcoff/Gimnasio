@@ -135,4 +135,9 @@ public class Administrativo extends Usuario {
 		cla.cambiarEstado(EstadoClase.FINALIZADA);
 	}
 
+	public double verRentabilidadClase(Clase cla) {
+		
+		return cla.rentabilidadClase();
+	}
+
 }

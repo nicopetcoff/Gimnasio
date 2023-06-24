@@ -585,4 +585,24 @@ public class GimnasioSingleton {
 		
 	}
 
+	public double verRentabilidadClase(int id, String nombreClase, LocalDateTime horario) throws NoexisteClaseException, NoExisteUsuarioException {
+		
+		Administrativo a = soyEseAdministrativo(id);
+		
+		Clase cla = soyEsaClase(nombreClase, horario);
+		
+		if (a!=null) {
+			if (cla!= null) {
+				return a.verRentabilidadClase(cla);
+				
+			}else {
+				throw new NoexisteClaseException("No existe la Clase");
+			}
+			
+		}else {
+			throw new NoExisteUsuarioException("No existe el Administrativo");
+		}		
+		
+	}
+
 }

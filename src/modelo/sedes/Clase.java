@@ -74,7 +74,9 @@ public class Clase {
 	public void agregarCliente(Cliente cliente, Nivel nivel) throws NoMismoNivelException, NoHayStockException {
 
 		if (sede.getnivel().equals(nivel) && this.alumnosInscriptos < this.capacidadMax) {
+			
 			HashMap<Articulo, Integer> artPorAlumno=actividad.getArticulosPorAlumno();
+			
 			for(Articulo a: artPorAlumno.keySet()) {
 				if(sede.articulosDisponible(a,artPorAlumno.get(a) , this.fecha.toLocalTime())) {
 					inscriptos.add(cliente);
@@ -86,6 +88,8 @@ public class Clase {
 			throw new NoMismoNivelException("No tiene el nivel de la Sede");
 		}
 	}
+	
+	// plan b esta este metodo, pero sino hay que borrar
 
 	private void tomarArticulos() throws NoHayStockException {
 
