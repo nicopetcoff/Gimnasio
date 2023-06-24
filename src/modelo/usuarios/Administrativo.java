@@ -35,30 +35,24 @@ public class Administrativo extends Usuario {
 		return sedes;
 	}
 
-	public Clase agendarClase(String nroDNIProfesor, Sede sede, String nombreClase, Actividad actividad,
-			String emplazamiento, LocalDateTime fecha, int duracionClase) throws Exception {
+	public void agendarClase(String nroDNIProfesor, Sede sede, String nombreClase, Actividad actividad,
+			Emplazamiento emplazamiento, LocalDateTime fecha, int duracionClase) throws Exception {
 
 		Profesor profesor = sede.buscarProfesor(nroDNIProfesor);
-		Emplazamiento empla = sede.buscarEmplazamiento(emplazamiento);
+		
 
 		try {
 			if (profesor.estoyDisponbile(fecha)) {
-				Clase clase = new Clase(profesor, sede, nombreClase, actividad, empla, fecha, duracionClase);
+				Clase clase = new Clase(profesor, sede, nombreClase, actividad, emplazamiento, fecha, duracionClase);
+				sede.agregarClase(clase);
 				profesor.agregarClase(clase);
-				return clase;
 			}
 		} catch (ProfesorNoDisponibleException e) {
 			e.printStackTrace();
 		}
 
-		lanzarExcepcion("No se pudo agendar");
-		return null;
-
 	}
 
-	private void lanzarExcepcion(String string) throws Exception {
-		throw new Exception(string);
-	}
 
 	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) throws LimiteClasesException, NoEsRentableException {
 		clase.cambiarEstado(estadoClase);

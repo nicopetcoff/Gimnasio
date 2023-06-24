@@ -2,7 +2,10 @@ package modelo.sedes;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -36,7 +39,7 @@ public class Sede {
 		this.profesores = new ArrayList<>();
 		this.emplazamientosSede = new ArrayList<>();
 		this.stock = new Stock();
-		this.reservas=new HashMap<>();
+		this.reservas= new HashMap<>();
 	}
 	
 	public boolean articulosDisponible(Articulo articulo,int cantidad,LocalTime horario) {
@@ -49,6 +52,7 @@ public class Sede {
 
 	public void reservarArticulos(Articulo articulo,int cantidad,LocalDateTime fecha) {
 		Map<Articulo, Integer> mapInterno=reservas.get(fecha);
+		
 		if(reservas.containsKey(fecha)) {
 			cantidad+=mapInterno.get(articulo);
 		}
@@ -118,18 +122,7 @@ public class Sede {
 		return null;
 	}
 
-	private void lanzarExcepcion(String msg) throws Exception {
-		throw new NoExisteSedeException(msg);
-	}
 
-	public Emplazamiento buscarEmplazamiento(String emplazamiento) throws Exception {
-		for (Emplazamiento empla : emplazamientosSede)
-			if (empla.getTipoEmplazamiento().equals(emplazamiento)) {
-				return empla;
-			}
-		lanzarExcepcion("No existe el emplazamiento");
-		return null;
-	}
 
 	public void agregarEmplazamiento(Emplazamiento em) {
 

@@ -334,7 +334,7 @@ public class GimnasioSingleton {
 				if (act != null) {
 
 					if (emp != null) {
-						a.agendarClase(nroDNIProfesor, s, nombreClase, act, emplazamiento, fecha, duracionClase);
+						a.agendarClase(nroDNIProfesor, s, nombreClase, act, emp, fecha, duracionClase);
 					} else {
 						throw new NoExisteEmplazamientoException("No existe el emplazamiento");
 					}
