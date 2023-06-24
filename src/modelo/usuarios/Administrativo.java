@@ -2,12 +2,14 @@ package modelo.usuarios;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Map;
 
 import modelo.baseDeDatos.LimiteClasesException;
 import modelo.productos.Articulo;
 import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
 import modelo.sedes.Emplazamiento;
+import modelo.sedes.NoEsRentableException;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
 import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
@@ -58,7 +60,7 @@ public class Administrativo extends Usuario {
 		throw new Exception(string);
 	}
 
-	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) throws LimiteClasesException {
+	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) throws LimiteClasesException, NoEsRentableException {
 		clase.cambiarEstado(estadoClase);
 	}
 
@@ -119,6 +121,24 @@ public class Administrativo extends Usuario {
 	@Override
 	public boolean soyCliente() {
 		return false;
+	}
+
+	public ArrayList<Articulo> listarArticulosSede(Sede s) {
+		return s.listarArticulos();
+	}
+
+	public Map<Articulo, Integer> visualizarDesgasteArticulos(Sede s) {
+		return s.visualizarDesgasteArticulos();
+	}
+
+	public void darBajaArticulo(Sede s, Articulo art) {
+		
+		s.darBajaArticulo(art);
+	}
+
+	public void confirmarClase(Clase cla) throws LimiteClasesException, NoEsRentableException {
+		
+		cla.cambiarEstado(EstadoClase.FINALIZADA);
 	}
 
 }

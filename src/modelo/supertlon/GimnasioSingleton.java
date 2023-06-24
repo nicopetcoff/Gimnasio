@@ -3,13 +3,16 @@ package modelo.supertlon;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Map;
 
+import modelo.baseDeDatos.LimiteClasesException;
 import modelo.productos.Articulo;
 import modelo.productos.NoHayStockException;
 import modelo.productos.TipoAmortizacion;
 import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
 import modelo.sedes.Emplazamiento;
+import modelo.sedes.NoEsRentableException;
 import modelo.sedes.NoMismoNivelException;
 import modelo.sedes.Sede;
 import modelo.supertlon.Excepciones.NoExisteActividadException;
@@ -493,6 +496,93 @@ public class GimnasioSingleton {
 		} else {
 			throw new NoExisteUsuarioException("No existe el Cliente");
 		}
+	}
+
+	public ArrayList<Articulo> listarArticulosDeLaSede(int id, String localidad) throws NoExisteSedeException, NoExisteUsuarioException {
+		Administrativo a = soyEseAdministrativo(id);
+		
+		Sede s =soyEsaSede(localidad);
+		
+		if (a != null) {
+			if (s != null) {
+				
+				return a.listarArticulosSede(s);
+				
+			}else {
+				throw new NoExisteSedeException("No existe la Sede");
+			}
+			
+		}else {
+			throw new NoExisteUsuarioException("No existe el administrativo");
+		}
+	}
+
+	public Map<Articulo, Integer>  visualizarDesgasteArticulos(int id, String localidad) throws NoExisteSedeException, NoExisteUsuarioException {
+		
+		Administrativo a = soyEseAdministrativo(id);
+		
+		Sede s =soyEsaSede(localidad);
+		
+		if (a != null) {
+			if (s != null) {
+				
+				return a.visualizarDesgasteArticulos(s);
+				
+			}else {
+				throw new NoExisteSedeException("No existe la Sede");
+			}
+			
+		}else {
+			throw new NoExisteUsuarioException("No existe el administrativo");
+		}
+	}
+
+	public void darDeBajaArticuloDeSede(int id, String localidad, String marca, String nombArticulo, String atributos) throws NoExisteArticuloEnCatalogoException, NoExisteSedeException, NoExisteUsuarioException {
+		
+
+		Administrativo a = soyEseAdministrativo(id);
+		
+		Sede s =soyEsaSede(localidad);
+		
+		Articulo art = existeEnCatalogo(marca, nombArticulo, atributos);
+		
+		if (a != null) {
+			if (s != null) {
+				
+				if (art != null) {
+					a.darBajaArticulo(s, art);
+				}
+				else {
+					throw new NoExisteArticuloEnCatalogoException("No existe el articulo");
+				}				
+				
+			}else {
+				throw new NoExisteSedeException("No existe la Sede");
+			}
+			
+		}else {
+			throw new NoExisteUsuarioException("No existe el administrativo");
+		}
+	}
+
+	public void confirmarClase(int id, String nombreClase, LocalDateTime horario) throws LimiteClasesException, NoExisteUsuarioException, NoexisteClaseException, NoEsRentableException {
+		
+		Administrativo a = soyEseAdministrativo(id);
+		
+		Clase cla = soyEsaClase(nombreClase, horario);
+		
+		if (a!=null) {
+			if (cla!= null) {
+				a.confirmarClase(cla);
+				
+			}else {
+				throw new NoexisteClaseException("No existe la Clase");
+			}
+			
+		}else {
+			throw new NoExisteUsuarioException("No existe el Administrativo");
+		}		
+		
 	}
 
 }
