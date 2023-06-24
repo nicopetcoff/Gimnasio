@@ -1,6 +1,7 @@
 package controlador;
 
 import java.time.LocalDate;
+import usuarios.vistas.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -19,9 +20,20 @@ import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.supertlon.Excepciones.NoexisteClaseException;
 import modelo.utilidad.Nivel;
 
+import modelo.usuarios.Administrativo;
+import modelo.usuarios.SoporteTecnico;
+
 public class main {
 
 	public static void main(String[] args) {
+		Sede sede1 = new Sede("Caballito", Nivel.BLACK, 1000.00, 30, "Sede en Caballito");
+		Sede sede2 = new Sede("Flores", Nivel.ORO, 100000.00, 55, "Sede en Flores");
+		
+		SoporteTecnico st = new SoporteTecnico("Jose", "Menem", "87654321");
+		Administrativo admin = new Administrativo("Juan", "Pérez", "12345678");
+		st.asignarSede(admin, sede1);
+		st.asignarSede(admin, sede2);
+		AdministrativoControlador controlador = new AdministrativoControlador(admin);
 
 		int prueba;
 

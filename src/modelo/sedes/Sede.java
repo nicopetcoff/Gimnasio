@@ -70,6 +70,10 @@ public class Sede {
 		// TODO Auto-generated method stub
 		return this.localidad;
 	}
+	
+	public int getCapacidadMax() {
+		return this.capacidadMax;
+	}
 
 	public void agregarProfesor(Profesor profesor) {
 		if (!this.profesores.contains(profesor)) {
