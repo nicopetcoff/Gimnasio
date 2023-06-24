@@ -74,13 +74,22 @@ public class Clase {
 	public void agregarCliente(Cliente cliente, Nivel nivel) throws NoMismoNivelException, NoHayStockException {
 
 		if (sede.getnivel().equals(nivel) && this.alumnosInscriptos < this.capacidadMax) {
-			inscriptos.add(cliente);
-			tomarArticulos();
-			this.alumnosInscriptos++;
+			
+			HashMap<Articulo, Integer> artPorAlumno=actividad.getArticulosPorAlumno();
+			
+			for(Articulo a: artPorAlumno.keySet()) {
+				if(sede.articulosDisponible(a,artPorAlumno.get(a) , this.fecha.toLocalTime())) {
+					inscriptos.add(cliente);
+					this.alumnosInscriptos++;
+					sede.reservarArticulos(a, artPorAlumno.get(a), fecha);
+				}
+			}
 		} else {
 			throw new NoMismoNivelException("No tiene el nivel de la Sede");
 		}
 	}
+	
+	// plan b esta este metodo, pero sino hay que borrar
 
 	private void tomarArticulos() throws NoHayStockException {
 
@@ -108,11 +117,14 @@ public class Clase {
 		return calcularIngreso() - calcularCosto();
 	}
 
-	public void cambiarEstado(EstadoClase estadoClase) throws LimiteClasesException {
-		this.estado = estadoClase;
-		if (estadoClase == EstadoClase.FINALIZADA && this.onLine) {
+	public void cambiarEstado(EstadoClase estadoClase) throws LimiteClasesException, NoEsRentableException {
+		
+		if (this.esRentable() || this.onLine) {
+			this.estado = estadoClase;
 			ControladorBdStreaming controladorBdStreaming = new ControladorBdStreaming();
 			controladorBdStreaming.agregarClase(this);
+		}else {
+			throw new NoEsRentableException("No es rentable :(");
 		}
 	}
 
@@ -164,5 +176,7 @@ public class Clase {
 	public void setOnLine(boolean onLine) {
 		this.onLine = onLine;
 	}
+
+	
 
 }

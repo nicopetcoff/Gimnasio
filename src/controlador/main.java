@@ -3,13 +3,20 @@ package controlador;
 import java.time.LocalDate;
 import usuarios.vistas.*;
 import java.time.LocalDateTime;
+import usuarios.vistas.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Map.Entry;
 
+import javax.swing.SwingUtilities;
+
+import modelo.baseDeDatos.LimiteClasesException;
+import modelo.productos.Articulo;
 import modelo.productos.NoHayStockException;
 import modelo.productos.TipoAmortizacion;
 import modelo.sedes.Emplazamiento;
+import modelo.sedes.NoEsRentableException;
 import modelo.sedes.NoMismoNivelException;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
@@ -35,7 +42,10 @@ public class main {
 		st.asignarSede(admin, sede2);
 		AdministrativoControlador controlador = new AdministrativoControlador(admin);
 
-		int prueba;
+		SwingUtilities.invokeLater(() -> {
+            InterfazSeleccionRol interfaz = new InterfazSeleccionRol();
+            interfaz.setVisible(true);
+        });
 
 		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
@@ -56,7 +66,12 @@ public class main {
 			System.out.println("9. \t Ver Clases agendadas");
 			System.out.println("10. \t Setear Articulo/s requerido por Actividad (ST)"); // Soporte Tecnico
 			System.out.println("11. \t Asignar Stock a Sede (Admin)"); // admin
-			System.out.println("12 \t Anotarse en Clase (Cliente)");
+			System.out.println("12. \t Anotarse en Clase (Cliente)");
+			System.out.println("13. \t Listar articulos de la Sede (Administrativo)");
+			System.out.println("14. \t Visualizar Desgaste de los Articulos de una Sede (Administrativo)");
+			System.out.println("15. \t Dar de baja un Articulo de una Sede (Administrativ)");
+			System.out.println("16. \t Confirmar Clase (Administrativo)");
+			System.out.println("17. \t Ver rentabilidad de la Clase");
 
 			System.out.println("Elija opcion");
 			opcion = sc.nextInt();
@@ -98,16 +113,37 @@ public class main {
 				break;
 
 			case 10:
-				setearArticuloRequeridoPorActividad(); // soporte tecnico
+				setearArticuloRequeridoPorActividad(); 
 				break;
 
 			case 11:
-				AsignarleStockASede(); // administrador
+				AsignarleStockASede(); 
 				break;
 
 			case 12:
 				anotarseEnClase();
 				break;
+				
+			case 13:
+				listarArticulosDeLaSede();
+				break;
+				
+			case 14:
+				visualizarDesgasteArticulos();
+				break;
+				
+			case 15:
+				darDeBajaArticuloDeSede();
+				break;
+				
+			case 16:
+				confirmarClase();
+				break;
+				
+			case 17:
+				verRentabilidadClase();
+				break;
+
 
 			default:
 				break;
@@ -115,6 +151,145 @@ public class main {
 			System.out.println();
 		} while (1 != 6);
 //		sc.close();
+	}
+	
+	
+	
+	
+	
+
+	private static void verRentabilidadClase() {
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+
+		Scanner sc = new Scanner(System.in);
+
+		int id = digaSuId();
+
+		verClasesAgendadas();
+
+		System.out.println("Ingrese el nombre de la clase: ");
+
+		String nombreClase = sc.next();
+
+		System.out.println("Ingrese el horario");
+
+		LocalDateTime horario = pedirFechaHora();
+		
+		try {
+			System.out.println("La rentabilidad de la Clase es: " +	gimnasio.verRentabilidadClase(id, nombreClase, horario));
+		} catch (NoexisteClaseException | NoExisteUsuarioException e) {
+			e.printStackTrace();
+		}
+				
+	}
+
+	private static void confirmarClase() {
+		
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+
+		Scanner sc = new Scanner(System.in);
+
+		int id = digaSuId();
+
+		verClasesAgendadas();
+
+		System.out.println("Ingrese el nombre de la clase: ");
+
+		String nombreClase = sc.next();
+
+		System.out.println("Ingrese el horario");
+
+		LocalDateTime horario = pedirFechaHora();
+		
+		try {
+			gimnasio.confirmarClase(id,nombreClase,horario);
+		} catch (LimiteClasesException | NoExisteUsuarioException | NoexisteClaseException | NoEsRentableException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
+	private static void darDeBajaArticuloDeSede() {
+		
+		Scanner sc = new Scanner (System.in);
+		
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+		
+		int id = digaSuId();
+		
+		verSedes();
+		
+		System.out.println("Seleccione Sede");
+			
+		String localidad = sc.next();
+		
+		System.out.println("Ingrese la marca: ");		
+		String marca = sc.next();
+		
+		System.out.println("Ingrese el nombre del articulo: ");		
+		String nombArticulo = sc.next();
+		
+		System.out.println("Ingrese los atributos de los articulos: ");		
+		String atributos = sc.next();
+		
+		try {
+			gimnasio.darDeBajaArticuloDeSede(id, localidad, marca, nombArticulo, atributos);
+		} catch (NoExisteSedeException | NoExisteUsuarioException | NoExisteArticuloEnCatalogoException e) {
+			e.printStackTrace();
+		}
+	
+	
+	}
+
+	private static void visualizarDesgasteArticulos() {
+		
+		Scanner sc = new Scanner (System.in);
+		
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+		
+		int id = digaSuId();
+		
+		verSedes();
+		
+		System.out.println("Seleccione Sede");
+			
+		String localidad = sc.next();
+		
+		try {
+			for (Entry<Articulo, Integer> entry : gimnasio.visualizarDesgasteArticulos(id, localidad).entrySet()) {
+			    Articulo key = entry.getKey();
+			    Integer value = entry.getValue();
+			    System.out.println("Articulo: " + key + ", Porcentaje: " + value);
+			}
+		} catch (NoExisteSedeException | NoExisteUsuarioException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private static void listarArticulosDeLaSede() {
+		
+		Scanner sc = new Scanner (System.in);
+		
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+		
+		int id = digaSuId();
+		
+		verSedes();
+		
+		System.out.println("Seleccione Sede");
+			
+		String localidad = sc.next();
+		
+		try {
+			for (int i = 0; i < gimnasio.listarArticulosDeLaSede(id,localidad).size(); i++) {
+				System.out.println(gimnasio.listarArticulosDeLaSede(id,localidad).get(i));
+			}
+		} catch (NoExisteUsuarioException | NoExisteSedeException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	private static void anotarseEnClase() {

@@ -2,12 +2,14 @@ package modelo.usuarios;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Map;
 
 import modelo.baseDeDatos.LimiteClasesException;
 import modelo.productos.Articulo;
 import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
 import modelo.sedes.Emplazamiento;
+import modelo.sedes.NoEsRentableException;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
 import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
@@ -33,32 +35,26 @@ public class Administrativo extends Usuario {
 		return sedes;
 	}
 
-	public Clase agendarClase(String nroDNIProfesor, Sede sede, String nombreClase, Actividad actividad,
-			String emplazamiento, LocalDateTime fecha, int duracionClase) throws Exception {
+	public void agendarClase(String nroDNIProfesor, Sede sede, String nombreClase, Actividad actividad,
+			Emplazamiento emplazamiento, LocalDateTime fecha, int duracionClase) throws Exception {
 
 		Profesor profesor = sede.buscarProfesor(nroDNIProfesor);
-		Emplazamiento empla = sede.buscarEmplazamiento(emplazamiento);
+		
 
 		try {
 			if (profesor.estoyDisponbile(fecha)) {
-				Clase clase = new Clase(profesor, sede, nombreClase, actividad, empla, fecha, duracionClase);
+				Clase clase = new Clase(profesor, sede, nombreClase, actividad, emplazamiento, fecha, duracionClase);
+				sede.agregarClase(clase);
 				profesor.agregarClase(clase);
-				return clase;
 			}
 		} catch (ProfesorNoDisponibleException e) {
 			e.printStackTrace();
 		}
 
-		lanzarExcepcion("No se pudo agendar");
-		return null;
-
 	}
 
-	private void lanzarExcepcion(String string) throws Exception {
-		throw new Exception(string);
-	}
 
-	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) throws LimiteClasesException {
+	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) throws LimiteClasesException, NoEsRentableException {
 		clase.cambiarEstado(estadoClase);
 	}
 
@@ -119,6 +115,29 @@ public class Administrativo extends Usuario {
 	@Override
 	public boolean soyCliente() {
 		return false;
+	}
+
+	public ArrayList<Articulo> listarArticulosSede(Sede s) {
+		return s.listarArticulos();
+	}
+
+	public Map<Articulo, Integer> visualizarDesgasteArticulos(Sede s) {
+		return s.visualizarDesgasteArticulos();
+	}
+
+	public void darBajaArticulo(Sede s, Articulo art) {
+		
+		s.darBajaArticulo(art);
+	}
+
+	public void confirmarClase(Clase cla) throws LimiteClasesException, NoEsRentableException {
+		
+		cla.cambiarEstado(EstadoClase.FINALIZADA);
+	}
+
+	public double verRentabilidadClase(Clase cla) {
+		
+		return cla.rentabilidadClase();
 	}
 
 }
