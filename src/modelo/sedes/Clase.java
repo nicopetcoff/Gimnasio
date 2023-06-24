@@ -74,9 +74,14 @@ public class Clase {
 	public void agregarCliente(Cliente cliente, Nivel nivel) throws NoMismoNivelException, NoHayStockException {
 
 		if (sede.getnivel().equals(nivel) && this.alumnosInscriptos < this.capacidadMax) {
-			inscriptos.add(cliente);
-			tomarArticulos();
-			this.alumnosInscriptos++;
+			HashMap<Articulo, Integer> artPorAlumno=actividad.getArticulosPorAlumno();
+			for(Articulo a: artPorAlumno.keySet()) {
+				if(sede.articulosDisponible(a,artPorAlumno.get(a) , this.fecha.toLocalTime())) {
+					inscriptos.add(cliente);
+					this.alumnosInscriptos++;
+					sede.reservarArticulos(a, artPorAlumno.get(a), fecha);
+				}
+			}
 		} else {
 			throw new NoMismoNivelException("No tiene el nivel de la Sede");
 		}
