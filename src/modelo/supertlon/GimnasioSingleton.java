@@ -5,12 +5,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
 
+import modelo.baseDeDatos.LimiteClasesException;
 import modelo.productos.Articulo;
 import modelo.productos.NoHayStockException;
 import modelo.productos.TipoAmortizacion;
 import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
 import modelo.sedes.Emplazamiento;
+import modelo.sedes.NoEsRentableException;
 import modelo.sedes.NoMismoNivelException;
 import modelo.sedes.Sede;
 import modelo.supertlon.Excepciones.NoExisteActividadException;
@@ -561,6 +563,26 @@ public class GimnasioSingleton {
 		}else {
 			throw new NoExisteUsuarioException("No existe el administrativo");
 		}
+	}
+
+	public void confirmarClase(int id, String nombreClase, LocalDateTime horario) throws LimiteClasesException, NoExisteUsuarioException, NoexisteClaseException, NoEsRentableException {
+		
+		Administrativo a = soyEseAdministrativo(id);
+		
+		Clase cla = soyEsaClase(nombreClase, horario);
+		
+		if (a!=null) {
+			if (cla!= null) {
+				a.confirmarClase(cla);
+				
+			}else {
+				throw new NoexisteClaseException("No existe la Clase");
+			}
+			
+		}else {
+			throw new NoExisteUsuarioException("No existe el Administrativo");
+		}		
+		
 	}
 
 }

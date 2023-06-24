@@ -8,6 +8,7 @@ import java.util.Map;
 public class Stock {
 
 	private ArrayList<Articulo> articulos;
+	
 
 	public Stock() {
 		this.articulos = new ArrayList<>();

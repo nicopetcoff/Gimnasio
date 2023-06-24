@@ -9,6 +9,7 @@ import modelo.productos.Articulo;
 import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
 import modelo.sedes.Emplazamiento;
+import modelo.sedes.NoEsRentableException;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
 import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
@@ -59,7 +60,7 @@ public class Administrativo extends Usuario {
 		throw new Exception(string);
 	}
 
-	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) throws LimiteClasesException {
+	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) throws LimiteClasesException, NoEsRentableException {
 		clase.cambiarEstado(estadoClase);
 	}
 
@@ -133,6 +134,11 @@ public class Administrativo extends Usuario {
 	public void darBajaArticulo(Sede s, Articulo art) {
 		
 		s.darBajaArticulo(art);
+	}
+
+	public void confirmarClase(Clase cla) throws LimiteClasesException, NoEsRentableException {
+		
+		cla.cambiarEstado(EstadoClase.FINALIZADA);
 	}
 
 }

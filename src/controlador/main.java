@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Map.Entry;
 
+import modelo.baseDeDatos.LimiteClasesException;
 import modelo.productos.Articulo;
 import modelo.productos.NoHayStockException;
 import modelo.productos.TipoAmortizacion;
 import modelo.sedes.Emplazamiento;
+import modelo.sedes.NoEsRentableException;
 import modelo.sedes.NoMismoNivelException;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
@@ -46,10 +48,11 @@ public class main {
 			System.out.println("9. \t Ver Clases agendadas");
 			System.out.println("10. \t Setear Articulo/s requerido por Actividad (ST)"); // Soporte Tecnico
 			System.out.println("11. \t Asignar Stock a Sede (Admin)"); // admin
-			System.out.println("12 \t Anotarse en Clase (Cliente)");
+			System.out.println("12. \t Anotarse en Clase (Cliente)");
 			System.out.println("13. \t Listar articulos de la Sede (Administrativo)");
 			System.out.println("14. \t Visualizar Desgaste de los Articulos de una Sede (Administrativo)");
 			System.out.println("15. \t Dar de baja un Articulo de una Sede (Administrativ)");
+			System.out.println("16. \t Confirmar Clase (Administrativo)");
 
 			System.out.println("Elija opcion");
 			opcion = sc.nextInt();
@@ -91,11 +94,11 @@ public class main {
 				break;
 
 			case 10:
-				setearArticuloRequeridoPorActividad(); // soporte tecnico
+				setearArticuloRequeridoPorActividad(); 
 				break;
 
 			case 11:
-				AsignarleStockASede(); // administrador
+				AsignarleStockASede(); 
 				break;
 
 			case 12:
@@ -113,6 +116,10 @@ public class main {
 			case 15:
 				darDeBajaArticuloDeSede();
 				break;
+				
+			case 16:
+				confirmarClase();
+				break;
 
 
 			default:
@@ -127,6 +134,33 @@ public class main {
 	
 	
 	
+
+	private static void confirmarClase() {
+		
+		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+
+		Scanner sc = new Scanner(System.in);
+
+		int id = digaSuId();
+
+		verClasesAgendadas();
+
+		System.out.println("Ingrese el nombre de la clase: ");
+
+		String nombreClase = sc.next();
+
+		System.out.println("Ingrese el horario");
+
+		LocalDateTime horario = pedirFechaHora();
+		
+		try {
+			gimnasio.confirmarClase(id,nombreClase,horario);
+		} catch (LimiteClasesException | NoExisteUsuarioException | NoexisteClaseException | NoEsRentableException e) {
+			e.printStackTrace();
+		}
+	}
+
+
 
 	private static void darDeBajaArticuloDeSede() {
 		

@@ -108,11 +108,14 @@ public class Clase {
 		return calcularIngreso() - calcularCosto();
 	}
 
-	public void cambiarEstado(EstadoClase estadoClase) throws LimiteClasesException {
-		this.estado = estadoClase;
-		if (estadoClase == EstadoClase.FINALIZADA && this.onLine) {
+	public void cambiarEstado(EstadoClase estadoClase) throws LimiteClasesException, NoEsRentableException {
+		
+		if (this.esRentable() || this.onLine) {
+			this.estado = estadoClase;
 			ControladorBdStreaming controladorBdStreaming = new ControladorBdStreaming();
 			controladorBdStreaming.agregarClase(this);
+		}else {
+			throw new NoEsRentableException("No es rentable :(");
 		}
 	}
 
@@ -164,5 +167,7 @@ public class Clase {
 	public void setOnLine(boolean onLine) {
 		this.onLine = onLine;
 	}
+
+	
 
 }
