@@ -3,6 +3,7 @@ package modelo.productos;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class Stock {
 
@@ -75,5 +76,26 @@ public class Stock {
 		} else {
 			return false;
 		}
+	}
+
+	public ArrayList<Articulo> listarArticulos() {
+		return articulos;
+	}
+
+	public Map<Articulo, Integer> visualizarDesgasteArticulo() {
+		
+		Map<Articulo, Integer> articuloDesgaste = new HashMap<>();
+		
+		for (Articulo articulo : articulos) {
+			
+			int desgaste = (int) (articulo.getDurabilidad() /  articulo.calcularDesgaste());
+			articuloDesgaste.put(articulo, desgaste);			
+		}
+		
+		return articuloDesgaste;
+	}
+
+	public void bajaArticulo(Articulo art) {
+		this.articulos.remove(art);
 	}
 }
