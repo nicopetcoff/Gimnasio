@@ -1,16 +1,15 @@
 package modelo.productos;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 public class Stock {
 
 	private ArrayList<Articulo> articulos;
+	private Map<Articulo,Integer> inventario;
 
 	public Stock() {
 		this.articulos = new ArrayList<>();
-
+		this.inventario=new HashMap<>();
 	}
 
 	public void agregarArticulo(Articulo articulo, int cantidad) {
@@ -19,8 +18,16 @@ public class Stock {
 			this.articulos.add(new Articulo(articulo.getMarca(), articulo.getArticulo(), articulo.getFechaFabricacion(),
 					articulo.getTipoAmortizacion(), articulo.getDurabilidad(), articulo.getAtributos(),
 					articulo.getPrecio()));
+			if(inventario.containsKey(articulo)) {
+				cantidad+=inventario.get(articulo);
+			}
+			inventario.put(articulo, cantidad);	
 		}
 	}
+	
+	public int cantidadDeArticulo(Articulo articulo) {
+			return inventario.get(articulo);
+		}
 
 	/*
 	 * esto estaria para borrar

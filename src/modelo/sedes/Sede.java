@@ -1,7 +1,7 @@
 package modelo.sedes;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.*;
+import java.util.*;
 
 import modelo.productos.Articulo;
 import modelo.productos.NoHayStockException;
@@ -21,6 +21,7 @@ public class Sede {
 	private ArrayList<Profesor> profesores;
 	private ArrayList<Emplazamiento> emplazamientosSede;
 	private Stock stock;
+	private Map<LocalDateTime,Map<Articulo,Integer>> reservas;
 
 	public Sede(String localidad, Nivel nivel, double alquiler, int capacidadMax, String descripcion) {
 		this.localidad = localidad;
@@ -32,6 +33,24 @@ public class Sede {
 		this.profesores = new ArrayList<>();
 		this.emplazamientosSede = new ArrayList<>();
 		this.stock = new Stock();
+		this.reservas=new HashMap<>();
+	}
+	
+	public boolean articulosDisponible(Articulo articulo,int cantidad,LocalTime horario) {
+		if(stock.cantidadDeArticulo(articulo)>=(reservas.get(horario).get(articulo)+cantidad) ) {
+			return true;
+		}
+	return false;
+	
+}
+
+	public void reservarArticulos(Articulo articulo,int cantidad,LocalDateTime fecha) {
+		Map<Articulo, Integer> mapInterno=reservas.get(fecha);
+		if(reservas.containsKey(fecha)) {
+			cantidad+=mapInterno.get(articulo);
+		}
+		mapInterno.put(articulo, cantidad);	
+		reservas.put(fecha, mapInterno);
 	}
 
 	@Override
