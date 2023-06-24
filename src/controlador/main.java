@@ -51,6 +51,8 @@ public class main {
 			System.out.println("14. \t Visualizar Desgaste de los Articulos de una Sede (Administrativo)");
 			System.out.println("15. \t Dar de baja un Articulo de una Sede (Administrativ)");
 
+			System.out.println("Se arregla");
+			
 			System.out.println("Elija opcion");
 			opcion = sc.nextInt();
 			switch (opcion) {
