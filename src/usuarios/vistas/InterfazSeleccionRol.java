@@ -58,27 +58,14 @@ public class InterfazSeleccionRol extends JFrame {
     }
     
     public void abrirVentanaCliente() {
-        JFrame ventanaCliente = new JFrame();
-        ventanaCliente.setTitle("Ventana Cliente");
-        ventanaCliente.setSize(200, 100);
-        ventanaCliente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
-        JLabel label = new JLabel("Ventana para el rol de Cliente");
-        ventanaCliente.add(label);
-        
-        ventanaCliente.setVisible(true);
+        ClienteControlador controlador = new ClienteControlador();
     }
     
     public void abrirVentanaAdministrativo() {
-    	
-    	Administrativo admin = new Administrativo("Carlos", "Baute", "41000000");
-  
-    	
-      	AdministrativoControlador controlador = new AdministrativoControlador(admin);
+    	AdministrativoControlador controlador = new AdministrativoControlador();
     }
     
     public void abrirVentanaSoporteTecnico() {
-    	
     	VistaSoporteTecnico frame = new VistaSoporteTecnico();
     }
 }
