@@ -131,6 +131,10 @@ public class Clase {
 	public Actividad getActividad() {
 		return this.actividad;
 	}
+	
+	public String getLugar() {
+		return this.sede.getLocalidad();
+	}
 
 	private double calcularCosto() {
 

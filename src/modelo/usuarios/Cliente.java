@@ -1,5 +1,7 @@
 package modelo.usuarios;
 
+import java.util.ArrayList;
+
 import modelo.productos.NoHayStockException;
 import modelo.sedes.Clase;
 import modelo.sedes.NoMismoNivelException;
@@ -8,6 +10,7 @@ import modelo.utilidad.Nivel;
 public class Cliente extends Usuario implements OperarClase {
 
 	private Nivel nivel;
+	private ArrayList<Clase> clases = new ArrayList<>();
 
 	public Cliente(String nombre, String apellido, String dni, Nivel nivel) {
 		super(nombre, apellido, dni);
@@ -17,16 +20,14 @@ public class Cliente extends Usuario implements OperarClase {
 
 	@Override
 	public void inscribirseClase(Clase clase, Nivel nivel) throws NoMismoNivelException, NoHayStockException {
-
 		clase.agregarCliente(this, this.nivel);
-
+		clases.add(clase);
 	}
 
 	@Override
 	public void eliminarClase(Clase clase) {
-
 		clase.eliminarCliente(this);
-
+		clases.remove(clase);
 	}
 
 	@Override
@@ -51,6 +52,10 @@ public class Cliente extends Usuario implements OperarClase {
 
 	public Nivel getNivel() {
 		return this.nivel;
+	}
+	
+	public ArrayList<Clase> getClases() {
+		return this.clases;
 	}
 
 	public double getCostoMembresia() {
