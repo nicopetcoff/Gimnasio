@@ -70,20 +70,15 @@ public class InterfazSeleccionRol extends JFrame {
     }
     
     public void abrirVentanaAdministrativo() {
+    	
+    	Administrativo admin = new Administrativo("Carlos", "Baute", "41000000");
   
     	
-      	AdministrativoControlador controlador = new AdministrativoControlador();
+      	AdministrativoControlador controlador = new AdministrativoControlador(admin);
     }
     
     public void abrirVentanaSoporteTecnico() {
-        JFrame ventanaSoporteTecnico = new JFrame();
-        ventanaSoporteTecnico.setTitle("Ventana Soporte Técnico");
-        ventanaSoporteTecnico.setSize(200, 100);
-        ventanaSoporteTecnico.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
-        JLabel label = new JLabel("Ventana para el rol de Soporte Técnico");
-        ventanaSoporteTecnico.add(label);
-        
-        ventanaSoporteTecnico.setVisible(true);
+    	
+    	VistaSoporteTecnico frame = new VistaSoporteTecnico();
     }
 }

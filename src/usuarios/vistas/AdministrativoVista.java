@@ -29,7 +29,7 @@ public class AdministrativoVista extends JFrame {
 	private JTable tablaSedes = new JTable(tablaModelo);
 	
 	public AdministrativoVista() {
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 		this.setBackground(Color.WHITE);
 		this.setTitle("Panel de Control - Administrativo");
