@@ -6,8 +6,8 @@ public class AdministrativoControlador {
 	private AdministrativoVista vista = new AdministrativoVista();
 	private Administrativo usuario;
 	
-	public AdministrativoControlador() {
-		
+	public AdministrativoControlador(Administrativo usuario) {
+		this.usuario = usuario;
 		vista.configurarTabla(usuario.getSedes());
 		
 		vista.setVisible(true);
