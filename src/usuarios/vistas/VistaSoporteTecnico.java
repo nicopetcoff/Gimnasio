@@ -2,13 +2,16 @@ package usuarios.vistas;
 
 import controlador.*;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
+import modelo.usuarios.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.ModuleLayer.Controller;
+import java.util.ArrayList;
 
-import javax.swing.JButton;
+import javax.swing.table.*;
+import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -23,6 +26,26 @@ public class VistaSoporteTecnico extends JFrame {
 
     public VistaSoporteTecnico() {
         super("Soporte Técnico");
+        
+        ArrayList<Usuario> listaUsuariosSoporteTecnico = obtenerUsuariosSoporteTecnico();
+        
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Apellido");
+        modeloTabla.addColumn("DNI");
+        modeloTabla.addColumn("ID");
+        
+        for (Usuario usuarioSoporteTecnico : listaUsuariosSoporteTecnico) {
+            Object[] fila = {usuarioSoporteTecnico.getNombre(), usuarioSoporteTecnico.getApellido(), usuarioSoporteTecnico.getDni()};
+            modeloTabla.addRow(fila);
+        }
+        
+     // Crear la tabla con el modelo de datos
+        JTable tablaUsuariosSoporteTecnico = new JTable(modeloTabla);
+
+        // Crear el JScrollPane para la tabla de usuarios de soporte técnico
+        JScrollPane scrollPaneUsuariosSoporteTecnico = new JScrollPane(tablaUsuariosSoporteTecnico);
+
 
         JMenuBar menuBar = new JMenuBar();
         JMenu opcionesMenu = new JMenu("Opciones");
@@ -37,7 +60,9 @@ public class VistaSoporteTecnico extends JFrame {
         });
         opcionesMenu.add(crearClienteItem);
 
-        
+     // Agregar el JScrollPane de la tabla de usuarios de soporte técnico en la parte superior de la ventana
+        this.add(scrollPaneUsuariosSoporteTecnico);
+
         menuBar.add(opcionesMenu);
 
         // Configurar la ventana principal
@@ -49,9 +74,13 @@ public class VistaSoporteTecnico extends JFrame {
         this.setVisible(true);
     }
 	
-	/*
-	 * Metodos 
-	 */
+	private ArrayList<Usuario> obtenerUsuariosSoporteTecnico() {
+		
+		ControladorSoporteTecnico controlador = new ControladorSoporteTecnico();
+		
+		
+		return controlador.getSoporteTecnicos();
+	}
 
     private void crearCliente() {
         

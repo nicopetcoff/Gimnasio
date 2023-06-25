@@ -26,4 +26,20 @@ public abstract class Usuario {
 
 	public abstract boolean soyCliente();
 
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public String getApellido() {
+		return this.apellido;
+	}
+	
+	public String getDni() {
+		return this.dni;
+	}
+	
+	public int getID() {
+		return this.id;
+	}
+
 }

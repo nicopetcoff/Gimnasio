@@ -1,9 +1,12 @@
 package controlador;
 
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import modelo.supertlon.GimnasioSingleton;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
+import modelo.usuarios.Usuario;
 import modelo.utilidad.Nivel;
 
 public class ControladorSoporteTecnico {
@@ -33,6 +36,19 @@ public class ControladorSoporteTecnico {
 	        }
 	    }
 	    return null;
+	}
+
+	public ArrayList<Usuario> getSoporteTecnicos() {
+		
+		ArrayList<Usuario> usuariosST = new ArrayList<>();
+		
+		for (int i = 0; i < gimnasio.getUsuarios().size(); i++) {
+			
+			if (gimnasio.getUsuarios().get(i).soySoporteTecnico()) {
+				usuariosST.add(gimnasio.getUsuarios().get(i));
+			}
+		}
+		return usuariosST;
 	}
 
 	
