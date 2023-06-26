@@ -26,7 +26,7 @@ public class Actividad {
 
 	@Override
 	public String toString() {
-		return "Actividad [tipoClase=" + tipoClase + "]";
+	    return this.tipoClase;
 	}
 
 	public void setTipoClase(String tipoClase) {
