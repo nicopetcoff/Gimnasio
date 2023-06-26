@@ -1,5 +1,6 @@
 package modelo.baseDeDatos;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +13,7 @@ public class BdStreaming {
 	private Map<Actividad, List<Clase>> clasesAlmacenadas; // Clases almacenadas por actividad
 	private Map<Actividad, Integer> limitePorActividad; // Limite por actividad
 	private static BdStreaming instancia; // Instancia del singleton
-
+	
 	// Constructor privado
 	private BdStreaming() {
 		clasesAlmacenadas = new HashMap<>();
@@ -68,24 +69,54 @@ public class BdStreaming {
 		}
 		return null;
 	}
+	
+    public List<Clase> buscarClasesPorFecha(LocalDate fechaDesde, LocalDate fechaHasta) throws Exception {
+        List<Clase> clasesEncontradas = new ArrayList<>();
+
+        for (List<Clase> clases : clasesAlmacenadas.values()) {
+            for (Clase clase : clases) {
+                LocalDate fechaClase = clase.getFecha().toLocalDate();
+                if (fechaClase.isEqual(fechaDesde) || fechaClase.isEqual(fechaHasta) ||
+                    (fechaClase.isAfter(fechaDesde) && fechaClase.isBefore(fechaHasta))) {
+                    clasesEncontradas.add(clase);
+                }
+            }
+        }
+        return clasesEncontradas;
+    }
+    
+	public List<Clase> buscarClasePorId(String idClase) {
+        List<Clase> clasesEncontradas = new ArrayList<>();
+        int idc = Integer.parseInt(idClase);
+        for (List<Clase> clases : clasesAlmacenadas.values()) {
+            for (Clase clase : clases) {
+                int id = clase.getId();
+                if (id == idc) {
+                    clasesEncontradas.add(clase);
+                }
+            }
+        }
+        return clasesEncontradas;
+	}
 
 	public void definirLimitePorTipo(Actividad actividad, int limite) {
 		limitePorActividad.put(actividad, limite);
 	}
 
-	public void cambiarLimite(Actividad actividad, int limite) {
+	public void cambiarLimite(Actividad actividad, int limite) throws LimiteClasesException {
 		if (limitePorActividad.containsKey(actividad)) {
 			limitePorActividad.replace(actividad, limite);
+			ajustarLimiteClases(actividad);
 		} else {
 			definirLimitePorTipo(actividad, limite);
 		}
 	}
 
-	public int buscarLimite(Actividad actividad) throws LimiteClasesException {
+	public int buscarLimite(Actividad actividad){
 		if (limitePorActividad.containsKey(actividad)) {
 			return limitePorActividad.get(actividad);
 		} else {
-			throw new LimiteClasesException("No hay un limite agregado");
+			return -1;
 		}
 	}
 
@@ -125,13 +156,6 @@ public class BdStreaming {
 
 	public Map<Actividad, Integer> getLimitePorActividad() {
 		return limitePorActividad;
-	}
-
-	@RevisarAca
-	public List<Actividad> getActividades() {
-		// revisar esto, probable error?
-	    List<Actividad> actividades = new ArrayList<>(clasesAlmacenadas.keySet());
-	    return actividades;
 	}
 
 }
