@@ -56,6 +56,7 @@ public class PruebaBDS {
 		instancia.agregarClase(clase7);
 		
 		instancia.abrirVistaBdStreamingAdmin();
+		instancia.abrirVistaBdStreamingUser();
 	}
 
 }
