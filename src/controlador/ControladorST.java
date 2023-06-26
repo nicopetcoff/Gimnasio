@@ -1,9 +1,11 @@
 package controlador;
 
 import java.awt.List;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import modelo.productos.TipoAmortizacion;
 import modelo.supertlon.GimnasioSingleton;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
@@ -147,6 +149,33 @@ public class ControladorST {
 		}
 	
 	}
+
+	public void crearArticuloEnStock(int idGestion, String marca, String articulo, LocalDate fechaFabricacion,
+			String tipoAmortizacion, int durabilidad, double precio, String atributos) {
+		
+		TipoAmortizacion amortizacion = obtenerTipoAmortizacion(tipoAmortizacion);
+		
+		try {
+			gimnasio.agregarArticuloACatalogo(idGestion, marca, articulo, fechaFabricacion, amortizacion, durabilidad, atributos, precio);
+		} catch (NoExisteUsuarioException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private TipoAmortizacion obtenerTipoAmortizacion(String tipoAmortizacion) {
+       
+		for (TipoAmortizacion tipo : TipoAmortizacion.values()) {
+            if (tipo.name().equalsIgnoreCase(tipoAmortizacion)) {
+                return tipo;
+            }
+        }
+        return null; 
+   
+	}
+
+	
+
+	
 
 	
 

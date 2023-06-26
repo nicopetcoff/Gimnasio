@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.ModuleLayer.Controller;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.table.*;
@@ -132,6 +133,16 @@ public class VistaSoporteTecnico extends JFrame {
 			
 		});
 		
+		JMenuItem crearArticuloEnCatalogo = new JMenuItem("Crear Articulo en Catalogo");
+		crearArticuloEnCatalogo.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				crearArticuloEnCatalogo();
+			}
+			
+		});
+		
 		
 		
 		
@@ -144,6 +155,7 @@ public class VistaSoporteTecnico extends JFrame {
 		opcionesMenu.add(crearActividad);
 		opcionesMenu.add(crearEmplazamiento);
 		opcionesMenu.add(asignarEmplazamientoASede);
+		opcionesMenu.add(crearArticuloEnCatalogo);
 		
 		
 		menuBar.add(opcionesMenu);
@@ -155,6 +167,81 @@ public class VistaSoporteTecnico extends JFrame {
 		
 
 	}
+
+	private void crearArticuloEnCatalogo() {
+	    JFrame ventanaCrearArticulo = new JFrame("Crear Artículo en Catalogo");
+	    
+	    ControladorST controlador = new ControladorST();
+
+	    JLabel idGestionLabel = new JLabel("ID de Gestión:");
+	    JTextField idGestionCampo = new JTextField(10);
+
+	    JLabel marcaLabel = new JLabel("Marca:");
+	    JTextField marcaCampo = new JTextField(10);
+
+	    JLabel articuloLabel = new JLabel("Artículo:");
+	    JTextField articuloCampo = new JTextField(10);
+
+	    JLabel fechaFabricacionLabel = new JLabel("Fecha de Fabricación (AAAA-MM-DD):");
+	    JTextField fechaFabricacionCampo = new JTextField(10);
+
+	    JLabel tipoAmortizacionLabel = new JLabel("Tipo de Amortización:");
+	    JComboBox<String> tipoAmortizacionComboBox = new JComboBox<>(new String[] { "DIAS_DE_USO", "FECHA_DE_FABRICA" });
+
+	    JLabel durabilidadLabel = new JLabel("Durabilidad:");
+	    JTextField durabilidadCampo = new JTextField(10);
+
+	    JLabel precioLabel = new JLabel("Precio:");
+	    JTextField precioCampo = new JTextField(10);
+
+	    JLabel atributosLabel = new JLabel("Atributos:");
+	    JTextArea atributosCampo = new JTextArea(5, 20);
+
+	    JButton aceptarBoton = new JButton("Aceptar");
+	    aceptarBoton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            int idGestion = Integer.parseInt(idGestionCampo.getText());
+	            String marca = marcaCampo.getText();
+	            String articulo = articuloCampo.getText();
+	            LocalDate fechaFabricacion = LocalDate.parse(fechaFabricacionCampo.getText());
+	            String tipoAmortizacion = (String) tipoAmortizacionComboBox.getSelectedItem();
+	            int durabilidad = Integer.parseInt(durabilidadCampo.getText());
+	            double precio = Double.parseDouble(precioCampo.getText());
+	            String atributos = atributosCampo.getText();
+
+	            controlador.crearArticuloEnStock(idGestion, marca, articulo, fechaFabricacion, tipoAmortizacion, durabilidad, precio, atributos);
+
+	            ventanaCrearArticulo.dispose();
+	        }
+	    });
+
+	    JPanel panelPrincipal = new JPanel(new GridLayout(9, 2, 5, 5));
+	    panelPrincipal.add(idGestionLabel);
+	    panelPrincipal.add(idGestionCampo);
+	    panelPrincipal.add(marcaLabel);
+	    panelPrincipal.add(marcaCampo);
+	    panelPrincipal.add(articuloLabel);
+	    panelPrincipal.add(articuloCampo);
+	    panelPrincipal.add(fechaFabricacionLabel);
+	    panelPrincipal.add(fechaFabricacionCampo);
+	    panelPrincipal.add(tipoAmortizacionLabel);
+	    panelPrincipal.add(tipoAmortizacionComboBox);
+	    panelPrincipal.add(durabilidadLabel);
+	    panelPrincipal.add(durabilidadCampo);
+	    panelPrincipal.add(precioLabel);
+	    panelPrincipal.add(precioCampo);
+	    panelPrincipal.add(atributosLabel);
+	    panelPrincipal.add(new JScrollPane(atributosCampo));
+	    panelPrincipal.add(new JLabel());
+	    panelPrincipal.add(aceptarBoton);
+
+	    ventanaCrearArticulo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    ventanaCrearArticulo.add(panelPrincipal);
+	    ventanaCrearArticulo.pack();
+	    ventanaCrearArticulo.setVisible(true);
+	}
+
+
 
 	private void asignarEmplazamientoASede() {
 		
