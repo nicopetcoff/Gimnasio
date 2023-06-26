@@ -71,12 +71,12 @@ public class ControladorBdStreaming {
 	}
 
 	public LocalDate fechaStrAFecha(String stringDate) {
-        LocalDate date = null;
-        
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        date = LocalDate.parse(stringDate, formatter);
-
-        return date;
+	        LocalDate date = null;
+	        
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	        date = LocalDate.parse(stringDate, formatter);
+	
+	        return date;
 	}
 
 	public List<Clase> filtrarClasesPorFecha(LocalDate fechaDesde, LocalDate fechaHasta) throws Exception{
