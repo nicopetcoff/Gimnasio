@@ -50,10 +50,14 @@ public class SoporteTecnico extends Usuario {
 		return (new Cliente(nombre, apellido, dni, nivel1));
 	}
 
-	public Profesor crearProfesor(String nombre, String apellido, String dni, double sueldo) {
+	public Profesor crearProfesor(String nombre, String apellido, String dni, double sueldo,Sede sede) {
+		Profesor profe=new Profesor(nombre, apellido, dni, sueldo);
+		asingarSedeProfesor(sede,profe);
+		return (profe);
 
-		return (new Profesor(nombre, apellido, dni, sueldo));
-
+	}
+	private void asingarSedeProfesor(Sede sede,Profesor profe) {
+		sede.agregarProfesor(profe);
 	}
 
 	@Override

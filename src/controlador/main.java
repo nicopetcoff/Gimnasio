@@ -654,6 +654,7 @@ public class main {
 		case 4:
 			System.out.println("Elija que Sede");
 			verSedes();
+			Sede sede=null;
 
 			System.out.println("Elija la localidad de la sede");
 			String localidad = sc.next();
@@ -671,7 +672,7 @@ public class main {
 			double sueldo = sc.nextDouble();
 
 			try {
-				gimnasio.crearProfesor(idSP, nombre4, apellido4, dni4, sueldo, localidad);
+				gimnasio.crearProfesor(idSP, nombre4, apellido4, dni4, sueldo, localidad, sede);
 			} catch (NoExisteUsuarioException | NoExisteSedeException e) {
 				e.printStackTrace();
 			}
