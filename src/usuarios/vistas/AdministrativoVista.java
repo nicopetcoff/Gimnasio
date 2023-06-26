@@ -1,8 +1,10 @@
 package usuarios.vistas;
-
+import vista.Funcionalidades.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -27,8 +29,10 @@ public class AdministrativoVista extends JFrame {
 	
 	private DefaultTableModel tablaModelo = new DefaultTableModel();
 	private JTable tablaSedes = new JTable(tablaModelo);
+	private AdministrativoControlador controlador;
 	
-	public AdministrativoVista() {
+	public AdministrativoVista(AdministrativoControlador controlador) {
+		this.controlador=controlador;
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 		this.setBackground(Color.WHITE);
@@ -57,6 +61,19 @@ public class AdministrativoVista extends JFrame {
 		
 		pack();
 		setVisible(true);
+		
+		
+		botonAgendarClase.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+					ControladorAgendarClase control= new ControladorAgendarClase(controlador.getSedeSeleccionada());
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            }
+        });
 	}
 	
 	public void configurarTabla(ArrayList<Sede> sedes) {
@@ -64,6 +81,10 @@ public class AdministrativoVista extends JFrame {
 			Object[] rowData = { sede.getLocalidad(), sede.getnivel(), sede.getAlquiler(), sede.getCapacidadMax() };
 			tablaModelo.addRow(rowData);
 		}
+	}
+	
+	public JTable getTablaSedes() {
+		return this.tablaSedes;
 	}
 	
 	public int getFilaSeleccionada() {
