@@ -498,111 +498,114 @@ public class GimnasioSingleton {
 		}
 	}
 
-	public ArrayList<Articulo> listarArticulosDeLaSede(int id, String localidad) throws NoExisteSedeException, NoExisteUsuarioException {
+	public ArrayList<Articulo> listarArticulosDeLaSede(int id, String localidad)
+			throws NoExisteSedeException, NoExisteUsuarioException {
 		Administrativo a = soyEseAdministrativo(id);
-		
-		Sede s =soyEsaSede(localidad);
-		
+
+		Sede s = soyEsaSede(localidad);
+
 		if (a != null) {
 			if (s != null) {
-				
+
 				return a.listarArticulosSede(s);
-				
-			}else {
+
+			} else {
 				throw new NoExisteSedeException("No existe la Sede");
 			}
-			
-		}else {
+
+		} else {
 			throw new NoExisteUsuarioException("No existe el administrativo");
 		}
 	}
 
-	public Map<Articulo, Integer>  visualizarDesgasteArticulos(int id, String localidad) throws NoExisteSedeException, NoExisteUsuarioException {
-		
+	public Map<Articulo, Integer> visualizarDesgasteArticulos(int id, String localidad)
+			throws NoExisteSedeException, NoExisteUsuarioException {
+
 		Administrativo a = soyEseAdministrativo(id);
-		
-		Sede s =soyEsaSede(localidad);
-		
+
+		Sede s = soyEsaSede(localidad);
+
 		if (a != null) {
 			if (s != null) {
-				
+
 				return a.visualizarDesgasteArticulos(s);
-				
-			}else {
+
+			} else {
 				throw new NoExisteSedeException("No existe la Sede");
 			}
-			
-		}else {
+
+		} else {
 			throw new NoExisteUsuarioException("No existe el administrativo");
 		}
 	}
 
-	public void darDeBajaArticuloDeSede(int id, String localidad, String marca, String nombArticulo, String atributos) throws NoExisteArticuloEnCatalogoException, NoExisteSedeException, NoExisteUsuarioException {
-		
+	public void darDeBajaArticuloDeSede(int id, String localidad, String marca, String nombArticulo, String atributos)
+			throws NoExisteArticuloEnCatalogoException, NoExisteSedeException, NoExisteUsuarioException {
 
 		Administrativo a = soyEseAdministrativo(id);
-		
-		Sede s =soyEsaSede(localidad);
-		
+
+		Sede s = soyEsaSede(localidad);
+
 		Articulo art = existeEnCatalogo(marca, nombArticulo, atributos);
-		
+
 		if (a != null) {
 			if (s != null) {
-				
+
 				if (art != null) {
 					a.darBajaArticulo(s, art);
-				}
-				else {
+				} else {
 					throw new NoExisteArticuloEnCatalogoException("No existe el articulo");
-				}				
-				
-			}else {
+				}
+
+			} else {
 				throw new NoExisteSedeException("No existe la Sede");
 			}
-			
-		}else {
+
+		} else {
 			throw new NoExisteUsuarioException("No existe el administrativo");
 		}
 	}
 
-	public void confirmarClase(int id, String nombreClase, LocalDateTime horario) throws LimiteClasesException, NoExisteUsuarioException, NoexisteClaseException, NoEsRentableException {
-		
+	public void confirmarClase(int id, String nombreClase, LocalDateTime horario)
+			throws LimiteClasesException, NoExisteUsuarioException, NoexisteClaseException, NoEsRentableException {
+
 		Administrativo a = soyEseAdministrativo(id);
-		
+
 		Clase cla = soyEsaClase(nombreClase, horario);
-		
-		if (a!=null) {
-			if (cla!= null) {
+
+		if (a != null) {
+			if (cla != null) {
 				a.confirmarClase(cla);
-				
-			}else {
+
+			} else {
 				throw new NoexisteClaseException("No existe la Clase");
 			}
-			
-		}else {
+
+		} else {
 			throw new NoExisteUsuarioException("No existe el Administrativo");
-		}		
-		
+		}
+
 	}
 
-	public double verRentabilidadClase(int id, String nombreClase, LocalDateTime horario) throws NoexisteClaseException, NoExisteUsuarioException {
-		
+	public double verRentabilidadClase(int id, String nombreClase, LocalDateTime horario)
+			throws NoexisteClaseException, NoExisteUsuarioException {
+
 		Administrativo a = soyEseAdministrativo(id);
-		
+
 		Clase cla = soyEsaClase(nombreClase, horario);
-		
-		if (a!=null) {
-			if (cla!= null) {
+
+		if (a != null) {
+			if (cla != null) {
 				return a.verRentabilidadClase(cla);
-				
-			}else {
+
+			} else {
 				throw new NoexisteClaseException("No existe la Clase");
 			}
-			
-		}else {
+
+		} else {
 			throw new NoExisteUsuarioException("No existe el Administrativo");
-		}		
-		
+		}
+
 	}
 
 }

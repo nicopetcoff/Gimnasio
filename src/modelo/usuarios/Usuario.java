@@ -38,8 +38,6 @@ public abstract class Usuario {
 		return this.dni;
 	}
 	
-	public int getID() {
-		return this.id;
-	}
+	
 
 }
