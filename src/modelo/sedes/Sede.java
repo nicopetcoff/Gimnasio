@@ -59,6 +59,10 @@ public class Sede {
 		mapInterno.put(articulo, cantidad);	
 		reservas.put(fecha, mapInterno);
 	}
+	
+	public ArrayList<Emplazamiento> getEmplazamientos(){
+		return this.emplazamientosSede;
+	}
 
 	@Override
 	public String toString() {

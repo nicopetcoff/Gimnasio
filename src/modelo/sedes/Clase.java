@@ -182,6 +182,24 @@ public class Clase {
 		this.onLine = onLine;
 	}
 
-	
+	public String getNombreClase() {
+		return nombreClase;
+	}
+
+	public Profesor getProfesor() {
+		return profesor;
+	}
+
+	public int getCapacidad() {
+		return capacidadMax;
+	}
+
+	public double getCosto() {
+		return costo;
+	}
+
+	public int getInscriptos() {
+		return this.alumnosInscriptos;
+	}
 
 }
