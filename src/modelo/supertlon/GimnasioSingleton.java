@@ -243,12 +243,12 @@ public class GimnasioSingleton {
 
 	}
 
-	public void crearProfesor(int idSP, String nombre4, String apellido4, String dni4, double sueldo, String localidad,Sede sede)
+	public void crearProfesor(int idSP, String nombre4, String apellido4, String dni4, double sueldo, String localidad)
 			throws NoExisteUsuarioException, NoExisteSedeException {
 
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 		if (sp != null) {
-			Profesor pr = sp.crearProfesor(nombre4, apellido4, dni4, sueldo,sede);
+			Profesor pr = sp.crearProfesor(nombre4, apellido4, dni4, sueldo);
 			Sede s = soyEsaSede(localidad);
 			if (s != null) {
 				s.agregarProfesor(pr);
