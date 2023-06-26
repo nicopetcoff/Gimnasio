@@ -83,10 +83,6 @@ public class Sede {
 	public void eliminarClase(Clase clase) {
 		clases.remove(clase);
 	}
-	
-	public ArrayList<Emplazamiento> getEmplazamientos(){
-		return this.emplazamientosSede;
-	}
 
 	public ArrayList<Profesor> getProfesores() {
 		return profesores;
