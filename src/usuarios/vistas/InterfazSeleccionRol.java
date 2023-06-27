@@ -14,6 +14,7 @@ public class InterfazSeleccionRol extends JFrame {
         setTitle("Selección de Rol");
         setSize(300, 200);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         
         // Crear los elementos de la interfaz
         JLabel label = new JLabel("Selecciona tu rol:");

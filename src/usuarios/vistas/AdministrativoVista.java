@@ -3,8 +3,10 @@ package usuarios.vistas;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
+import vista.Funcionalidades.*;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,11 +26,12 @@ public class AdministrativoVista extends JFrame {
 	private JButton bajaCliente = new JButton("Dar de baja un cliente");
 	private JButton verDetallesSede = new JButton("Ver detalles de sede");
 	private JButton verClasesBDStreaming = new JButton("Ver clases guardadas en Streaming");
-	
+	private AdministrativoControlador controlador;
 	private DefaultTableModel tablaModelo = new DefaultTableModel();
 	private JTable tablaSedes = new JTable(tablaModelo);
 	
-	public AdministrativoVista() {
+	public AdministrativoVista(AdministrativoControlador controlador) {
+		this.controlador=controlador;
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 		this.setBackground(Color.WHITE);
@@ -57,7 +60,36 @@ public class AdministrativoVista extends JFrame {
 		
 		pack();
 		setVisible(true);
+		
+		botonAgendarClase.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+					ControladorAgendarClase control= new ControladorAgendarClase(controlador.getSedeSeleccionada());
+
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            }
+        });
+		
+		cambiarEstadoClase.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                	ControladorCambiarEstado control= new ControladorCambiarEstado(controlador.getSedeSeleccionada());
+
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            }
+        });
 	}
+	
+	public JTable getTablaSedes() {
+		return this.tablaSedes;
+	}
+
 	
 	public void configurarTabla(ArrayList<Sede> sedes) {
 		for(Sede sede: sedes) {
