@@ -28,11 +28,11 @@ public class ControladorAgendarClase {
         
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        dateFormat.setLenient(false); // Establecer el modo estricto para el análisis
+        dateFormat.setLenient(false); // Establece un modo estricto para el análisis
 
         try {
+        	//valida la fecha
             Date fecha = dateFormat.parse(fechaString);
-            // La fecha es válida, puedes continuar con el procesamiento
             return true;
         } catch (ParseException ex) {
             

@@ -607,5 +607,14 @@ public class GimnasioSingleton {
 		}
 
 	}
+	
+	public Cliente getCliente(String DNI) {
+		for(Usuario c: this.usuarios) {
+			if(c.soyCliente() && c.getDNI().equals(DNI)) {
+				return (Cliente) c;
+			}
+		}
+		return null;
+	}
 
 }
