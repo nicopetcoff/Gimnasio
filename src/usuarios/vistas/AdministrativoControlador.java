@@ -27,7 +27,7 @@ public class AdministrativoControlador {
 		Administrativo admin = new Administrativo("Juan", "Pérez", "12345678");
 		st.asignarSede(admin, sede1);
 		st.asignarSede(admin, sede2);
-		
+		admin.crearCliente("Pedro", "Lopez", "20.444.555", Nivel.BLACK);
 		GimnasioSingleton.getInstance().agregarUsuario(st);
 		st.crearProfesor("Juan","carlos","39.056.123",100.00,sede1);
 		try {

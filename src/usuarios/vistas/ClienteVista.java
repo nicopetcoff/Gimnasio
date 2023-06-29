@@ -44,6 +44,7 @@ public class ClienteVista extends JFrame {
 		tablaModelo.addColumn("Actividad");
 		tablaModelo.addColumn("Sede");
 		tablaModelo.addColumn("Fecha");
+		tablaModelo.addColumn("Precio");
 		
 		JScrollPane tablaScroll = new JScrollPane(tablaClases, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		tablaClases.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -73,7 +74,7 @@ public class ClienteVista extends JFrame {
 	
 	public void configurarTabla(ArrayList<Clase> clases) {
 		for(Clase clase: clases) {
-			Object[] rowData = { clase.getnombre(), clase.getActividad().getTipoClase(), clase.getLugar(), clase.getFecha() };
+			Object[] rowData = { clase.getnombre(), clase.getActividad().getTipoClase(), clase.getLugar(), clase.getFecha(),clase.getCosto() };
 			tablaModelo.addRow(rowData);
 		}
 	}

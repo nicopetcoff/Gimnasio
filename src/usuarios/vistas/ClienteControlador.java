@@ -15,21 +15,20 @@ public class ClienteControlador {
 	private ClienteVista vista = new ClienteVista(this);
 	private Cliente usuario;
 	
-	public ClienteControlador() { // Cliente usuario) {
-//		this.usuario = usuario;
+	public ClienteControlador(Cliente cliente) { // Cliente usuario) {
+		this.usuario = cliente;
 		
 		// TODO: cosas de prueba, borrar
-		Cliente user = new Cliente("Pedro", "lopez", "12345678", Nivel.BLACK);
+		
 		Profesor profe = new Profesor("a", "a", "1", 1);
 		Sede sede = new Sede("Almagro", Nivel.BLACK, 1, 10, "Sede Almagro");
 		Actividad actividad = new Actividad("Aero");
 		Emplazamiento emplazamiento = new Emplazamiento("Sala", 1);
 		Clase clase1 = new Clase(profe, sede, "Aerobico", actividad, emplazamiento, LocalDateTime.now(), 0);
 		
-		this.usuario = user;
 		
 		try {
-			user.inscribirseClase(clase1, usuario.getNivel());
+			usuario.inscribirseClase(clase1, usuario.getNivel());
 		} catch (NoMismoNivelException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
