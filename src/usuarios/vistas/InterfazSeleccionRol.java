@@ -59,7 +59,8 @@ public class InterfazSeleccionRol extends JFrame {
     }
     
     public void abrirVentanaCliente() {
-        ClienteControlador controlador = new ClienteControlador();
+    	ControladorLoginCliente controlador= new ControladorLoginCliente();
+      //  ClienteControlador controlador = new ClienteControlador();
     }
     
     public void abrirVentanaAdministrativo() {
