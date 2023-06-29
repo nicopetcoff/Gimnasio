@@ -671,7 +671,7 @@ public class main {
 			double sueldo = sc.nextDouble();
 
 			try {
-				gimnasio.crearProfesor(idSP, nombre4, apellido4, dni4, sueldo, localidad, sede);
+				gimnasio.crearProfesor(idSP, nombre4, apellido4, dni4, sueldo, localidad);
 			} catch (NoExisteUsuarioException | NoExisteSedeException e) {
 				e.printStackTrace();
 			}

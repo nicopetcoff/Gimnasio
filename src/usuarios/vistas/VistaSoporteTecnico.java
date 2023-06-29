@@ -378,7 +378,7 @@ public class VistaSoporteTecnico extends JFrame {
 
 	private void crearProfesor() {
 	    JFrame ventanaCrearProfesor = new JFrame("Crear Profesor");
-	    
+
 	    ControladorST controlador = new ControladorST();
 
 	    JLabel idGestionLabel = new JLabel("ID de Gestión:");
@@ -418,13 +418,28 @@ public class VistaSoporteTecnico extends JFrame {
 
 	    JPanel panelPrincipal = new JPanel(new GridLayout(7, 2, 5, 5));
 	    panelPrincipal.add(idGestionLabel);
-	   
-	}
+	    panelPrincipal.add(idGestionCampo);
+	    panelPrincipal.add(nombreLabel);
+	    panelPrincipal.add(nombreCampo);
+	    panelPrincipal.add(apellidoLabel);
+	    panelPrincipal.add(apellidoCampo);
+	    panelPrincipal.add(dniLabel);
+	    panelPrincipal.add(dniCampo);
+	    panelPrincipal.add(sueldoLabel);
+	    panelPrincipal.add(sueldoCampo);
+	    panelPrincipal.add(sedeLabel);
+	    panelPrincipal.add(sedeCombo);
+	    panelPrincipal.add(aceptarBoton);
 
+	    ventanaCrearProfesor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    ventanaCrearProfesor.add(panelPrincipal);
+	    ventanaCrearProfesor.pack();
+	    ventanaCrearProfesor.setVisible(true);
+	}
 
 	private void crearAdministrativo() {
 	    JFrame ventanaCrearAdmin = new JFrame("Crear Administrativo");
-	    
+
 	    ControladorST controlador = new ControladorST();
 
 	    JLabel idGestionLabel = new JLabel("ID de Gestión:");
@@ -477,8 +492,6 @@ public class VistaSoporteTecnico extends JFrame {
 	    ventanaCrearAdmin.pack();
 	    ventanaCrearAdmin.setVisible(true);
 	}
-
-
 
 	private void crearSoporteTecnico() {
 	    JFrame ventanaCrearSoporte = new JFrame("Crear Soporte Técnico");
