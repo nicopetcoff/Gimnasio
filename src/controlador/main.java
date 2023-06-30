@@ -34,9 +34,9 @@ public class main {
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
-            InterfazSeleccionRol interfaz = new InterfazSeleccionRol();
-            interfaz.setVisible(true);
-        });
+			InterfazSeleccionRol interfaz = new InterfazSeleccionRol();
+			interfaz.setVisible(true);
+		});
 
 		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
@@ -104,37 +104,36 @@ public class main {
 				break;
 
 			case 10:
-				setearArticuloRequeridoPorActividad(); 
+				setearArticuloRequeridoPorActividad();
 				break;
 
 			case 11:
-				AsignarleStockASede(); 
+				AsignarleStockASede();
 				break;
 
 			case 12:
 				anotarseEnClase();
 				break;
-				
+
 			case 13:
 				listarArticulosDeLaSede();
 				break;
-				
+
 			case 14:
 				visualizarDesgasteArticulos();
 				break;
-				
+
 			case 15:
 				darDeBajaArticuloDeSede();
 				break;
-				
+
 			case 16:
 				confirmarClase();
 				break;
-				
+
 			case 17:
 				verRentabilidadClase();
 				break;
-
 
 			default:
 				break;
@@ -143,11 +142,6 @@ public class main {
 		} while (1 != 6);
 //		sc.close();
 	}
-	
-	
-	
-	
-	
 
 	private static void verRentabilidadClase() {
 		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
@@ -165,17 +159,18 @@ public class main {
 		System.out.println("Ingrese el horario");
 
 		LocalDateTime horario = pedirFechaHora();
-		
+
 		try {
-			System.out.println("La rentabilidad de la Clase es: " +	gimnasio.verRentabilidadClase(id, nombreClase, horario));
+			System.out.println(
+					"La rentabilidad de la Clase es: " + gimnasio.verRentabilidadClase(id, nombreClase, horario));
 		} catch (NoexisteClaseException | NoExisteUsuarioException e) {
 			e.printStackTrace();
 		}
-				
+
 	}
 
 	private static void confirmarClase() {
-		
+
 		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
 		Scanner sc = new Scanner(System.in);
@@ -191,96 +186,93 @@ public class main {
 		System.out.println("Ingrese el horario");
 
 		LocalDateTime horario = pedirFechaHora();
-		
+
 		try {
-			gimnasio.confirmarClase(id,nombreClase,horario);
+			gimnasio.confirmarClase(id, nombreClase, horario);
 		} catch (LimiteClasesException | NoExisteUsuarioException | NoexisteClaseException | NoEsRentableException e) {
 			e.printStackTrace();
 		}
 	}
 
-
-
 	private static void darDeBajaArticuloDeSede() {
-		
-		Scanner sc = new Scanner (System.in);
-		
+
+		Scanner sc = new Scanner(System.in);
+
 		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
-		
+
 		int id = digaSuId();
-		
+
 		verSedes();
-		
+
 		System.out.println("Seleccione Sede");
-			
+
 		String localidad = sc.next();
-		
-		System.out.println("Ingrese la marca: ");		
+
+		System.out.println("Ingrese la marca: ");
 		String marca = sc.next();
-		
-		System.out.println("Ingrese el nombre del articulo: ");		
+
+		System.out.println("Ingrese el nombre del articulo: ");
 		String nombArticulo = sc.next();
-		
-		System.out.println("Ingrese los atributos de los articulos: ");		
+
+		System.out.println("Ingrese los atributos de los articulos: ");
 		String atributos = sc.next();
-		
+
 		try {
 			gimnasio.darDeBajaArticuloDeSede(id, localidad, marca, nombArticulo, atributos);
 		} catch (NoExisteSedeException | NoExisteUsuarioException | NoExisteArticuloEnCatalogoException e) {
 			e.printStackTrace();
 		}
-	
-	
+
 	}
 
 	private static void visualizarDesgasteArticulos() {
-		
-		Scanner sc = new Scanner (System.in);
-		
+
+		Scanner sc = new Scanner(System.in);
+
 		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
-		
+
 		int id = digaSuId();
-		
+
 		verSedes();
-		
+
 		System.out.println("Seleccione Sede");
-			
+
 		String localidad = sc.next();
-		
+
 		try {
 			for (Entry<Articulo, Integer> entry : gimnasio.visualizarDesgasteArticulos(id, localidad).entrySet()) {
-			    Articulo key = entry.getKey();
-			    Integer value = entry.getValue();
-			    System.out.println("Articulo: " + key + ", Porcentaje: " + value);
+				Articulo key = entry.getKey();
+				Integer value = entry.getValue();
+				System.out.println("Articulo: " + key + ", Porcentaje: " + value);
 			}
 		} catch (NoExisteSedeException | NoExisteUsuarioException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	private static void listarArticulosDeLaSede() {
-		
-		Scanner sc = new Scanner (System.in);
-		
+
+		Scanner sc = new Scanner(System.in);
+
 		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
-		
+
 		int id = digaSuId();
-		
+
 		verSedes();
-		
+
 		System.out.println("Seleccione Sede");
-			
+
 		String localidad = sc.next();
-		
+
 		try {
-			for (int i = 0; i < gimnasio.listarArticulosDeLaSede(id,localidad).size(); i++) {
-				System.out.println(gimnasio.listarArticulosDeLaSede(id,localidad).get(i));
+			for (int i = 0; i < gimnasio.listarArticulosDeLaSede(id, localidad).size(); i++) {
+				System.out.println(gimnasio.listarArticulosDeLaSede(id, localidad).get(i));
 			}
 		} catch (NoExisteUsuarioException | NoExisteSedeException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	private static void anotarseEnClase() {
@@ -623,8 +615,14 @@ public class main {
 			System.out.println("Ingrese DNI: ");
 			String dni1 = sc.next();
 
+			System.out.println("Ingrese usuario: ");
+			String usuario = sc.next();
+
+			System.out.println("Ingrese contrasenia");
+			String contrasenia = sc.next();
+
 			try {
-				gimnasio.crearAdministrativo(idSP, nombre1, apellido1, dni1);
+				gimnasio.crearAdministrativo(idSP, nombre1, apellido1, dni1, usuario, contrasenia);
 			} catch (NoExisteUsuarioException e) {
 				e.printStackTrace();
 			}
@@ -643,8 +641,14 @@ public class main {
 
 			Nivel nivel = seleccionarNivel();
 
+			System.out.println("Ingrese usuario: ");
+			String usuario1 = sc.next();
+
+			System.out.println("Ingrese contrasenia");
+			String contrasenia1 = sc.next();
+
 			try {
-				gimnasio.crearCliente(idSP, nombre2, apellido2, dni2, nivel);
+				gimnasio.crearCliente(idSP, nombre2, apellido2, dni2, nivel, usuario1, contrasenia1);
 			} catch (NoExisteUsuarioException e) {
 				e.printStackTrace();
 			}
@@ -654,7 +658,7 @@ public class main {
 		case 4:
 			System.out.println("Elija que Sede");
 			verSedes();
-			Sede sede=null;
+			Sede sede = null;
 			System.out.println("Elija la localidad de la sede");
 			String localidad = sc.next();
 

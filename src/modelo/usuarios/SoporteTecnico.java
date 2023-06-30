@@ -39,23 +39,31 @@ public class SoporteTecnico extends Usuario {
 		return (new SoporteTecnico(nombre, apellido, dni));
 	}
 
-	public Administrativo crearAdministrativo(String nombre, String apellido, String dni) {
+	public Administrativo crearAdministrativo(String nombre, String apellido, String dni, String usuario,
+			String contrasenia) {
 
-		return (new Administrativo(nombre, apellido, dni));
+		Administrativo a = new Administrativo(nombre, apellido, dni);
+		a.setUsuarioContraseniaAdmin(usuario, contrasenia);
+		return (a);
 
 	}
 
-	public Cliente crearCliente(String nombre, String apellido, String dni, Nivel nivel1) {
+	public Cliente crearCliente(String nombre, String apellido, String dni, Nivel nivel1, String usuario,
+			String contrasenia) {
 
-		return (new Cliente(nombre, apellido, dni, nivel1));
+		Cliente cliente = new Cliente(nombre, apellido, dni, nivel1);
+		cliente.setUsuarioContraseniaCliente(usuario, contrasenia);
+
+		return (cliente);
 	}
 
 	public Profesor crearProfesor(String nombre, String apellido, String dni, double sueldo, Sede sede) {
-		Profesor profe=new Profesor(nombre, apellido, dni, sueldo);
-		asingarSedeProfesor(sede,profe);
+		Profesor profe = new Profesor(nombre, apellido, dni, sueldo);
+		asingarSedeProfesor(sede, profe);
 		return (profe);
 	}
-	private void asingarSedeProfesor(Sede sede,Profesor profe) {
+
+	private void asingarSedeProfesor(Sede sede, Profesor profe) {
 		sede.agregarProfesor(profe);
 	}
 

@@ -73,12 +73,12 @@ public class Clase {
 
 	public void agregarCliente(Cliente cliente, Nivel nivel) throws NoMismoNivelException, NoHayStockException {
 
-		if (sede.getnivel().equals(nivel) && this.alumnosInscriptos < this.capacidadMax) {
-			
-			HashMap<Articulo, Integer> artPorAlumno=actividad.getArticulosPorAlumno();
-			
-			for(Articulo a: artPorAlumno.keySet()) {
-				if(sede.articulosDisponible(a,artPorAlumno.get(a) , this.fecha.toLocalTime())) {
+		if (sede.getNivel().equals(nivel) && this.alumnosInscriptos < this.capacidadMax) {
+
+			HashMap<Articulo, Integer> artPorAlumno = actividad.getArticulosPorAlumno();
+
+			for (Articulo a : artPorAlumno.keySet()) {
+				if (sede.articulosDisponible(a, artPorAlumno.get(a), this.fecha.toLocalTime())) {
 					inscriptos.add(cliente);
 					this.alumnosInscriptos++;
 					sede.reservarArticulos(a, artPorAlumno.get(a), fecha);
@@ -88,7 +88,7 @@ public class Clase {
 			throw new NoMismoNivelException("No tiene el nivel de la Sede");
 		}
 	}
-	
+
 	// plan b esta este metodo, pero sino hay que borrar
 
 	private void tomarArticulos() throws NoHayStockException {
@@ -123,7 +123,7 @@ public class Clase {
 			agregarBDStreaming();
 		}
 	}
-	
+
 	public void agregarBDStreaming() throws LimiteClasesException {
 		ControladorBdStreaming controladorBdStreaming = new ControladorBdStreaming();
 		controladorBdStreaming.agregarClase(this);
@@ -132,7 +132,7 @@ public class Clase {
 	public Actividad getActividad() {
 		return this.actividad;
 	}
-	
+
 	public String getLugar() {
 		return this.sede.getLocalidad();
 	}

@@ -1,13 +1,11 @@
 package modelo.sedes;
 
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 
 import modelo.productos.Articulo;
 import modelo.productos.NoHayStockException;
@@ -27,7 +25,7 @@ public class Sede {
 	private ArrayList<Profesor> profesores;
 	private ArrayList<Emplazamiento> emplazamientosSede;
 	private Stock stock;
-	private Map<LocalDateTime,Map<Articulo,Integer>> reservas;
+	private Map<LocalDateTime, Map<Articulo, Integer>> reservas;
 
 	public Sede(String localidad, Nivel nivel, double alquiler, int capacidadMax, String descripcion) {
 		this.localidad = localidad;
@@ -39,28 +37,28 @@ public class Sede {
 		this.profesores = new ArrayList<>();
 		this.emplazamientosSede = new ArrayList<>();
 		this.stock = new Stock();
-		this.reservas= new HashMap<>();
+		this.reservas = new HashMap<>();
 	}
-	
-	public boolean articulosDisponible(Articulo articulo,int cantidad,LocalTime horario) {
-		if(stock.cantidadDeArticulo(articulo)>=(reservas.get(horario).get(articulo)+cantidad) ) {
+
+	public boolean articulosDisponible(Articulo articulo, int cantidad, LocalTime horario) {
+		if (stock.cantidadDeArticulo(articulo) >= (reservas.get(horario).get(articulo) + cantidad)) {
 			return true;
 		}
-	return false;
-	
-}
+		return false;
 
-	public void reservarArticulos(Articulo articulo,int cantidad,LocalDateTime fecha) {
-		Map<Articulo, Integer> mapInterno=reservas.get(fecha);
-		
-		if(reservas.containsKey(fecha)) {
-			cantidad+=mapInterno.get(articulo);
+	}
+
+	public void reservarArticulos(Articulo articulo, int cantidad, LocalDateTime fecha) {
+		Map<Articulo, Integer> mapInterno = reservas.get(fecha);
+
+		if (reservas.containsKey(fecha)) {
+			cantidad += mapInterno.get(articulo);
 		}
-		mapInterno.put(articulo, cantidad);	
+		mapInterno.put(articulo, cantidad);
 		reservas.put(fecha, mapInterno);
 	}
-	
-	public ArrayList<Emplazamiento> getEmplazamientos(){
+
+	public ArrayList<Emplazamiento> getEmplazamientos() {
 		return this.emplazamientosSede;
 	}
 
@@ -100,7 +98,7 @@ public class Sede {
 		// TODO Auto-generated method stub
 		return this.localidad;
 	}
-	
+
 	public int getCapacidadMax() {
 		return this.capacidadMax;
 	}
@@ -111,9 +109,13 @@ public class Sede {
 		}
 	}
 
-	public Nivel getnivel() {
+	public Nivel getNivel() {
 
 		return this.nivel;
+	}
+
+	public String getDescripcion() {
+		return this.descripcion;
 	}
 
 	public ArrayList<Clase> getClases() {
@@ -129,8 +131,6 @@ public class Sede {
 		}
 		return null;
 	}
-
-
 
 	public void agregarEmplazamiento(Emplazamiento em) {
 
@@ -162,5 +162,4 @@ public class Sede {
 		this.stock.bajaArticulo(art);
 	}
 
-	
 }

@@ -13,7 +13,7 @@ public class BdStreaming {
 	private Map<Actividad, List<Clase>> clasesAlmacenadas; // Clases almacenadas por actividad
 	private Map<Actividad, Integer> limitePorActividad; // Limite por actividad
 	private static BdStreaming instancia; // Instancia del singleton
-	
+
 	// Constructor privado
 	private BdStreaming() {
 		clasesAlmacenadas = new HashMap<>();
@@ -69,34 +69,34 @@ public class BdStreaming {
 		}
 		return null;
 	}
-	
-    public List<Clase> buscarClasesPorFecha(LocalDate fechaDesde, LocalDate fechaHasta) throws Exception {
-        List<Clase> clasesEncontradas = new ArrayList<>();
 
-        for (List<Clase> clases : clasesAlmacenadas.values()) {
-            for (Clase clase : clases) {
-                LocalDate fechaClase = clase.getFecha().toLocalDate();
-                if (fechaClase.isEqual(fechaDesde) || fechaClase.isEqual(fechaHasta) ||
-                    (fechaClase.isAfter(fechaDesde) && fechaClase.isBefore(fechaHasta))) {
-                    clasesEncontradas.add(clase);
-                }
-            }
-        }
-        return clasesEncontradas;
-    }
-    
+	public List<Clase> buscarClasesPorFecha(LocalDate fechaDesde, LocalDate fechaHasta) throws Exception {
+		List<Clase> clasesEncontradas = new ArrayList<>();
+
+		for (List<Clase> clases : clasesAlmacenadas.values()) {
+			for (Clase clase : clases) {
+				LocalDate fechaClase = clase.getFecha().toLocalDate();
+				if (fechaClase.isEqual(fechaDesde) || fechaClase.isEqual(fechaHasta)
+						|| (fechaClase.isAfter(fechaDesde) && fechaClase.isBefore(fechaHasta))) {
+					clasesEncontradas.add(clase);
+				}
+			}
+		}
+		return clasesEncontradas;
+	}
+
 	public List<Clase> buscarClasePorId(String idClase) {
-        List<Clase> clasesEncontradas = new ArrayList<>();
-        int idc = Integer.parseInt(idClase);
-        for (List<Clase> clases : clasesAlmacenadas.values()) {
-            for (Clase clase : clases) {
-                int id = clase.getId();
-                if (id == idc) {
-                    clasesEncontradas.add(clase);
-                }
-            }
-        }
-        return clasesEncontradas;
+		List<Clase> clasesEncontradas = new ArrayList<>();
+		int idc = Integer.parseInt(idClase);
+		for (List<Clase> clases : clasesAlmacenadas.values()) {
+			for (Clase clase : clases) {
+				int id = clase.getId();
+				if (id == idc) {
+					clasesEncontradas.add(clase);
+				}
+			}
+		}
+		return clasesEncontradas;
 	}
 
 	public void definirLimitePorTipo(Actividad actividad, int limite) {
@@ -112,7 +112,7 @@ public class BdStreaming {
 		}
 	}
 
-	public int buscarLimite(Actividad actividad){
+	public int buscarLimite(Actividad actividad) {
 		if (limitePorActividad.containsKey(actividad)) {
 			return limitePorActividad.get(actividad);
 		} else {

@@ -8,7 +8,6 @@ import modelo.baseDeDatos.BdStreaming;
 import modelo.baseDeDatos.LimiteClasesException;
 import usuarios.vistas.InterfazSeleccionRol;
 
-
 import modelo.supertlon.*;
 import modelo.usuarios.*;
 import modelo.productos.*;
@@ -29,11 +28,11 @@ public class PruebaBDS {
 		Actividad actividad = new Actividad("Crossfit");
 		Articulo pesaDeMano = new Articulo("Pesa de mano", null, null, null, 0, null, 0);
 		actividad.agregarArticuloPorAlumno(pesaDeMano, 3);
-		
+
 		Actividad actividad2 = new Actividad("Zumba");
 		Articulo pesaDeMano2 = new Articulo("Pesa de mano2", null, null, null, 0, null, 0);
 		actividad.agregarArticuloPorAlumno(pesaDeMano2, 3);
-		
+
 		Emplazamiento emplazamiento = new Emplazamiento("Pileta", 150);
 
 		LocalDateTime fecha = LocalDateTime.now();
@@ -54,7 +53,7 @@ public class PruebaBDS {
 		instancia.agregarClase(clase5);
 		instancia.agregarClase(clase6);
 		instancia.agregarClase(clase7);
-		
+
 		instancia.abrirVistaBdStreamingAdmin();
 		instancia.abrirVistaBdStreamingUser();
 	}

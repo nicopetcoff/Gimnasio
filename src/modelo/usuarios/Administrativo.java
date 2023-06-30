@@ -19,6 +19,8 @@ import modelo.utilidad.Nivel;
 public class Administrativo extends Usuario {
 
 	private ArrayList<Sede> sedes;
+	private String usuario;
+	private String contrasenia;
 
 	public Administrativo(String nombre, String apellido, String dni) {
 		super(nombre, apellido, dni);
@@ -39,7 +41,6 @@ public class Administrativo extends Usuario {
 			Emplazamiento emplazamiento, LocalDateTime fecha, int duracionClase) throws Exception {
 
 		Profesor profesor = sede.buscarProfesor(nroDNIProfesor);
-		
 
 		try {
 			if (profesor.estoyDisponbile(fecha)) {
@@ -53,8 +54,8 @@ public class Administrativo extends Usuario {
 
 	}
 
-
-	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase) throws LimiteClasesException, NoEsRentableException {
+	public void cambiarEstadoClase(Clase clase, EstadoClase estadoClase)
+			throws LimiteClasesException, NoEsRentableException {
 		clase.cambiarEstado(estadoClase);
 	}
 
@@ -69,11 +70,6 @@ public class Administrativo extends Usuario {
 		gimnasio.eliminarUsuario(cliente);
 
 	}
-
-	/*
-	 * agrega articulo a sede, necesita mandar cantidad de articulos que quiere //
-	 * agregarle a la sede
-	 */
 
 	public void agregarArticulos(Sede sede, Articulo articulo, int cantidad) {
 		sede.agregarArticuloAStock(articulo, cantidad);
@@ -126,18 +122,31 @@ public class Administrativo extends Usuario {
 	}
 
 	public void darBajaArticulo(Sede s, Articulo art) {
-		
+
 		s.darBajaArticulo(art);
 	}
 
 	public void confirmarClase(Clase cla) throws LimiteClasesException, NoEsRentableException {
-		
+
 		cla.cambiarEstado(EstadoClase.FINALIZADA);
 	}
 
 	public double verRentabilidadClase(Clase cla) {
-		
+
 		return cla.rentabilidadClase();
+	}
+
+	public void setUsuarioContraseniaAdmin(String usuario, String contrasenia) {
+		this.usuario = usuario;
+		this.contrasenia = contrasenia;
+	}
+
+	public String getUsuario() {
+		return this.usuario;
+	}
+
+	public String getContrasenia() {
+		return this.contrasenia;
 	}
 
 }

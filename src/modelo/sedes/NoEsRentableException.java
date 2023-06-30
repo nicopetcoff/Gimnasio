@@ -6,9 +6,7 @@ public class NoEsRentableException extends Exception {
 
 	public NoEsRentableException(String message) {
 		super(message);
-		
+
 	}
-	
-	
 
 }

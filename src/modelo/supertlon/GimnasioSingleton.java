@@ -219,23 +219,23 @@ public class GimnasioSingleton {
 
 	}
 
-	public void crearAdministrativo(int idSP, String nombre1, String apellido1, String dni1)
-			throws NoExisteUsuarioException {
+	public void crearAdministrativo(int idSP, String nombre1, String apellido1, String dni1, String usuario,
+			String contrasenia) throws NoExisteUsuarioException {
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 
 		if (sp != null) {
-			Administrativo ad = sp.crearAdministrativo(nombre1, apellido1, dni1);
+			Administrativo ad = sp.crearAdministrativo(nombre1, apellido1, dni1, usuario, contrasenia);
 			usuarios.add(ad);
 		} else {
 			throw new NoExisteUsuarioException("No existe el Soporte Tecnico Ingresado");
 		}
 	}
 
-	public void crearCliente(int idSP, String nombre2, String apellido2, String dni2, Nivel nivel)
-			throws NoExisteUsuarioException {
+	public void crearCliente(int idSP, String nombre2, String apellido2, String dni2, Nivel nivel, String usuario,
+			String contrasenia) throws NoExisteUsuarioException {
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 		if (sp != null) {
-			Cliente cl = sp.crearCliente(nombre2, apellido2, dni2, nivel);
+			Cliente cl = sp.crearCliente(nombre2, apellido2, dni2, nivel, usuario, contrasenia);
 			usuarios.add(cl);
 		} else {
 			throw new NoExisteUsuarioException("No existe el Soporte Tecnico Ingresado");
@@ -245,16 +245,16 @@ public class GimnasioSingleton {
 
 	public void crearProfesor(int idSP, String nombre4, String apellido4, String dni4, double sueldo, String localidad)
 			throws NoExisteUsuarioException, NoExisteSedeException {
-		
+
 		Sede s = soyEsaSede(localidad);
 
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
-		
+
 		if (sp != null) {
-				
+
 			if (s != null) {
-				Profesor pr = sp.crearProfesor(nombre4, apellido4, dni4, sueldo,s);
-				
+				Profesor pr = sp.crearProfesor(nombre4, apellido4, dni4, sueldo, s);
+
 			} else {
 				throw new NoExisteSedeException("No existe la Sede");
 			}
@@ -610,14 +610,59 @@ public class GimnasioSingleton {
 		}
 
 	}
-	
+
 	public Cliente getCliente(String DNI) {
-		for(Usuario c: this.usuarios) {
-			if(c.soyCliente() && c.getDNI().equals(DNI)) {
+		for (Usuario c : this.usuarios) {
+			if (c.soyCliente() && c.getDNI().equals(DNI)) {
 				return (Cliente) c;
 			}
 		}
 		return null;
+	}
+
+	public int buscarLoginAdminstrativo(String usuario, String contrasenia) {
+		for (Usuario usu : usuarios) {
+			if (usu.soyAdministrativo()) {
+				Administrativo a = (Administrativo) usu;
+				if (a.getUsuario().equals(usuario) && a.getContrasenia().equals(contrasenia)) {
+					return a.getId();
+				}
+			}
+		}
+		return 0;
+	}
+
+	public int buscarLoginCliente(String usuario, String contrasenia) {
+		for (Usuario usu : usuarios) {
+			if (usu.soyCliente()) {
+				Cliente c = (Cliente) usu;
+				if (c.getUsuario().equals(usuario) && c.getContrasenia().equals(contrasenia)) {
+					return c.getId();
+				}
+			}
+		}
+		return 0;
+	}
+
+	public Administrativo dameAdministrativo(String usuario, String contrasenia) {
+
+		for (Usuario usu : usuarios) {
+			if (usu.soyAdministrativo()) {
+				Administrativo a = (Administrativo) usu;
+				if (a.getUsuario().equals(usuario) && a.getContrasenia().equals(contrasenia)) {
+					return a;
+				}
+			}
+		}
+		return null;
+	}
+
+	public ArrayList<Sede> getSedesAdministrativo(Administrativo administrativoControlo) {
+		return administrativoControlo.getSedes();
+	}
+
+	public ArrayList<Emplazamiento> getEmplazamientosSede() {
+		return this.emplazamientos;
 	}
 
 }

@@ -12,6 +12,9 @@ public class Cliente extends Usuario implements OperarClase {
 	private Nivel nivel;
 	private ArrayList<Clase> clases = new ArrayList<>();
 
+	private String usuario;
+	private String contrasenia;
+
 	public Cliente(String nombre, String apellido, String dni, Nivel nivel) {
 		super(nombre, apellido, dni);
 		this.nivel = nivel;
@@ -53,7 +56,7 @@ public class Cliente extends Usuario implements OperarClase {
 	public Nivel getNivel() {
 		return this.nivel;
 	}
-	
+
 	public ArrayList<Clase> getClases() {
 		return this.clases;
 	}
@@ -65,6 +68,19 @@ public class Cliente extends Usuario implements OperarClase {
 	@Override
 	public boolean soyCliente() {
 		return true;
+	}
+
+	public void setUsuarioContraseniaCliente(String usuario, String contrasenia) {
+		this.usuario = usuario;
+		this.contrasenia = contrasenia;
+	}
+
+	public String getUsuario() {
+		return this.usuario;
+	}
+
+	public Object getContrasenia() {
+		return this.contrasenia;
 	}
 
 }
