@@ -1,6 +1,9 @@
 package usuarios.vistas;
 
 import modelo.usuarios.Administrativo;
+
+import java.time.LocalDateTime;
+
 //TODO: eliminar datos de prueba
 import modelo.sedes.*;
 import modelo.supertlon.GimnasioSingleton;
@@ -27,12 +30,13 @@ public class AdministrativoControlador {
 		Administrativo admin = new Administrativo("Juan", "Pérez", "12345678");
 		st.asignarSede(admin, sede1);
 		st.asignarSede(admin, sede2);
-		
+		admin.crearCliente("Pedro", "Lopez", "20.444.555", Nivel.BLACK);
 		GimnasioSingleton.getInstance().agregarUsuario(st);
 		st.crearProfesor("Juan","carlos","39.056.123",100.00,sede1);
 		try {
 			GimnasioSingleton.getInstance().crearActividades(st.getId(), "Crossfit");
-		} catch (NoExisteUsuarioException e) {
+			admin.agendarClase("39.056.123", sede1, "aaaa", null, emplazamiento1, LocalDateTime.now(), 2);
+		} catch ( Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

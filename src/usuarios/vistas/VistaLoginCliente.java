@@ -75,6 +75,7 @@ public class VistaLoginCliente extends JFrame {
                 	
 	                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor((Component) e.getSource());
 				    frame.dispose();
+				    ClienteControlador controlador = new ClienteControlador(cliente);
                 }else {
                 	JOptionPane.showMessageDialog(null, "Usuario no registrado.",
             	            "Usuario no registrado", JOptionPane.ERROR_MESSAGE);

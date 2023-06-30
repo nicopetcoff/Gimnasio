@@ -73,6 +73,18 @@ public class AdministrativoVista extends JFrame {
             }
         });
 		
+		incorporarArticulo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                	ControladorIncorporarArticulo control= new ControladorIncorporarArticulo(controlador.getSedeSeleccionada());
+
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            }
+        });
+		
 		cambiarEstadoClase.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -85,6 +97,7 @@ public class AdministrativoVista extends JFrame {
             }
         });
 	}
+	
 	
 	public JTable getTablaSedes() {
 		return this.tablaSedes;
