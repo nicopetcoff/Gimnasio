@@ -200,8 +200,8 @@ public class VistaAdministrativoNueva {
 		panelInferior.add(confirmarButton);
 		panelInferior.add(finalizarButton);
 
-		vistaAdminsitrativo.add(panelCentral, BorderLayout.CENTER);
-		vistaAdminsitrativo.add(panelInferior, BorderLayout.SOUTH);
+		cambiarEstadoClase.add(panelCentral, BorderLayout.CENTER);
+		cambiarEstadoClase.add(panelInferior, BorderLayout.SOUTH);
 
 		configurarTablaClases(controlador, tablaClases, sedeCombo);
 
