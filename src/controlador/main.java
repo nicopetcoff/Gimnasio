@@ -33,21 +33,21 @@ import modelo.usuarios.SoporteTecnico;
 public class main {
 
 	public static void main(String[] args) {
-		//borrar
+		// borrar
 		Sede sede1 = new Sede("Caballito", Nivel.BLACK, 1000.00, 30, "Sede en Caballito");
 		Sede sede2 = new Sede("Flores", Nivel.ORO, 100000.00, 55, "Sede en Flores");
-		
-		Emplazamiento emplazamiento1=new Emplazamiento("Pileta",500.00);
+
+		Emplazamiento emplazamiento1 = new Emplazamiento("Pileta", 500.00);
 		sede1.agregarEmplazamiento(emplazamiento1);
-		
+
 		SoporteTecnico st = new SoporteTecnico("Jose", "Menem", "87654321");
 		Administrativo admin = new Administrativo("Juan", "Pérez", "12345678");
 		st.asignarSede(admin, sede1);
 		st.asignarSede(admin, sede2);
 		admin.crearCliente("Pedro", "Lopez", "20.444.555", Nivel.BLACK);
 		GimnasioSingleton.getInstance().agregarUsuario(st);
-		st.crearProfesor("Juan","carlos","39.056.123",100.00,sede1);
-		
+		st.crearProfesor("Juan", "carlos", "39.056.123", 100.00, sede1);
+
 		SwingUtilities.invokeLater(() -> {
 			InterfazSeleccionRol interfaz = new InterfazSeleccionRol();
 			interfaz.setVisible(true);

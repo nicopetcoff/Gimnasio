@@ -510,7 +510,7 @@ public class GimnasioSingleton {
 		if (a != null) {
 			if (s != null) {
 
-				return a.listarArticulosSede(s);
+				return a.listarArticulosSede(localidad);
 
 			} else {
 				throw new NoExisteSedeException("No existe la Sede");
@@ -659,6 +659,19 @@ public class GimnasioSingleton {
 
 	public ArrayList<Sede> getSedesAdministrativo(Administrativo administrativoControlo) {
 		return administrativoControlo.getSedes();
+	}
+
+	public ArrayList<Articulo> getArticulosSede(int id, String sede)
+			throws NoExisteUsuarioException, NoExisteSedeException {
+
+		Administrativo a = soyEseAdministrativo(id);
+
+		if (a != null) {
+			return a.listarArticulosSede(sede);
+		} else {
+			throw new NoExisteUsuarioException("No existe el Administrativo");
+		}
+
 	}
 
 }

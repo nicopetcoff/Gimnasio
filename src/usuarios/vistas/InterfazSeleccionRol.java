@@ -58,17 +58,15 @@ public class InterfazSeleccionRol extends JFrame {
 	public void abrirVentanaAdministrativo() {
 
 		vistaLoginAdministrativo vistaUsuarioLogin = new vistaLoginAdministrativo();
-		
+
 	}
 
 	public void abrirVentanaSoporteTecnico() {
 		VistaSoporteTecnico vistaSoporteTecnico = new VistaSoporteTecnico();
 	}
 
-    
-    
-    public void abrirVentanaCliente() {
-    	ControladorLoginCliente log= new ControladorLoginCliente();
-        
-    }
+	public void abrirVentanaCliente() {
+		ControladorLoginCliente log = new ControladorLoginCliente();
+
+	}
 }

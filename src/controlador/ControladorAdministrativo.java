@@ -66,7 +66,6 @@ public class ControladorAdministrativo {
 	}
 
 	public ArrayList<Clase> getClasesDisponibles(String sedeSeleccionada) throws NoExisteSedeException {
-		// String sede = administrativoControlo.getSedes().get(0).getLocalidad();
 
 		return gimnasio.verClasesAgendadas(sedeSeleccionada);
 	}
@@ -91,6 +90,11 @@ public class ControladorAdministrativo {
 			throws NoExisteArticuloEnCatalogoException, NoExisteUsuarioException, NoExisteSedeException {
 
 		gimnasio.AsignarStockASede(administrativoControlo.getId(), marca, nombreArticulo, atributos, cantidad, sede);
+	}
+
+	public ArrayList<Articulo> getArticulosSede(String sede) throws NoExisteUsuarioException, NoExisteSedeException {
+
+		return gimnasio.getArticulosSede(administrativoControlo.getId(), sede);
 	}
 
 }

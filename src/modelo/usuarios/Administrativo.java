@@ -12,6 +12,7 @@ import modelo.sedes.Emplazamiento;
 import modelo.sedes.NoEsRentableException;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
+import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
 import modelo.utilidad.EstadoClase;
 import modelo.utilidad.Nivel;
@@ -113,8 +114,25 @@ public class Administrativo extends Usuario {
 		return false;
 	}
 
-	public ArrayList<Articulo> listarArticulosSede(Sede s) {
-		return s.listarArticulos();
+	public ArrayList<Articulo> listarArticulosSede(String s) throws NoExisteSedeException {
+		Sede cd = tengoLaSede(s);
+		if (cd != null) {
+			cd.listarArticulos();
+		} else {
+			throw new NoExisteSedeException("No tiene la Sede");
+		}
+		return null;
+
+	}
+
+	private Sede tengoLaSede(String s) {
+		for (Sede sede : sedes) {
+			if (sede.getLocalidad().equals(s)) {
+				return sede;
+			}
+
+		}
+		return null;
 	}
 
 	public Map<Articulo, Integer> visualizarDesgasteArticulos(Sede s) {

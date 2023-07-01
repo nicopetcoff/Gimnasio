@@ -46,13 +46,14 @@ public class ClienteVista extends JFrame {
 		tablaModelo.addColumn("Sede");
 		tablaModelo.addColumn("Fecha");
 
-
 		JScrollPane tablaScroll = new JScrollPane(tablaClases, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-		JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		tablaModelo.addColumn("Precio");
-		
-		//JScrollPane tablaScroll = new JScrollPane(tablaClases, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+		// JScrollPane tablaScroll = new JScrollPane(tablaClases,
+		// JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		// JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		tablaClases.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 		JPanel panelTabla = new JPanel();
@@ -85,11 +86,11 @@ public class ClienteVista extends JFrame {
 					clase.getFecha() };
 		}
 
-		/*for(Clase clase: clases) {
-			Object[] rowData = { clase.getnombre(), clase.getActividad().getTipoClase(), clase.getLugar(), clase.getFecha(),clase.getCosto() };
-			tablaModelo.addRow(rowData);
-		}
-		*/
+		/*
+		 * for(Clase clase: clases) { Object[] rowData = { clase.getnombre(),
+		 * clase.getActividad().getTipoClase(), clase.getLugar(),
+		 * clase.getFecha(),clase.getCosto() }; tablaModelo.addRow(rowData); }
+		 */
 	}
 
 	public JTable getTablaClases() {

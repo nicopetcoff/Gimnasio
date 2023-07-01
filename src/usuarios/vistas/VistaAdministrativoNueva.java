@@ -38,7 +38,8 @@ public class VistaAdministrativoNueva {
 		JButton botonAgendarClase = new JButton("Agendar clase");
 		JButton cambiarEstadoClase = new JButton("Cambiar estado de clase");
 		JButton asignarArticuloASede = new JButton("Asignar Articulo a Sede");
-		JButton BDStreaming = new JButton("BD tream");
+		JButton BDStreaming = new JButton("BDStreaming");
+		JButton consultarStockSede = new JButton("Consultar Stock de Sede");
 		JButton abmCliente = new JButton("ABM Cliente");
 
 		// --------------------------------------------------------------------
@@ -77,6 +78,14 @@ public class VistaAdministrativoNueva {
 			}
 		});
 
+		consultarStockSede.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				consultarStockSede(controlador);
+			}
+		});
+
 		tablaModelo = new DefaultTableModel();
 		tablaModelo.addColumn("Localidad");
 		tablaModelo.addColumn("Nivel");
@@ -84,11 +93,12 @@ public class VistaAdministrativoNueva {
 		tablaSedes = new JTable(tablaModelo);
 
 		JPanel panelIzquierdo = new JPanel();
-		panelIzquierdo.setLayout(new GridLayout(5, 1));
+		panelIzquierdo.setLayout(new GridLayout(6, 1));
 		panelIzquierdo.add(botonAgendarClase);
 		panelIzquierdo.add(cambiarEstadoClase);
 		panelIzquierdo.add(asignarArticuloASede);
 		panelIzquierdo.add(BDStreaming);
+		panelIzquierdo.add(consultarStockSede);
 		panelIzquierdo.add(abmCliente);
 
 		JPanel panelDerecho = new JPanel();
@@ -103,6 +113,59 @@ public class VistaAdministrativoNueva {
 		vistaAdminsitrativo.pack();
 		vistaAdminsitrativo.setVisible(true);
 
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+
+	private void consultarStockSede(ControladorAdministrativo controlador) {
+		JFrame ventana = new JFrame("Artículos de la Sede");
+		ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		ventana.setSize(300, 200);
+		ventana.setLocationRelativeTo(null);
+
+		JLabel ingreseSede = new JLabel("Ingrese el nombre de la sede:");
+		JTextField campoSede = new JTextField();
+
+		JButton btnConsultar = new JButton("Consultar");
+
+		btnConsultar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String nombreSede = campoSede.getText();
+
+				ArrayList<Articulo> articulosSede = null;
+				try {
+					articulosSede = controlador.getArticulosSede(nombreSede);
+				} catch (NoExisteUsuarioException | NoExisteSedeException ex) {
+					ex.printStackTrace();
+				}
+
+				if (articulosSede != null) {
+					DefaultListModel<Articulo> modeloLista = new DefaultListModel<>();
+					for (Articulo articulo : articulosSede) {
+						modeloLista.addElement(articulo);
+					}
+
+					JList<Articulo> listaArticulos = new JList<>(modeloLista);
+
+					ventana.getContentPane().removeAll();
+					ventana.setLayout(new BorderLayout());
+					ventana.add(new JScrollPane(listaArticulos), BorderLayout.CENTER);
+					ventana.revalidate();
+				} else {
+
+					JOptionPane.showMessageDialog(ventana, "No se encontraron artículos para la sede ingresada.",
+							"Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		ventana.setLayout(new BorderLayout());
+		ventana.add(ingreseSede, BorderLayout.NORTH);
+		ventana.add(campoSede, BorderLayout.CENTER);
+		ventana.add(btnConsultar, BorderLayout.SOUTH);
+
+		ventana.setVisible(true);
 	}
 
 	private void asignarArticulosASede(ControladorAdministrativo controlador) {
