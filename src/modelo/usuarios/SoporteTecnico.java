@@ -138,4 +138,9 @@ public class SoporteTecnico extends Usuario {
 		return false;
 	}
 
+	public void asignarEmplazamientoSede(Sede s, Emplazamiento em) {
+
+		s.agregarEmplazamiento(em);
+	}
+
 }

@@ -206,7 +206,8 @@ public class VistaSoporteTecnico extends JFrame {
 					controlador.crearArticuloEnStock(idGestion, marca, articulo, fechaFabricacion, tipoAmortizacion,
 							durabilidad, precio, atributos);
 				} catch (NoExisteUsuarioException e1) {
-					JOptionPane.showMessageDialog(null, "No se pudo crear el Articulo", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No se pudo crear el Articulo", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 
@@ -269,7 +270,8 @@ public class VistaSoporteTecnico extends JFrame {
 				try {
 					controlador.asignarEmplazamientoASede(idGestion, sedeSeleccionada, emplazamientoSeleccionado);
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "No se pudo asginar el emplazamiento", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No se pudo asginar el emplazamiento", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 
@@ -317,7 +319,8 @@ public class VistaSoporteTecnico extends JFrame {
 				try {
 					controlador.crearEmplazamiento(idGestion, nombreEmplazamiento, factorCalculo);
 				} catch (NoExisteUsuarioException e1) {
-					JOptionPane.showMessageDialog(null, "No se crear Emplazamiento", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No se crear Emplazamiento", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 
@@ -361,7 +364,8 @@ public class VistaSoporteTecnico extends JFrame {
 				try {
 					controlador.crearActividad(idGestion, nombreActividad);
 				} catch (NoExisteUsuarioException e1) {
-					JOptionPane.showMessageDialog(null, "No se pudo crear Actividad", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No se pudo crear Actividad", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 
@@ -420,7 +424,8 @@ public class VistaSoporteTecnico extends JFrame {
 				try {
 					controlador.crearProfesor(idGestion, nombre, apellido, dni, sueldo, sedeSeleccionada);
 				} catch (NoExisteUsuarioException | NoExisteSedeException e1) {
-					JOptionPane.showMessageDialog(null, "No se pudo crear Profesor", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No se pudo crear Profesor", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 
@@ -491,7 +496,8 @@ public class VistaSoporteTecnico extends JFrame {
 					controlador.crearAdministrativo(idGestion, nombre, apellido, dni, sedeSeleccionada, usuario,
 							contrasenia);
 				} catch (NoExisteUsuarioException | NoExisteSedeException e1) {
-					JOptionPane.showMessageDialog(null, "No se pudo crear Administrativo", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No se pudo crear Administrativo", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 
@@ -551,7 +557,8 @@ public class VistaSoporteTecnico extends JFrame {
 				try {
 					controlador.crearSoporteTecnico(id, nombre, apellido, dni);
 				} catch (NoExisteUsuarioException e1) {
-					JOptionPane.showMessageDialog(null, "No se pudo crear Soporte Tecnico", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No se pudo crear Soporte Tecnico", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 
@@ -677,7 +684,8 @@ public class VistaSoporteTecnico extends JFrame {
 				try {
 					controlador.crearCliente(idUsuario, nombre, apellido, dni, nivel, usuario, contrasenia);
 				} catch (NoExisteUsuarioException e1) {
-					JOptionPane.showMessageDialog(null, "No se pudo crear el Cliente", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No se pudo crear el Cliente", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 

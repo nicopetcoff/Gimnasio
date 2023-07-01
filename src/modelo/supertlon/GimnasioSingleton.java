@@ -48,7 +48,7 @@ public class GimnasioSingleton {
 		this.actividades = new ArrayList<>();
 		this.emplazamientos = new ArrayList<>();
 
-		usuarios.add(new SoporteTecnico("Juan", "Peres", "41577777"));
+		usuarios.add(new SoporteTecnico("Carlos", "Peres", "41111222"));
 	}
 
 	// Método estático para obtener la única instancia de la clase
@@ -368,20 +368,20 @@ public class GimnasioSingleton {
 		}
 	}
 
-	public void AsignarEmplazamientoSede(int idA, String localidadSede, String emplazamiento) throws Exception {
-		Administrativo a = soyEseAdministrativo(idA);
+	public void AsignarEmplazamientoSede(int id, String localidadSede, String emplazamiento) throws Exception {
+		SoporteTecnico st = soyEseSoporteTecnico(id);
 		Sede s = soyEsaSede(localidadSede);
 
 		Emplazamiento em = soyEseEmplazamiento(emplazamiento);
 
-		if (a != null) {
+		if (st != null) {
 			if (s != null) {
-				a.asignarEmplazamientoSede(s, em);
+				st.asignarEmplazamientoSede(s, em);
 			} else {
-				throw new NoExisteSedeException("No existe la sede");
+				throw new NoExisteSedeException("No existe la Sede");
 			}
 		} else {
-			throw new NoExisteUsuarioException("No existe el Administrativo");
+			throw new NoExisteUsuarioException("No existe el Soporte Tecnico");
 		}
 	}
 
@@ -659,10 +659,6 @@ public class GimnasioSingleton {
 
 	public ArrayList<Sede> getSedesAdministrativo(Administrativo administrativoControlo) {
 		return administrativoControlo.getSedes();
-	}
-
-	public ArrayList<Emplazamiento> getEmplazamientosSede() {
-		return this.emplazamientos;
 	}
 
 }
