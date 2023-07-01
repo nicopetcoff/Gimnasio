@@ -23,7 +23,6 @@ import javax.swing.table.DefaultTableModel;
 import modelo.productos.Articulo;
 import modelo.sedes.Clase;
 import modelo.supertlon.GimnasioSingleton;
-import usuarios.vistas.AdministrativoControlador;
 
 public class VistaIncorporarArticulo extends JFrame{
 	private JTextField cantidadArticulos;

@@ -16,7 +16,7 @@ public class ClienteControlador {
 	private ClienteVista vista = new ClienteVista(this);
 	private Cliente usuario;
 
-	public ClienteControlador() { // Cliente usuario) {
+	public ClienteControlador(Cliente cliente) { // Cliente usuario) {
 //		this.usuario = usuario;
 
 		// TODO: cosas de prueba, borrar

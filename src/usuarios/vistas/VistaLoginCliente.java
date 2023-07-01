@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import controlador.ControladorLoginCliente;
+import controlador.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -42,59 +43,12 @@ public class VistaLoginCliente extends JFrame {
 		dniCampo.setBounds(190, 95, 100, 20);
 		panel.add(dniCampo);
 
-<<<<<<< HEAD
+
 		JButton btnSalir = new JButton("SALIR");
 		btnSalir.setBounds(100, 135, 100, 30);
 		panel.add(btnSalir);
 
-		JButton btnIngresar = new JButton("INGRESAR");
-		btnIngresar.setBounds(220, 135, 100, 30);
-		panel.add(btnIngresar);
 
-		// Crear el botón "Aceptar"
-
-		btnIngresar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				// Obtener los valores seleccionados/ingresados
-
-				String dni = dniCampo.getText();
-				Cliente cliente = controlador.buscarCliente(dni);
-
-				if (!dni.matches("\\d{2}\\.\\d{3}\\.\\d{3}")) {
-					JOptionPane.showMessageDialog(null, "Formato incorrecto. Ingrese su DNI en formato XX.XXX.XXX",
-							"Error de Formato", JOptionPane.ERROR_MESSAGE);
-					dniCampo.setText("");
-				}
-
-				// si el cliente existe cierra la ventana sino mensaje de error
-				else if (cliente != null) {
-
-					JFrame frame = (JFrame) SwingUtilities.getWindowAncestor((Component) e.getSource());
-					frame.dispose();
-				} else {
-					JOptionPane.showMessageDialog(null, "Usuario no registrado.", "Usuario no registrado",
-							JOptionPane.ERROR_MESSAGE);
-					dniCampo.setText("");
-				}
-
-			}
-		});
-
-		// Crear el botón "Cancelar"
-		btnSalir.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// Limpiar los campos
-				dniCampo.setText("");
-
-			}
-		});
-
-	}
-
-=======
         JButton btnIngresar = new JButton("INGRESAR");
         btnIngresar.setBounds(220, 135, 100, 30);
         panel.add(btnIngresar);
@@ -148,5 +102,5 @@ public class VistaLoginCliente extends JFrame {
     } 
     
     
->>>>>>> branch 'master' of https://github.com/nicopetcoff/Gimnasio.git
+
 }
