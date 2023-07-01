@@ -33,6 +33,7 @@ public class InterfazSeleccionRol extends JFrame {
 		panelBotones.add(soporteButton);
 		add(panelBotones, BorderLayout.CENTER);
 
+<<<<<<< HEAD
 		clienteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -69,4 +70,23 @@ public class InterfazSeleccionRol extends JFrame {
 	public void abrirVentanaSoporteTecnico() {
 		VistaSoporteTecnico frame = new VistaSoporteTecnico();
 	}
+=======
+                abrirVentanaSoporteTecnico();
+            }
+        });
+    }
+    
+    public void abrirVentanaCliente() {
+    	ControladorLoginCliente log= new ControladorLoginCliente();
+        
+    }
+    
+    public void abrirVentanaAdministrativo() {
+    	AdministrativoControlador controlador = new AdministrativoControlador();
+    }
+    
+    public void abrirVentanaSoporteTecnico() {
+    	VistaSoporteTecnico frame = new VistaSoporteTecnico();
+    }
+>>>>>>> branch 'master' of https://github.com/nicopetcoff/Gimnasio.git
 }

@@ -45,9 +45,15 @@ public class ClienteVista extends JFrame {
 		tablaModelo.addColumn("Actividad");
 		tablaModelo.addColumn("Sede");
 		tablaModelo.addColumn("Fecha");
+<<<<<<< HEAD
 
 		JScrollPane tablaScroll = new JScrollPane(tablaClases, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+=======
+		tablaModelo.addColumn("Precio");
+		
+		JScrollPane tablaScroll = new JScrollPane(tablaClases, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+>>>>>>> branch 'master' of https://github.com/nicopetcoff/Gimnasio.git
 		tablaClases.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 		JPanel panelTabla = new JPanel();
@@ -74,9 +80,14 @@ public class ClienteVista extends JFrame {
 	}
 
 	public void configurarTabla(ArrayList<Clase> clases) {
+<<<<<<< HEAD
 		for (Clase clase : clases) {
 			Object[] rowData = { clase.getnombre(), clase.getActividad().getTipoClase(), clase.getLugar(),
 					clase.getFecha() };
+=======
+		for(Clase clase: clases) {
+			Object[] rowData = { clase.getnombre(), clase.getActividad().getTipoClase(), clase.getLugar(), clase.getFecha(),clase.getCosto() };
+>>>>>>> branch 'master' of https://github.com/nicopetcoff/Gimnasio.git
 			tablaModelo.addRow(rowData);
 		}
 	}

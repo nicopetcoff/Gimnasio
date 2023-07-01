@@ -15,6 +15,7 @@ import modelo.utilidad.Nivel;
 public class ControladorST {
 
 	private GimnasioSingleton gimnasio;
+	int prueba;
 
 	public ControladorST() {
 
