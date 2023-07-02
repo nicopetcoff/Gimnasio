@@ -96,5 +96,20 @@ public class ControladorAdministrativo {
 
 		return gimnasio.getArticulosSede(administrativoControlo.getId(), sede);
 	}
+	
+	public Clase getClase(String nombre) {
+		
+		return null;
+	}
+	
+	public Sede getSede(String localidad) {
+		for(Sede s: this.administrativoControlo.getSedes()) {
+			if(s.getLocalidad().equals(localidad)) {
+				return s;
+			}
+		}
+		return null;
+	}
+	
 
 }

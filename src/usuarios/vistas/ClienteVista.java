@@ -1,5 +1,6 @@
 package usuarios.vistas;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,8 +18,11 @@ import javax.swing.table.DefaultTableModel;
 import controlador.ClienteControlador;
 import modelo.sedes.Clase;
 import modelo.sedes.Sede;
+import modelo.usuarios.Cliente;
+import modelo.utilidad.EstadoClase;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 
 public class ClienteVista extends JFrame {
 	private JButton botonReservarClase = new JButton("Reservar clase");
@@ -27,11 +31,12 @@ public class ClienteVista extends JFrame {
 
 	private DefaultTableModel tablaModelo = new DefaultTableModel();
 	private JTable tablaClases = new JTable(tablaModelo);
-
+	private Cliente cliente;
 	private ClienteControlador controlador;
 
-	public ClienteVista(ClienteControlador controlador) {
-		this.controlador = controlador;
+	public ClienteVista(Cliente cliente) {
+		this.cliente=cliente;
+		this.controlador = new ClienteControlador();
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 		this.setBackground(Color.WHITE);
@@ -70,9 +75,19 @@ public class ClienteVista extends JFrame {
 
 		botonReservarClase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Acción para el rol de Soporte Técnico
 				try {
-					controlador.getClaseSeleccionada();
+					controlador.getClaseSeleccionada().agregarCliente(cliente);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "No hay ninguna clase seleccionada");
+				}
+			}
+		});
+		
+		botonCancelarReserva.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					controlador.getClaseSeleccionada().agregarCliente(cliente);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(null, "No hay ninguna clase seleccionada");
@@ -96,11 +111,56 @@ public class ClienteVista extends JFrame {
 					clase.getFecha() };
 		}
 
-		/*
-		 * for(Clase clase: clases) { Object[] rowData = { clase.getnombre(),
-		 * clase.getActividad().getTipoClase(), clase.getLugar(),
-		 * clase.getFecha(),clase.getCosto() }; tablaModelo.addRow(rowData); }
-		 */
+	}
+	
+	private void cancelarReserva() {
+		JFrame cancelarReserva = new JFrame("Clases Agendadas");
+		cancelarReserva.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		cancelarReserva.setLayout(new BorderLayout());
+		cancelarReserva.setLocationRelativeTo(null);
+
+		DefaultTableModel tablaModelo = new DefaultTableModel();
+		tablaModelo.addColumn("Nombre");
+		tablaModelo.addColumn("Actividad");
+		tablaModelo.addColumn("Sede");
+		tablaModelo.addColumn("Fecha");
+		JTable tablaClases = new JTable(tablaModelo);
+
+		JPanel panelCentral = new JPanel(new BorderLayout());
+		panelCentral.add(new JScrollPane(tablaClases), BorderLayout.CENTER);
+
+
+		JButton confirmarButton = new JButton("Confirmar");
+		
+
+		JPanel panelInferior = new JPanel();
+		panelInferior.add(confirmarButton);
+
+		cancelarReserva.add(panelCentral, BorderLayout.CENTER);
+		cancelarReserva.add(panelInferior, BorderLayout.SOUTH);
+
+		for (Clase clase : this.cliente.getClases()) {
+			Object[] rowData = { clase.getnombre(), clase.getActividad().getTipoClase(), clase.getLugar(),
+					clase.getFecha() };
+		}
+		
+		
+
+		confirmarButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Clase clase=controlador.getClaseSeleccionada();
+					clase.eliminarCliente(cliente);
+				} catch (Exception e1) {
+					
+					JOptionPane.showMessageDialog(ClienteVista.this, "Debe seleccionar una clase.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
+				
+			}
+		});
 	}
 
 	public JTable getTablaClases() {

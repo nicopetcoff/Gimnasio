@@ -32,6 +32,7 @@ public class VistaSoporteTecnico extends JFrame {
 		setSize(500, 300);
 		setLayout(new FlowLayout());
 		setVisible(true);
+		setLocationRelativeTo(null);
 
 		ArrayList<Usuario> listaUsuariosSoporteTecnico = obtenerUsuariosSoporteTecnico();
 
@@ -162,6 +163,7 @@ public class VistaSoporteTecnico extends JFrame {
 
 	private void crearArticuloEnCatalogo() {
 		JFrame ventanaCrearArticulo = new JFrame("Crear Artículo en Catalogo");
+		ventanaCrearArticulo.setLocationRelativeTo(null);
 
 		ControladorST controlador = new ControladorST();
 
@@ -244,7 +246,7 @@ public class VistaSoporteTecnico extends JFrame {
 	private void asignarEmplazamientoASede() {
 
 		JFrame ventanaAsignarEmplazamiento = new JFrame("Asignar Emplazamiento a Sede");
-
+		ventanaAsignarEmplazamiento.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
 
 		JLabel idGestionLabel = new JLabel("ID de Gestión:");
@@ -297,7 +299,7 @@ public class VistaSoporteTecnico extends JFrame {
 
 	private void crearEmplazamiento() {
 		JFrame ventanaCrearEmplazamiento = new JFrame("Crear Emplazamiento");
-
+		ventanaCrearEmplazamiento.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
 
 		JLabel idGestionLabel = new JLabel("ID de Gestión:");
@@ -346,7 +348,7 @@ public class VistaSoporteTecnico extends JFrame {
 
 	private void crearActividad() {
 		JFrame ventanaCrearActividad = new JFrame("Crear Actividad");
-
+		ventanaCrearActividad.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
 
 		JLabel idGestionLabel = new JLabel("ID de Gestión:");
@@ -389,7 +391,7 @@ public class VistaSoporteTecnico extends JFrame {
 
 	private void crearProfesor() {
 		JFrame ventanaCrearProfesor = new JFrame("Crear Profesor");
-
+		ventanaCrearProfesor.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
 
 		JLabel idGestionLabel = new JLabel("ID de Gestión:");
@@ -456,7 +458,7 @@ public class VistaSoporteTecnico extends JFrame {
 
 	private void crearAdministrativo() {
 		JFrame ventanaCrearAdmin = new JFrame("Crear Administrativo");
-
+		ventanaCrearAdmin.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
 
 		JLabel idGestionLabel = new JLabel("ID de Gestión:");
@@ -531,7 +533,7 @@ public class VistaSoporteTecnico extends JFrame {
 
 	private void crearSoporteTecnico() {
 		JFrame ventanaCrearSoporte = new JFrame("Crear Soporte Técnico");
-
+		ventanaCrearSoporte.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
 
 		JLabel idLabel = new JLabel("ID de Gestion:");
@@ -586,7 +588,7 @@ public class VistaSoporteTecnico extends JFrame {
 
 	private void crearSede() {
 		JFrame ventanaCrearSede = new JFrame("Crear Sede");
-
+		ventanaCrearSede.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
 
 		JLabel idLabel = new JLabel("ID de Gestion:");
@@ -653,7 +655,7 @@ public class VistaSoporteTecnico extends JFrame {
 
 	private void crearCliente() {
 		JFrame crearClienteFrame = new JFrame("Crear Cliente");
-
+		crearClienteFrame.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
 
 		JTextField idUsuarioCampo = new JTextField(10);
