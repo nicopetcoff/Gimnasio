@@ -9,6 +9,6 @@ public interface OperarClase {
 
 	public void eliminarClase(Clase clase);
 
-	void inscribirseClase(Clase clase, Nivel nivel) throws NoMismoNivelException, NoHayStockException;
+	void inscribirseClase(Clase clase) throws NoMismoNivelException, NoHayStockException;
 
 }

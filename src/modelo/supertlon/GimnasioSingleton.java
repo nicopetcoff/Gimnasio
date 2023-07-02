@@ -492,7 +492,7 @@ public class GimnasioSingleton {
 
 		if (cliente != null) {
 			if (clase != null) {
-				cliente.inscribirseClase(clase, cliente.getNivel());
+				cliente.inscribirseClase(clase);
 			} else {
 				throw new NoexisteClaseException("No existe la clase seleccionada");
 			}
