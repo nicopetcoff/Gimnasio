@@ -74,7 +74,8 @@ public class VistaAdministrativoNueva {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				// llamar a BDStream Admin
+				ControladorBdStreaming instancia = new ControladorBdStreaming();
+				instancia.abrirVistaBdStreamingAdmin();
 			}
 		});
 
