@@ -23,6 +23,7 @@ import javax.swing.JButton;
 public class ClienteVista extends JFrame {
 	private JButton botonReservarClase = new JButton("Reservar clase");
 	private JButton botonCancelarReserva = new JButton("Cancelar reserva");
+	private JButton botonBdStreaming = new JButton("BdStreaming");
 
 	private DefaultTableModel tablaModelo = new DefaultTableModel();
 	private JTable tablaClases = new JTable(tablaModelo);
@@ -40,6 +41,7 @@ public class ClienteVista extends JFrame {
 		panelBotones.setLayout(new BoxLayout(panelBotones, BoxLayout.Y_AXIS));
 		panelBotones.add(botonReservarClase);
 		panelBotones.add(botonCancelarReserva);
+		panelBotones.add(botonBdStreaming);
 
 		tablaModelo.addColumn("Nombre");
 		tablaModelo.addColumn("Actividad");
@@ -77,6 +79,14 @@ public class ClienteVista extends JFrame {
 				}
 			}
 		});
+
+		botonBdStreaming.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ControladorBdStreaming instancia = new ControladorBdStreaming();
+				instancia.abrirVistaBdStreamingUser();
+			}
+		});
+		
 	}
 
 	public void configurarTabla(ArrayList<Clase> clases) {
