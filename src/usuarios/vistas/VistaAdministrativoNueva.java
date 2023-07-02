@@ -34,6 +34,7 @@ public class VistaAdministrativoNueva {
 
 		vistaAdminsitrativo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		vistaAdminsitrativo.setLayout(new BorderLayout());
+		vistaAdminsitrativo.setLocationRelativeTo(null);
 
 		JButton botonAgendarClase = new JButton("Agendar clase");
 		JButton cambiarEstadoClase = new JButton("Cambiar estado de clase");
@@ -168,12 +169,15 @@ public class VistaAdministrativoNueva {
 
 		ventana.setVisible(true);
 	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
 
 	private void asignarArticulosASede(ControladorAdministrativo controlador) {
-		JFrame frame = new JFrame("Asignar Artículos a Sede");
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setSize(300, 250);
-		frame.setLayout(new GridLayout(7, 2));
+		JFrame ventanaAsignarArticulosASede = new JFrame("Asignar Artículos a Sede");
+		ventanaAsignarArticulosASede.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		ventanaAsignarArticulosASede.setSize(300, 250);
+		ventanaAsignarArticulosASede.setLayout(new GridLayout(7, 2));
+		ventanaAsignarArticulosASede.setLocationRelativeTo(null);
 
 		JLabel labelArticulos = new JLabel("Artículos:");
 		JComboBox<Articulo> comboBoxArticulos = new JComboBox<>();
@@ -216,25 +220,25 @@ public class VistaAdministrativoNueva {
 					e1.printStackTrace();
 				}
 
-				frame.dispose();
+				ventanaAsignarArticulosASede.dispose();
 			}
 		});
 
-		frame.add(labelArticulos);
-		frame.add(comboBoxArticulos);
-		frame.add(labelMarca);
-		frame.add(textFieldMarca);
-		frame.add(labelNombreArticulo);
-		frame.add(textCampoNombreArticulo);
-		frame.add(labelAtributos);
-		frame.add(textCampoAtributos);
-		frame.add(labelCantidad);
-		frame.add(textCampoCantidad);
-		frame.add(labelSede);
-		frame.add(textCampoSede);
-		frame.add(botonAceptar);
+		ventanaAsignarArticulosASede.add(labelArticulos);
+		ventanaAsignarArticulosASede.add(comboBoxArticulos);
+		ventanaAsignarArticulosASede.add(labelMarca);
+		ventanaAsignarArticulosASede.add(textFieldMarca);
+		ventanaAsignarArticulosASede.add(labelNombreArticulo);
+		ventanaAsignarArticulosASede.add(textCampoNombreArticulo);
+		ventanaAsignarArticulosASede.add(labelAtributos);
+		ventanaAsignarArticulosASede.add(textCampoAtributos);
+		ventanaAsignarArticulosASede.add(labelCantidad);
+		ventanaAsignarArticulosASede.add(textCampoCantidad);
+		ventanaAsignarArticulosASede.add(labelSede);
+		ventanaAsignarArticulosASede.add(textCampoSede);
+		ventanaAsignarArticulosASede.add(botonAceptar);
 
-		frame.setVisible(true);
+		ventanaAsignarArticulosASede.setVisible(true);
 	}
 
 	// ------------------------------------------------------------------------------------------------------------
@@ -243,6 +247,7 @@ public class VistaAdministrativoNueva {
 		JFrame cambiarEstadoClase = new JFrame("Clases Agendadas");
 		cambiarEstadoClase.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		cambiarEstadoClase.setLayout(new BorderLayout());
+		cambiarEstadoClase.setLocationRelativeTo(null);
 
 		DefaultTableModel tablaModelo = new DefaultTableModel();
 		tablaModelo.addColumn("Nombre");
@@ -337,6 +342,7 @@ public class VistaAdministrativoNueva {
 		JFrame ventanaAgendarClase = new JFrame("Agendar clase");
 		ventanaAgendarClase.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ventanaAgendarClase.setLayout(new GridLayout(8, 2));
+		ventanaAgendarClase.setLocationRelativeTo(null);
 
 		JLabel etiquetaDNI = new JLabel("DNI del profesor:");
 		JLabel etiquetaSede = new JLabel("Sede:");
@@ -358,8 +364,7 @@ public class VistaAdministrativoNueva {
 
 		JComboBox<String> comboEmplazamiento = new JComboBox<>();
 
-		// ------------------------------------------------------------------------------------------
-
+		
 		DefaultComboBoxModel<String> comboEmplazamiento1 = new DefaultComboBoxModel<>();
 
 		for (String emplazamiento : controlador.getEmplazamientos()) {

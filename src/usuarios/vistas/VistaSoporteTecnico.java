@@ -1,6 +1,10 @@
 package usuarios.vistas;
 
 import controlador.*;
+import modelo.productos.Articulo;
+import modelo.sedes.Actividad;
+import modelo.supertlon.Excepciones.NoExisteActividadException;
+import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.usuarios.*;
@@ -32,6 +36,7 @@ public class VistaSoporteTecnico extends JFrame {
 		setSize(500, 300);
 		setLayout(new FlowLayout());
 		setVisible(true);
+		setLocationRelativeTo(null);
 
 		ArrayList<Usuario> listaUsuariosSoporteTecnico = obtenerUsuariosSoporteTecnico();
 
@@ -141,6 +146,16 @@ public class VistaSoporteTecnico extends JFrame {
 			}
 
 		});
+		
+		JMenuItem setearArticuloRequeridoPorActividad = new JMenuItem("Setear Articulos por Actividad");
+		setearArticuloRequeridoPorActividad.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				setearArticuloRequeridoPorActividad();
+			}
+		});
 
 		opcionesMenu.add(crearSede);
 		opcionesMenu.add(crearCliente);
@@ -151,6 +166,7 @@ public class VistaSoporteTecnico extends JFrame {
 		opcionesMenu.add(crearEmplazamiento);
 		opcionesMenu.add(asignarEmplazamientoASede);
 		opcionesMenu.add(crearArticuloEnCatalogo);
+		opcionesMenu.add(setearArticuloRequeridoPorActividad);
 
 		menuBar.add(opcionesMenu);
 
@@ -159,36 +175,135 @@ public class VistaSoporteTecnico extends JFrame {
 		this.add(scrollPaneUsuariosSoporteTecnico);
 
 	}
+	
+	private void setearArticuloRequeridoPorActividad() {
+	    
+	    JFrame ventana = new JFrame("Seleccionar Artículo Requerido");
+	    ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    ventana.setLayout(new GridLayout(5, 1, 10, 10));
+	    ventana.setPreferredSize(new Dimension(400, 300));
+	    
+	    ControladorST controlador = new ControladorST();
+	    Articulo articuloSeleccionado = null;
+	    int cantidadItems = 0;
+	    Actividad actividadSeleccionada = null;
+	    
+	    JLabel idGestionLabel = new JLabel("ID de Gestión:");
+		JTextField idGestionText = new JTextField(10);
+
+	    JLabel seleccionarArticulo = new JLabel("Seleccionar Articulo: ");
+	    JComboBox<Articulo> seleccionarArticulosCombo = new JComboBox<>(controlador.getArticulosDisponibles().toArray(new Articulo[0]));
+
+	    JLabel cantidadItemsLabel = new JLabel("Ingrese cantidad Requerida: ");
+	    JTextField cantidadItemsCampo = new JTextField(10);
+
+	    JLabel seleccionarActividad = new JLabel("Seleccionar Actividad :");
+	    JComboBox<Actividad> seleccionarAtividadCombo = new JComboBox<>(controlador.getActividades().toArray(new Actividad[0]));
+
+	    JButton agregarBoton = new JButton("Agregar");
+	    agregarBoton.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            Articulo articuloSeleccionado = (Articulo) seleccionarArticulosCombo.getSelectedItem();
+	  
+	            int cantidadItems = Integer.parseInt(cantidadItemsCampo.getText());
+	            
+	            Actividad actividadSeleccionada = (Actividad)  seleccionarAtividadCombo.getSelectedItem();
+	            
+	        }
+	    });
+
+	    JButton aceptarBoton = new JButton("Aceptar");
+	    aceptarBoton.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	int idGestion = Integer.parseInt(idGestionText.getText());
+	        	
+	        	//corregir
+	        	
+	            try {
+					controlador.setArticuloRequeridoPorActividad(idGestion, articuloSeleccionado, cantidadItems, actividadSeleccionada);
+				} catch (NoExisteUsuarioException | NoExisteActividadException
+						| NoExisteArticuloEnCatalogoException e1) {
+					
+					JOptionPane.showMessageDialog(null, "No se pudo setear la cantidad de Articulos necesarios", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+	            ventana.dispose();
+	        }
+	    });
+
+	    ventana.add(idGestionLabel);
+	    ventana.add(idGestionText);
+	    ventana.add(seleccionarArticulo);
+	    ventana.add(seleccionarArticulosCombo);
+	    ventana.add(cantidadItemsLabel);
+	    ventana.add(cantidadItemsCampo);	    
+	    ventana.add(seleccionarActividad);
+	    ventana.add(seleccionarAtividadCombo);
+	    ventana.add(agregarBoton);
+	    ventana.add(aceptarBoton);
+
+	    ventana.pack();
+	    ventana.setLocationRelativeTo(null);
+	    ventana.setVisible(true);
+
+	    
+	}
+
+
+	// -----------------------------------------------------------------------------------------------------------------
 
 	private void crearArticuloEnCatalogo() {
-		JFrame ventanaCrearArticulo = new JFrame("Crear Artículo en Catalogo");
+		JFrame ventanaCrearArticulo = new JFrame("Crear Artículo en Catálogo");
+		ventanaCrearArticulo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		ControladorST controlador = new ControladorST();
 
+		JPanel panelPrincipal = new JPanel();
+		panelPrincipal.setLayout(new GridLayout(9, 2, 5, 5));
+
 		JLabel idGestionLabel = new JLabel("ID de Gestión:");
 		JTextField idGestionCampo = new JTextField(10);
+		panelPrincipal.add(idGestionLabel);
+		panelPrincipal.add(idGestionCampo);
 
 		JLabel marcaLabel = new JLabel("Marca:");
 		JTextField marcaCampo = new JTextField(10);
+		panelPrincipal.add(marcaLabel);
+		panelPrincipal.add(marcaCampo);
 
 		JLabel articuloLabel = new JLabel("Artículo:");
 		JTextField articuloCampo = new JTextField(10);
+		panelPrincipal.add(articuloLabel);
+		panelPrincipal.add(articuloCampo);
 
 		JLabel fechaFabricacionLabel = new JLabel("Fecha de Fabricación (AAAA-MM-DD):");
 		JTextField fechaFabricacionCampo = new JTextField(10);
+		panelPrincipal.add(fechaFabricacionLabel);
+		panelPrincipal.add(fechaFabricacionCampo);
 
 		JLabel tipoAmortizacionLabel = new JLabel("Tipo de Amortización:");
 		JComboBox<String> tipoAmortizacionComboBox = new JComboBox<>(
 				new String[] { "DIAS_DE_USO", "FECHA_DE_FABRICA" });
+		panelPrincipal.add(tipoAmortizacionLabel);
+		panelPrincipal.add(tipoAmortizacionComboBox);
 
 		JLabel durabilidadLabel = new JLabel("Durabilidad:");
 		JTextField durabilidadCampo = new JTextField(10);
+		panelPrincipal.add(durabilidadLabel);
+		panelPrincipal.add(durabilidadCampo);
 
 		JLabel precioLabel = new JLabel("Precio:");
 		JTextField precioCampo = new JTextField(10);
+		panelPrincipal.add(precioLabel);
+		panelPrincipal.add(precioCampo);
 
 		JLabel atributosLabel = new JLabel("Atributos:");
 		JTextArea atributosCampo = new JTextArea(5, 20);
+		panelPrincipal.add(atributosLabel);
+		panelPrincipal.add(new JScrollPane(atributosCampo));
 
 		JButton aceptarBoton = new JButton("Aceptar");
 		aceptarBoton.addActionListener(new ActionListener() {
@@ -206,7 +321,7 @@ public class VistaSoporteTecnico extends JFrame {
 					controlador.crearArticuloEnStock(idGestion, marca, articulo, fechaFabricacion, tipoAmortizacion,
 							durabilidad, precio, atributos);
 				} catch (NoExisteUsuarioException e1) {
-					JOptionPane.showMessageDialog(null, "No se pudo crear el Articulo", "Error",
+					JOptionPane.showMessageDialog(null, "No se pudo crear el Artículo", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
@@ -214,32 +329,17 @@ public class VistaSoporteTecnico extends JFrame {
 				ventanaCrearArticulo.dispose();
 			}
 		});
-
-		JPanel panelPrincipal = new JPanel(new GridLayout(9, 2, 5, 5));
-		panelPrincipal.add(idGestionLabel);
-		panelPrincipal.add(idGestionCampo);
-		panelPrincipal.add(marcaLabel);
-		panelPrincipal.add(marcaCampo);
-		panelPrincipal.add(articuloLabel);
-		panelPrincipal.add(articuloCampo);
-		panelPrincipal.add(fechaFabricacionLabel);
-		panelPrincipal.add(fechaFabricacionCampo);
-		panelPrincipal.add(tipoAmortizacionLabel);
-		panelPrincipal.add(tipoAmortizacionComboBox);
-		panelPrincipal.add(durabilidadLabel);
-		panelPrincipal.add(durabilidadCampo);
-		panelPrincipal.add(precioLabel);
-		panelPrincipal.add(precioCampo);
-		panelPrincipal.add(atributosLabel);
-		panelPrincipal.add(new JScrollPane(atributosCampo));
 		panelPrincipal.add(new JLabel());
 		panelPrincipal.add(aceptarBoton);
 
-		ventanaCrearArticulo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ventanaCrearArticulo.add(panelPrincipal);
 		ventanaCrearArticulo.pack();
 		ventanaCrearArticulo.setVisible(true);
+		ventanaCrearArticulo.setLocationRelativeTo(null); // Abre la ventana en el centro de la pantalla
+
 	}
+
+	// -----------------------------------------------------------------------------------------------------------------
 
 	private void asignarEmplazamientoASede() {
 
@@ -293,7 +393,10 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaAsignarEmplazamiento.add(panelPrincipal);
 		ventanaAsignarEmplazamiento.pack();
 		ventanaAsignarEmplazamiento.setVisible(true);
+		ventanaAsignarEmplazamiento.setLocationRelativeTo(null);
 	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
 
 	private void crearEmplazamiento() {
 		JFrame ventanaCrearEmplazamiento = new JFrame("Crear Emplazamiento");
@@ -342,7 +445,10 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearEmplazamiento.add(panelPrincipal);
 		ventanaCrearEmplazamiento.pack();
 		ventanaCrearEmplazamiento.setVisible(true);
+		ventanaCrearEmplazamiento.setLocationRelativeTo(null);
 	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
 
 	private void crearActividad() {
 		JFrame ventanaCrearActividad = new JFrame("Crear Actividad");
@@ -385,7 +491,10 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearActividad.add(panelPrincipal);
 		ventanaCrearActividad.pack();
 		ventanaCrearActividad.setVisible(true);
+		ventanaCrearActividad.setLocationRelativeTo(null);
 	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
 
 	private void crearProfesor() {
 		JFrame ventanaCrearProfesor = new JFrame("Crear Profesor");
@@ -452,7 +561,10 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearProfesor.add(panelPrincipal);
 		ventanaCrearProfesor.pack();
 		ventanaCrearProfesor.setVisible(true);
+		ventanaCrearProfesor.setLocationRelativeTo(null);
 	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
 
 	private void crearAdministrativo() {
 		JFrame ventanaCrearAdmin = new JFrame("Crear Administrativo");
@@ -527,7 +639,10 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearAdmin.add(panelPrincipal);
 		ventanaCrearAdmin.pack();
 		ventanaCrearAdmin.setVisible(true);
+		ventanaCrearAdmin.setLocationRelativeTo(null);
 	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
 
 	private void crearSoporteTecnico() {
 		JFrame ventanaCrearSoporte = new JFrame("Crear Soporte Técnico");
@@ -582,7 +697,10 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearSoporte.add(panelPrincipal);
 		ventanaCrearSoporte.pack();
 		ventanaCrearSoporte.setVisible(true);
+		ventanaCrearSoporte.setLocationRelativeTo(null);
 	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
 
 	private void crearSede() {
 		JFrame ventanaCrearSede = new JFrame("Crear Sede");
@@ -649,7 +767,10 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearSede.add(panelPrincipal);
 		ventanaCrearSede.pack();
 		ventanaCrearSede.setVisible(true);
+		ventanaCrearSede.setLocationRelativeTo(null);
 	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
 
 	private void crearCliente() {
 		JFrame crearClienteFrame = new JFrame("Crear Cliente");
@@ -714,6 +835,7 @@ public class VistaSoporteTecnico extends JFrame {
 		crearClienteFrame.setLayout(new GridLayout(8, 2, 5, 5));
 		crearClienteFrame.pack();
 		crearClienteFrame.setVisible(true);
+		crearClienteFrame.setLocationRelativeTo(null);
 	}
 
 	private ArrayList<Usuario> obtenerUsuariosSoporteTecnico() {

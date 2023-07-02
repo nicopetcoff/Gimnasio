@@ -5,8 +5,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import modelo.productos.Articulo;
 import modelo.productos.TipoAmortizacion;
+import modelo.sedes.Actividad;
 import modelo.supertlon.GimnasioSingleton;
+import modelo.supertlon.Excepciones.NoExisteActividadException;
+import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.usuarios.Usuario;
@@ -142,6 +146,21 @@ public class ControladorST {
 		}
 		return null;
 
+	}
+
+	public ArrayList<Articulo> getArticulosDisponibles() {
+		return gimnasio.getArticulosEnCatalogo();
+	}
+
+	public ArrayList<Actividad> getActividades() {
+		return gimnasio.getActividades();
+	}
+
+	public void setArticuloRequeridoPorActividad(int idGestion, Articulo articuloSeleccionado, int cantidadItems, Actividad actividadSeleccionada) throws NoExisteUsuarioException, NoExisteActividadException, NoExisteArticuloEnCatalogoException {
+		
+		gimnasio.setearArticuloRequeridoPorActividad(idGestion, actividadSeleccionada.getTipoClase(), articuloSeleccionado.getMarca(), articuloSeleccionado.getArticulo(), articuloSeleccionado.getAtributos(), cantidadItems);
+		
+		
 	}
 
 }

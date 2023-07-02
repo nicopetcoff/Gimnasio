@@ -59,6 +59,7 @@ public class vistaLoginAdministrativo extends JFrame {
 
 		pack();
 		setVisible(true);
+		this.setLocationRelativeTo(null);
 	}
 
 	private void abrirVentanaAdministrativo() {

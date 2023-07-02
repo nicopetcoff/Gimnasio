@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.ClienteControlador;
+import controlador.*;
 import modelo.sedes.Clase;
 import modelo.sedes.Sede;
 
