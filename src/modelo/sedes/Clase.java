@@ -66,14 +66,17 @@ public class Clase {
 	public EstadoClase getEstado() {
 		return this.estado;
 	}
+	public void setEstado(EstadoClase estado) {
+		this.estado=estado;
+	}
 
 	public LocalDateTime getFecha() {
 		return this.fecha;
 	}
 
-	public void agregarCliente(Cliente cliente, Nivel nivel) throws NoMismoNivelException, NoHayStockException {
+	public void agregarCliente(Cliente cliente) throws NoMismoNivelException, NoHayStockException {
 
-		if (sede.getNivel().equals(nivel) && this.alumnosInscriptos < this.capacidadMax) {
+		if (sede.getNivel().equals(cliente.getNivel()) && this.alumnosInscriptos < this.capacidadMax) {
 
 			HashMap<Articulo, Integer> artPorAlumno = actividad.getArticulosPorAlumno();
 

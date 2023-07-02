@@ -611,10 +611,13 @@ public class GimnasioSingleton {
 
 	}
 
-	public Cliente getCliente(String DNI) {
-		for (Usuario c : this.usuarios) {
-			if (c.soyCliente() && c.getDNI().equals(DNI)) {
-				return (Cliente) c;
+	public Cliente getCliente(String usuario,String contrasenia) {
+		for (Usuario usu : usuarios) {
+			if (usu.soyCliente()) {
+				Cliente c = (Cliente) usu;
+				if (c.getUsuario().equals(usuario) && c.getContrasenia().equals(contrasenia)) {
+					return c;
+				}
 			}
 		}
 		return null;
@@ -649,6 +652,19 @@ public class GimnasioSingleton {
 		for (Usuario usu : usuarios) {
 			if (usu.soyAdministrativo()) {
 				Administrativo a = (Administrativo) usu;
+				if (a.getUsuario().equals(usuario) && a.getContrasenia().equals(contrasenia)) {
+					return a;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public Cliente dameCliente(String usuario, String contrasenia) {
+
+		for (Usuario usu : usuarios) {
+			if (usu.soyCliente()) {
+				Cliente a = (Cliente) usu;
 				if (a.getUsuario().equals(usuario) && a.getContrasenia().equals(contrasenia)) {
 					return a;
 				}

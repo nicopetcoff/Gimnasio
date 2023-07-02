@@ -2,7 +2,6 @@ package usuarios.vistas;
 
 import javax.swing.*;
 
-import controlador.ControladorLoginCliente;
 import modelo.usuarios.Administrativo;
 
 import java.awt.*;
@@ -66,7 +65,7 @@ public class InterfazSeleccionRol extends JFrame {
 	}
 
 	public void abrirVentanaCliente() {
-		ControladorLoginCliente log = new ControladorLoginCliente();
+		VistaLoginCliente log = new VistaLoginCliente();
 
 	}
 }
