@@ -114,14 +114,10 @@ public class Administrativo extends Usuario {
 		return false;
 	}
 
-	public ArrayList<Articulo> listarArticulosSede(String s) throws NoExisteSedeException {
-		Sede cd = tengoLaSede(s);
-		if (cd != null) {
-			cd.listarArticulos();
-		} else {
-			throw new NoExisteSedeException("No tiene la Sede");
-		}
-		return null;
+	public ArrayList<Articulo> listarArticulosSede(Sede s) throws NoExisteSedeException {
+	
+			return s.listarArticulos();
+	
 
 	}
 

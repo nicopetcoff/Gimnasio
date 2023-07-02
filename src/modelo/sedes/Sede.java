@@ -72,9 +72,7 @@ public class Sede {
 	// es una muestra y su fechaFabricacion podria ser mucho tiempo atras
 
 	public void agregarArticuloAStock(Articulo articulo, int cantidad) {
-		stock.agregarArticulo(new Articulo(articulo.getMarca(), articulo.getArticulo(), LocalDate.now(),
-				articulo.getTipoAmortizacion(), articulo.getDurabilidad(), articulo.getAtributos(),
-				articulo.getPrecio()), cantidad);
+		stock.agregarArticulo(articulo, cantidad);
 	}
 
 	public void agregarClase(Clase clase) {

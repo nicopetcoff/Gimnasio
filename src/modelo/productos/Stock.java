@@ -15,16 +15,18 @@ public class Stock {
 	}
 
 	public void agregarArticulo(Articulo articulo, int cantidad) {
+		
+		if (inventario.containsKey(articulo)) {
+			cantidad += inventario.get(articulo);
+		}
 
 		for (int i = 0; i < cantidad; i++) {
 			this.articulos.add(new Articulo(articulo.getMarca(), articulo.getArticulo(), articulo.getFechaFabricacion(),
 					articulo.getTipoAmortizacion(), articulo.getDurabilidad(), articulo.getAtributos(),
-					articulo.getPrecio()));
-			if (inventario.containsKey(articulo)) {
-				cantidad += inventario.get(articulo);
-			}
-			inventario.put(articulo, cantidad);
+					articulo.getPrecio()));			
 		}
+		
+		inventario.put(articulo, cantidad);
 	}
 
 	public int cantidadDeArticulo(Articulo articulo) {
