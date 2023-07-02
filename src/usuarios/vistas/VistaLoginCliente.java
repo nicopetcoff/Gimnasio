@@ -4,7 +4,6 @@ import modelo.usuarios.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import controlador.ControladorLoginCliente;
 import controlador.*;
 
 import java.awt.*;
@@ -12,87 +11,55 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class VistaLoginCliente extends JFrame {
-	private JPanel panel;
-	private JTextField dniCampo;
-	private ControladorLoginCliente controlador;
+	private JTextField usuarioCampo;
+	private JPasswordField contraseniaCampo;
+	private JButton btnIngresar;
+	private ClienteControlador controlador;
 
-	public VistaLoginCliente(ControladorLoginCliente contr) {
-		setTitle("Login");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		panel = new JPanel();
-		panel.setBackground(Color.lightGray);
-		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(panel);
+	public VistaLoginCliente() {
+		controlador = new ClienteControlador();
 
-		this.controlador = contr;
+		setTitle("Vista Administrativo Nueva");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setLayout(new GridLayout(3, 2, 10, 10));
+		setLocationRelativeTo(null);
 
-		panel.setLayout(null);
+		JLabel usuarioLabel = new JLabel("Usuario:");
+		usuarioCampo = new JTextField(10);
+		JLabel contraseniaLabel = new JLabel("Contraseña:");
+		contraseniaCampo = new JPasswordField(10);
+		btnIngresar = new JButton("Ingresar");
 
-		JLabel lblLogin = new JLabel("LOGIN");
-		lblLogin.setFont(new Font("SansSerif", Font.BOLD, 26));
-		lblLogin.setBounds(175, 55, 100, 20);
-		panel.add(lblLogin);
-
-		JLabel lblUsuario = new JLabel("DNI:");
-		lblUsuario.setFont(new Font("Yu Gothic UI", Font.BOLD, 16));
-		lblUsuario.setBounds(120, 95, 60, 20);
-		panel.add(lblUsuario);
-
-		dniCampo = new JTextField();
-		dniCampo.setBounds(190, 95, 100, 20);
-		panel.add(dniCampo);
-
-		JButton btnSalir = new JButton("SALIR");
-		btnSalir.setBounds(100, 135, 100, 30);
-		panel.add(btnSalir);
-
-		JButton btnIngresar = new JButton("INGRESAR");
-		btnIngresar.setBounds(220, 135, 100, 30);
-		panel.add(btnIngresar);
-
-		// Crear el botón "Aceptar"
+		add(usuarioLabel);
+		add(usuarioCampo);
+		add(contraseniaLabel);
+		add(contraseniaCampo);
+		add(new JLabel());
+		add(btnIngresar);
 
 		btnIngresar.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
+				String usuario = usuarioCampo.getText();
+				String contrasenia = new String(contraseniaCampo.getPassword());
 
-				// Obtener los valores seleccionados/ingresados
+				if (controlador.validarCredenciales(usuario, contrasenia)) {
 
-				String dni = dniCampo.getText();
-				Cliente cliente = controlador.buscarCliente(dni);
-
-				if (!dni.matches("\\d{2}\\.\\d{3}\\.\\d{3}")) {
-					JOptionPane.showMessageDialog(null, "Formato incorrecto. Ingrese su DNI en formato XX.XXX.XXX",
-							"Error de Formato", JOptionPane.ERROR_MESSAGE);
-					dniCampo.setText("");
-				}
-
-				// si el cliente existe cierra la ventana sino mensaje de error
-				else if (cliente != null) {
-
-					JFrame frame = (JFrame) SwingUtilities.getWindowAncestor((Component) e.getSource());
-					frame.dispose();
-					ClienteControlador controlador = new ClienteControlador(cliente);
+					abrirVentanaCliente(usuario,contrasenia);
 				} else {
-					JOptionPane.showMessageDialog(null, "Usuario no registrado.", "Usuario no registrado",
+
+					JOptionPane.showMessageDialog(VistaLoginCliente.this,
+							"Usuario o contraseña incorrectos. Inténtelo de nuevo.", "Error de autenticación",
 							JOptionPane.ERROR_MESSAGE);
-					dniCampo.setText("");
 				}
-
 			}
 		});
 
-		// Crear el botón "Cancelar"
-		btnSalir.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// Limpiar los campos
-				dniCampo.setText("");
-
-			}
-		});
-
+		pack();
+		setVisible(true);
 	}
 
+	private void abrirVentanaCliente(String usuario,String contrasenia) {
+
+		ClienteVista vista = new ClienteVista(controlador.buscarCliente(usuario, contrasenia));
+	}
 }

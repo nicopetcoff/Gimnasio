@@ -5,10 +5,12 @@ import javax.swing.table.DefaultTableModel;
 
 import modelo.sedes.Clase;
 import modelo.sedes.Sede;
+import modelo.supertlon.GimnasioSingleton;
 import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.usuarios.Administrativo;
+import modelo.utilidad.EstadoClase;
 import controlador.*;
 import modelo.productos.*;
 
@@ -21,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class VistaAdministrativoNueva {
-
+	private ControladorAdministrativo controlador;
 	private JFrame vistaAdminsitrativo;
 
 	private DefaultTableModel tablaModelo;
@@ -30,7 +32,7 @@ public class VistaAdministrativoNueva {
 	public VistaAdministrativoNueva() {
 		vistaAdminsitrativo = new JFrame("Vista Administrativo");
 
-		ControladorAdministrativo controlador = new ControladorAdministrativo();
+		controlador = new ControladorAdministrativo();
 
 		vistaAdminsitrativo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		vistaAdminsitrativo.setLayout(new BorderLayout());
@@ -173,17 +175,25 @@ public class VistaAdministrativoNueva {
 	// -----------------------------------------------------------------------------------------------------------------
 
 	private void asignarArticulosASede(ControladorAdministrativo controlador) {
+
 		JFrame ventanaAsignarArticulosASede = new JFrame("Asignar Artículos a Sede");
 		ventanaAsignarArticulosASede.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ventanaAsignarArticulosASede.setSize(300, 250);
 		ventanaAsignarArticulosASede.setLayout(new GridLayout(7, 2));
 		ventanaAsignarArticulosASede.setLocationRelativeTo(null);
 
+		JFrame frame = new JFrame("Asignar Artículos a Sede");
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setSize(300, 250);
+		frame.setLayout(new GridLayout(7, 2));
+		frame.setLocationRelativeTo(null);
+
+
 		JLabel labelArticulos = new JLabel("Artículos:");
-		JComboBox<Articulo> comboBoxArticulos = new JComboBox<>();
+		JComboBox<String> comboBoxArticulos = new JComboBox<>();
 		ArrayList<Articulo> articulos = controlador.getArticulos();
 		for (Articulo articulo : articulos) {
-			comboBoxArticulos.addItem(articulo);
+			comboBoxArticulos.addItem(articulo.getArticulo()+" "+articulo.getAtributos());
 		}
 
 		JLabel labelMarca = new JLabel("Marca:");
@@ -273,13 +283,17 @@ public class VistaAdministrativoNueva {
 		cambiarEstadoClase.add(panelInferior, BorderLayout.SOUTH);
 
 		configurarTablaClases(controlador, tablaClases, sedeCombo);
+		
+		
 
 		confirmarButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int filaSeleccionada = tablaClases.getSelectedRow();
+				String localidad=(String) sedeCombo.getSelectedItem();
 				if (filaSeleccionada != -1) {
-					cambiarEstadoClase(filaSeleccionada, "CONFIRMADA", tablaClases);
+					cambiarEstadoClase(filaSeleccionada, EstadoClase.CONFIRMADA, localidad);
+					cerrarVentana(e);
 				} else {
 					JOptionPane.showMessageDialog(vistaAdminsitrativo, "Debe seleccionar una clase.", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -291,8 +305,10 @@ public class VistaAdministrativoNueva {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int filaSeleccionada = tablaClases.getSelectedRow();
+				String localidad=(String) sedeCombo.getSelectedItem();
 				if (filaSeleccionada != -1) {
-					cambiarEstadoClase(filaSeleccionada, "FINALIZADA", tablaClases);
+					cambiarEstadoClase(filaSeleccionada, EstadoClase.FINALIZADA, localidad);
+					cerrarVentana(e);
 				} else {
 					JOptionPane.showMessageDialog(vistaAdminsitrativo, "Debe seleccionar una clase.", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -330,11 +346,20 @@ public class VistaAdministrativoNueva {
 		}
 	}
 
-	private void cambiarEstadoClase(int fila, String estado, JTable tablaClases) {
+	private void cambiarEstadoClase(int fila, EstadoClase estado, String localidad) {
+		Clase clase= controlador.getSede(localidad).getClases().get(fila);
+		clase.setEstado(estado);
+		
+		/*
 		DefaultTableModel tablaModelo = (DefaultTableModel) tablaClases.getModel();
 		tablaModelo.setValueAt(estado, fila, 2);
+		*/
 	}
 
+	private void cerrarVentana(ActionEvent e) {
+		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor((Component) e.getSource());
+		frame.dispose();
+	}
 	// ------------------------------------------------------------------------------------------
 
 	private void agendarClase(ControladorAdministrativo controlador) {

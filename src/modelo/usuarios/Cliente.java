@@ -22,8 +22,8 @@ public class Cliente extends Usuario implements OperarClase {
 	}
 
 	@Override
-	public void inscribirseClase(Clase clase, Nivel nivel) throws NoMismoNivelException, NoHayStockException {
-		clase.agregarCliente(this, this.nivel);
+	public void inscribirseClase(Clase clase) throws NoMismoNivelException, NoHayStockException {
+		clase.agregarCliente(this);
 		clases.add(clase);
 	}
 
