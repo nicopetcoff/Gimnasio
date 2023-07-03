@@ -10,6 +10,7 @@ import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
 import modelo.usuarios.Excepciones.ExisteLocalidadException;
 import modelo.usuarios.Excepciones.NoPudoException;
+import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
 import modelo.utilidad.Nivel;
 
 public class SoporteTecnico extends Usuario {
@@ -108,7 +109,7 @@ public class SoporteTecnico extends Usuario {
 
 	}
 
-	public void cambiarProfesorDeSede(String dniProfesor, Sede nuevaSede) {
+	public void cambiarProfesorDeSede(String dniProfesor, Sede nuevaSede) throws ProfesorNoRegistradoException {
 		for (Sede sede : GimnasioSingleton.getInstance().getSedes()) {
 			Profesor profesor = sede.buscarProfesor(dniProfesor);
 			if (profesor != null && sede.getProfesores().contains(profesor)) {
