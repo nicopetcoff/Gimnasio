@@ -28,6 +28,8 @@ import modelo.usuarios.SoporteTecnico;
 import modelo.usuarios.Usuario;
 import modelo.usuarios.Excepciones.ExisteLocalidadException;
 import modelo.usuarios.Excepciones.NoPudoException;
+import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
+import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
 import modelo.utilidad.Nivel;
 
 public class GimnasioSingleton {
@@ -153,17 +155,17 @@ public class GimnasioSingleton {
 
 	}
 
-	private Sede soyEsaSede(String localidad) {
+	private Sede soyEsaSede(String localidad) throws NoExisteSedeException {
 
 		for (Sede sede : sedes) {
 			if (sede.getLocalidad().equals(localidad)) {
 				return sede;
 			}
 		}
-		return null;
+		throw new NoExisteSedeException("No hay sede en esa localidad.");
 	}
 
-	private Emplazamiento soyEseEmplazamiento(String emplazamiento) throws Exception {
+	private Emplazamiento soyEseEmplazamiento(String emplazamiento)  {
 
 		for (Emplazamiento emp : emplazamientos)
 			if (emp.getTipoEmplazamiento().equals(emplazamiento)) {
@@ -320,7 +322,8 @@ public class GimnasioSingleton {
 	}
 
 	public void agendarClase(int idA, String nroDNIProfesor, String localidad, String nombreClase, String actividad,
-			String emplazamiento, LocalDateTime fecha, int duracionClase, boolean online) throws Exception {
+			String emplazamiento, LocalDateTime fecha, int duracionClase, boolean online) throws ProfesorNoRegistradoException,
+							ProfesorNoDisponibleException,NoExisteEmplazamientoException,NoExisteSedeException,NoExisteActividadException,NoExisteUsuarioException {
 
 		Administrativo a = soyEseAdministrativo(idA);
 
@@ -386,7 +389,7 @@ public class GimnasioSingleton {
 	}
 
 	public void agregarArticuloAStock(int idA, String localidad, String marca, String articulo, String atributos,
-			int cantidad) throws NoExisteArticuloEnCatalogoException {
+			int cantidad) throws NoExisteArticuloEnCatalogoException, NoExisteSedeException {
 
 		Administrativo adm = soyEseAdministrativo(idA);
 

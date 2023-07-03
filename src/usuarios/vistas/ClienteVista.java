@@ -61,6 +61,7 @@ public class ClienteVista extends JFrame {
         panelTabla.setLayout(new BoxLayout(panelTabla, BoxLayout.Y_AXIS));
         panelTabla.add(new JLabel("Mis clases"));
         panelTabla.add(tablaScroll);
+        configurarTabla();
 
         this.getContentPane().add(panelBotones);
         this.getContentPane().add(panelTabla);

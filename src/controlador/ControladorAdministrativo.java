@@ -1,6 +1,8 @@
 package controlador;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 import modelo.productos.Articulo;
@@ -11,6 +13,7 @@ import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.usuarios.Administrativo;
+import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
 
 public class ControladorAdministrativo {
 
@@ -55,7 +58,7 @@ public class ControladorAdministrativo {
 	}
 
 	public void agendarClase(String dniProfesor, String sede, String nombreClase, String actividad,
-			String emplazamiento, LocalDateTime fechaHora, int duracion, boolean online) throws Exception {
+			String emplazamiento, LocalDateTime fechaHora, int duracion, boolean online) throws NoExisteSedeException,ProfesorNoRegistradoException,Exception {
 
 		gimnasio.agendarClase(administrativoControlo.getId(), dniProfesor, sede, nombreClase, actividad, emplazamiento,
 				fechaHora, duracion, online);
@@ -107,5 +110,6 @@ public class ControladorAdministrativo {
 		}
 		return null;
 	}
+	
 
 }

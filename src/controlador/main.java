@@ -24,6 +24,7 @@ import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.supertlon.Excepciones.NoexisteClaseException;
 import modelo.usuarios.Administrativo;
+import modelo.usuarios.Cliente;
 import modelo.usuarios.SoporteTecnico;
 import modelo.utilidad.Nivel;
 import usuarios.vistas.InterfazSeleccionRol;
@@ -39,10 +40,10 @@ public class main {
 		sede1.agregarEmplazamiento(emplazamiento1);
 
 		SoporteTecnico st = new SoporteTecnico("Jose", "Menem", "87654321");
-		Administrativo admin = new Administrativo("Juan", "Pérez", "12345678");
+		/*Administrativo admin = new Administrativo("Juan", "Pérez", "12345678");
 		st.asignarSede(admin, sede1);
 		st.asignarSede(admin, sede2);
-		admin.crearCliente("Pedro", "Lopez", "20.444.555", Nivel.BLACK);
+		*/
 		GimnasioSingleton.getInstance().agregarUsuario(st);
 		st.crearProfesor("Juan", "carlos", "39.056.123", 100.00, sede1);
 

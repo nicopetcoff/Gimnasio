@@ -14,6 +14,7 @@ import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
+import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
 import modelo.utilidad.EstadoClase;
 import modelo.utilidad.Nivel;
 
@@ -39,19 +40,17 @@ public class Administrativo extends Usuario {
 	}
 
 	public void agendarClase(String nroDNIProfesor, Sede sede, String nombreClase, Actividad actividad,
-			Emplazamiento emplazamiento, LocalDateTime fecha, int duracionClase, boolean online) throws Exception {
+			Emplazamiento emplazamiento, LocalDateTime fecha, int duracionClase, boolean online) throws ProfesorNoRegistradoException,ProfesorNoDisponibleException {
 
 		Profesor profesor = sede.buscarProfesor(nroDNIProfesor);
 
-		try {
+	
 			if (profesor.estoyDisponbile(fecha)) {
 				Clase clase = new Clase(profesor, sede, nombreClase, actividad, emplazamiento, fecha, duracionClase, online);
 				sede.agregarClase(clase);
 				profesor.agregarClase(clase);
 			}
-		} catch (ProfesorNoDisponibleException e) {
-			e.printStackTrace();
-		}
+		
 
 	}
 
