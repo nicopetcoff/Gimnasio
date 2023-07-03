@@ -38,6 +38,7 @@ public class ClienteVista extends JFrame {
         this.setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
         this.setBackground(Color.WHITE);
         this.setTitle("Panel de Control - Cliente");
+        this.setVisible(true);
 
         JPanel panelBotones = new JPanel();
         panelBotones.setLayout(new BoxLayout(panelBotones, BoxLayout.Y_AXIS));
