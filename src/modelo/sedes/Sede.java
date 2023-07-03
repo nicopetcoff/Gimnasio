@@ -10,6 +10,7 @@ import modelo.productos.Articulo;
 import modelo.productos.NoHayStockException;
 import modelo.productos.Stock;
 import modelo.usuarios.Profesor;
+import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
 import modelo.utilidad.Nivel;
 
 public class Sede {
@@ -119,13 +120,13 @@ public class Sede {
 		return this.clases;
 	}
 
-	public Profesor buscarProfesor(String nroDNIProfesor) {
+	public Profesor buscarProfesor(String nroDNIProfesor) throws ProfesorNoRegistradoException {
 		for (Profesor profesor : profesores) {
 			if (profesor.getDNI().equals(nroDNIProfesor)) {
 				return profesor;
 			}
 		}
-		return null;
+		throw new ProfesorNoRegistradoException("Profesor indicado no existe.");
 	}
 
 	public void agregarEmplazamiento(Emplazamiento em) {

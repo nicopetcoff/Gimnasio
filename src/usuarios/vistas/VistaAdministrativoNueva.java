@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -32,7 +33,9 @@ import modelo.sedes.Clase;
 import modelo.sedes.Sede;
 import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
-import modelo.supertlon.Excepciones.NoExisteUsuarioException;
+import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
+import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
+import modelo.supertlon.Excepciones.*;
 import modelo.utilidad.EstadoClase;
 
 public class VistaAdministrativoNueva {
@@ -425,16 +428,30 @@ public class VistaAdministrativoNueva {
 	            String nombreClase = campoNombreClase.getText();
 	            String actividad = (String) comboActiviadBox.getSelectedItem();
 	            String emplazamiento = (String) comboEmplazamientoBox.getSelectedItem();
-	            String horario = campoFechaHora.getText();
-	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-	            LocalDateTime fechaHora = LocalDateTime.parse(horario, formatter);
+	            ;
 	            int duracion = Integer.parseInt(campoDuracion.getText());
 	            boolean enviarNotificaciones = checkBoxNotificaciones.isSelected();
 
 	            try {
+	            	String horario = campoFechaHora.getText();
+		            DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		            LocalDateTime fechaHora = LocalDateTime.parse(horario, formato);
+		            
 	                controlador.agendarClase(dniProfesor, sede, nombreClase, actividad, emplazamiento, fechaHora, duracion, enviarNotificaciones);
-	            } catch (Exception e1) {
-	                JOptionPane.showMessageDialog(null, "No se pudo agendar la clase", "Error", JOptionPane.ERROR_MESSAGE);
+	            }catch(DateTimeParseException e1) {
+	            	JOptionPane.showMessageDialog(null, "Fecha erronea. (yyyy/MM/dd HH:mm)", "Error", JOptionPane.ERROR_MESSAGE);
+	                e1.printStackTrace();
+	        	}catch (ProfesorNoRegistradoException e1) {	   
+	                JOptionPane.showMessageDialog(null, "Profesor ingresado no esta registrado.", "Error", JOptionPane.ERROR_MESSAGE);
+	                e1.printStackTrace();
+	            }catch(NoExisteSedeException e1){
+	            	JOptionPane.showMessageDialog(null, "No hay sede en esa localidad", "Error", JOptionPane.ERROR_MESSAGE);
+	                e1.printStackTrace();
+	            } catch(ProfesorNoDisponibleException e1) {
+	            	JOptionPane.showMessageDialog(null, "Profesor no disponible.", "Error", JOptionPane.ERROR_MESSAGE);
+	                e1.printStackTrace();
+	            }catch(Exception e1) {
+	            	JOptionPane.showMessageDialog(null, "Error al agendar la clase. Intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
 	                e1.printStackTrace();
 	            }
 

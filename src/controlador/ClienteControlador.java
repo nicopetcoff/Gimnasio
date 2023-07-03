@@ -3,6 +3,7 @@ package controlador;
 import java.util.ArrayList;
 
 import modelo.sedes.Clase;
+import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.usuarios.Cliente;
@@ -60,10 +61,12 @@ public class ClienteControlador {
     }
 
 	public ArrayList<Clase> getClasesDisponibles() throws NoExisteSedeException {
-		
-		
-		// falta desarrollar aca
-		gimnasio.verClasesAgendadas(null);
-		return null;
+		ArrayList<Clase> clasesDispo=new ArrayList<>();
+		for(Sede s:gimnasio.getSedes()) {
+			if(s.getNivel().getJerarquia()<=cliente.getNivel().getJerarquia()) {
+				clasesDispo.addAll(s.getClases());
+			}
+		}
+		return clasesDispo;
 	}
 }
