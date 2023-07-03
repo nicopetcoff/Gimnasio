@@ -39,13 +39,13 @@ public class Administrativo extends Usuario {
 	}
 
 	public void agendarClase(String nroDNIProfesor, Sede sede, String nombreClase, Actividad actividad,
-			Emplazamiento emplazamiento, LocalDateTime fecha, int duracionClase) throws Exception {
+			Emplazamiento emplazamiento, LocalDateTime fecha, int duracionClase, boolean online) throws Exception {
 
 		Profesor profesor = sede.buscarProfesor(nroDNIProfesor);
 
 		try {
 			if (profesor.estoyDisponbile(fecha)) {
-				Clase clase = new Clase(profesor, sede, nombreClase, actividad, emplazamiento, fecha, duracionClase);
+				Clase clase = new Clase(profesor, sede, nombreClase, actividad, emplazamiento, fecha, duracionClase, online);
 				sede.agregarClase(clase);
 				profesor.agregarClase(clase);
 			}

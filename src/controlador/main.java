@@ -473,7 +473,7 @@ public class main {
 
 		try {
 			gimnasio.agendarClase(idA, nroDNIProfesor, localidad, nombreClase, actividad, emplazamiento1, fecha,
-					duracionClase);
+					duracionClase, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

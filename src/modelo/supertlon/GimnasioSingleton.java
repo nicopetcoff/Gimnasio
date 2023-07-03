@@ -320,7 +320,7 @@ public class GimnasioSingleton {
 	}
 
 	public void agendarClase(int idA, String nroDNIProfesor, String localidad, String nombreClase, String actividad,
-			String emplazamiento, LocalDateTime fecha, int duracionClase) throws Exception {
+			String emplazamiento, LocalDateTime fecha, int duracionClase, boolean online) throws Exception {
 
 		Administrativo a = soyEseAdministrativo(idA);
 
@@ -337,7 +337,7 @@ public class GimnasioSingleton {
 				if (act != null) {
 
 					if (emp != null) {
-						a.agendarClase(nroDNIProfesor, s, nombreClase, act, emp, fecha, duracionClase);
+						a.agendarClase(nroDNIProfesor, s, nombreClase, act, emp, fecha, duracionClase, online);
 					} else {
 						throw new NoExisteEmplazamientoException("No existe el emplazamiento");
 					}
@@ -425,6 +425,10 @@ public class GimnasioSingleton {
 		}
 
 	}
+	
+	
+	
+	
 
 	public void setearArticuloRequeridoPorActividad(int id, String actividad, String marca, String nombArticulo,
 			String atributos, int cantidad)

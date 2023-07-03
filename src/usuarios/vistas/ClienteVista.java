@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import controlador.ClienteControlador;
 import controlador.ControladorBdStreaming;
 import modelo.sedes.Clase;
+import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.usuarios.Cliente;
 
 public class ClienteVista extends JFrame {
@@ -95,8 +96,15 @@ public class ClienteVista extends JFrame {
 
     }
 
-    public void configurarTabla(ArrayList<Clase> clases) {
+    public void configurarTabla() {
         tablaModelo.setRowCount(0); // Limpiar la tabla antes de configurar nuevos datos
+        
+        ArrayList<Clase> clases = null;
+		try {
+			clases = controlador.getClasesDisponibles();
+		} catch (NoExisteSedeException e) {
+			e.printStackTrace();
+		}
 
         for (Clase clase : clases) {
             Object[] rowData = { clase.getnombre(), clase.getActividad().getTipoClase(), clase.getLugar(),

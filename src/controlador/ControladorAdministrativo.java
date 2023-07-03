@@ -55,10 +55,10 @@ public class ControladorAdministrativo {
 	}
 
 	public void agendarClase(String dniProfesor, String sede, String nombreClase, String actividad,
-			String emplazamiento, LocalDateTime fechaHora, int duracion) throws Exception {
+			String emplazamiento, LocalDateTime fechaHora, int duracion, boolean online) throws Exception {
 
 		gimnasio.agendarClase(administrativoControlo.getId(), dniProfesor, sede, nombreClase, actividad, emplazamiento,
-				fechaHora, duracion);
+				fechaHora, duracion, online);
 
 	}
 

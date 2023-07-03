@@ -33,7 +33,7 @@ public class Clase {
 	private boolean onLine = false;
 
 	public Clase(Profesor profesor, Sede sede, String nombreClase, Actividad actividad, Emplazamiento emplazamiento,
-			LocalDateTime fecha, int duracionClase) {
+			LocalDateTime fecha, int duracionClase, boolean online) {
 		this.idClase = idClaseSig;
 		idClaseSig++;
 		this.nombreClase = nombreClase;
@@ -46,6 +46,7 @@ public class Clase {
 		this.estado = EstadoClase.AGENDADA;
 		this.articulosDeLaClase = new ArrayList<>();
 		this.duracionClase = duracionClase;
+		this.onLine = online;
 	}
 
 	@Override

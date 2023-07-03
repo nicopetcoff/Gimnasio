@@ -34,13 +34,13 @@ public class PruebaBDS {
 		LocalDateTime fecha = LocalDateTime.now();
 		int duracionClase = 60;
 
-		Clase clase1 = new Clase(profesor1, sede1, "Clase de Crossfit", actividad, emplazamiento, fecha, duracionClase);
-		Clase clase2 = new Clase(profesor2, sede2, "Clase de Zumba1", actividad2, emplazamiento, fecha, duracionClase);
-		Clase clase3 = new Clase(profesor2, sede2, "Clase de Zumba2", actividad2, emplazamiento, fecha, duracionClase);
-		Clase clase4 = new Clase(profesor2, sede2, "Clase de Zumba3", actividad2, emplazamiento, fecha, duracionClase);
-		Clase clase5 = new Clase(profesor2, sede2, "Clase de Zumba4", actividad2, emplazamiento, fecha, duracionClase);
-		Clase clase6 = new Clase(profesor2, sede2, "Clase de Zumba5", actividad2, emplazamiento, fecha, duracionClase);
-		Clase clase7 = new Clase(profesor2, sede2, "Clase de Zumba6", actividad2, emplazamiento, fecha, duracionClase);
+		Clase clase1 = new Clase(profesor1, sede1, "Clase de Crossfit", actividad, emplazamiento, fecha, duracionClase, true);
+		Clase clase2 = new Clase(profesor2, sede2, "Clase de Zumba1", actividad2, emplazamiento, fecha, duracionClase, true);
+		Clase clase3 = new Clase(profesor2, sede2, "Clase de Zumba2", actividad2, emplazamiento, fecha, duracionClase, true);
+		Clase clase4 = new Clase(profesor2, sede2, "Clase de Zumba3", actividad2, emplazamiento, fecha, duracionClase, true);
+		Clase clase5 = new Clase(profesor2, sede2, "Clase de Zumba4", actividad2, emplazamiento, fecha, duracionClase, true);
+		Clase clase6 = new Clase(profesor2, sede2, "Clase de Zumba5", actividad2, emplazamiento, fecha, duracionClase, true);
+		Clase clase7 = new Clase(profesor2, sede2, "Clase de Zumba6", actividad2, emplazamiento, fecha, duracionClase, true);
 
 		instancia.agregarClase(clase1);
 		instancia.agregarClase(clase2);
