@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import modelo.productos.Articulo;
 import modelo.productos.TipoAmortizacion;
 import modelo.sedes.Actividad;
-import modelo.sedes.Clase;
 import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;

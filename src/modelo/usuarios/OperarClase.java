@@ -3,7 +3,6 @@ package modelo.usuarios;
 import modelo.productos.NoHayStockException;
 import modelo.sedes.Clase;
 import modelo.sedes.NoMismoNivelException;
-import modelo.utilidad.Nivel;
 
 public interface OperarClase {
 

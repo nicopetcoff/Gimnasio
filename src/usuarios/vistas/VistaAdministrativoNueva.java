@@ -1,26 +1,38 @@
 package usuarios.vistas;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
-import modelo.sedes.Clase;
-import modelo.sedes.Sede;
-import modelo.supertlon.GimnasioSingleton;
-import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
-import modelo.supertlon.Excepciones.NoExisteSedeException;
-import modelo.supertlon.Excepciones.NoExisteUsuarioException;
-import modelo.usuarios.Administrativo;
-import modelo.utilidad.EstadoClase;
-import controlador.*;
-import modelo.productos.*;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Iterator;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+
+import controlador.ControladorAdministrativo;
+import controlador.ControladorBdStreaming;
+import modelo.productos.Articulo;
+import modelo.sedes.Clase;
+import modelo.sedes.Sede;
+import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
+import modelo.supertlon.Excepciones.NoExisteSedeException;
+import modelo.supertlon.Excepciones.NoExisteUsuarioException;
+import modelo.utilidad.EstadoClase;
 
 public class VistaAdministrativoNueva {
 	private ControladorAdministrativo controlador;
@@ -171,7 +183,7 @@ public class VistaAdministrativoNueva {
 
 		ventana.setVisible(true);
 	}
-	
+
 	// -----------------------------------------------------------------------------------------------------------------
 
 	private void asignarArticulosASede(ControladorAdministrativo controlador) {
@@ -188,12 +200,11 @@ public class VistaAdministrativoNueva {
 		frame.setLayout(new GridLayout(7, 2));
 		frame.setLocationRelativeTo(null);
 
-
 		JLabel labelArticulos = new JLabel("Artículos:");
 		JComboBox<String> comboBoxArticulos = new JComboBox<>();
 		ArrayList<Articulo> articulos = controlador.getArticulos();
 		for (Articulo articulo : articulos) {
-			comboBoxArticulos.addItem(articulo.getArticulo()+" "+articulo.getAtributos());
+			comboBoxArticulos.addItem(articulo.getArticulo() + " " + articulo.getAtributos());
 		}
 
 		JLabel labelMarca = new JLabel("Marca:");
@@ -283,14 +294,12 @@ public class VistaAdministrativoNueva {
 		cambiarEstadoClase.add(panelInferior, BorderLayout.SOUTH);
 
 		configurarTablaClases(controlador, tablaClases, sedeCombo);
-		
-		
 
 		confirmarButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int filaSeleccionada = tablaClases.getSelectedRow();
-				String localidad=(String) sedeCombo.getSelectedItem();
+				String localidad = (String) sedeCombo.getSelectedItem();
 				if (filaSeleccionada != -1) {
 					cambiarEstadoClase(filaSeleccionada, EstadoClase.CONFIRMADA, localidad);
 					cerrarVentana(e);
@@ -305,7 +314,7 @@ public class VistaAdministrativoNueva {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int filaSeleccionada = tablaClases.getSelectedRow();
-				String localidad=(String) sedeCombo.getSelectedItem();
+				String localidad = (String) sedeCombo.getSelectedItem();
 				if (filaSeleccionada != -1) {
 					cambiarEstadoClase(filaSeleccionada, EstadoClase.FINALIZADA, localidad);
 					cerrarVentana(e);
@@ -347,13 +356,13 @@ public class VistaAdministrativoNueva {
 	}
 
 	private void cambiarEstadoClase(int fila, EstadoClase estado, String localidad) {
-		Clase clase= controlador.getSede(localidad).getClases().get(fila);
+		Clase clase = controlador.getSede(localidad).getClases().get(fila);
 		clase.setEstado(estado);
-		
+
 		/*
-		DefaultTableModel tablaModelo = (DefaultTableModel) tablaClases.getModel();
-		tablaModelo.setValueAt(estado, fila, 2);
-		*/
+		 * DefaultTableModel tablaModelo = (DefaultTableModel) tablaClases.getModel();
+		 * tablaModelo.setValueAt(estado, fila, 2);
+		 */
 	}
 
 	private void cerrarVentana(ActionEvent e) {
@@ -389,7 +398,6 @@ public class VistaAdministrativoNueva {
 
 		JComboBox<String> comboEmplazamiento = new JComboBox<>();
 
-		
 		DefaultComboBoxModel<String> comboEmplazamiento1 = new DefaultComboBoxModel<>();
 
 		for (String emplazamiento : controlador.getEmplazamientos()) {

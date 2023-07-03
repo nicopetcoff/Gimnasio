@@ -2,18 +2,14 @@ package vista.BdStreaming;
 
 import java.time.LocalDateTime;
 
-import javax.swing.SwingUtilities;
-
-import modelo.baseDeDatos.BdStreaming;
-import modelo.baseDeDatos.LimiteClasesException;
-import usuarios.vistas.InterfazSeleccionRol;
-
-import modelo.supertlon.*;
-import modelo.usuarios.*;
-import modelo.productos.*;
-import modelo.sedes.*;
-import modelo.utilidad.*;
 import controlador.ControladorBdStreaming;
+import modelo.productos.Articulo;
+import modelo.sedes.Actividad;
+import modelo.sedes.Clase;
+import modelo.sedes.Emplazamiento;
+import modelo.sedes.Sede;
+import modelo.usuarios.Profesor;
+import modelo.utilidad.Nivel;
 
 public class PruebaBDS {
 

@@ -611,7 +611,7 @@ public class GimnasioSingleton {
 
 	}
 
-	public Cliente getCliente(String usuario,String contrasenia) {
+	public Cliente getCliente(String usuario, String contrasenia) {
 		for (Usuario usu : usuarios) {
 			if (usu.soyCliente()) {
 				Cliente c = (Cliente) usu;
@@ -659,7 +659,7 @@ public class GimnasioSingleton {
 		}
 		return null;
 	}
-	
+
 	public Cliente dameCliente(String usuario, String contrasenia) {
 
 		for (Usuario usu : usuarios) {
@@ -684,12 +684,11 @@ public class GimnasioSingleton {
 		Sede s = soyEsaSede(sede);
 
 		if (a != null) {
-			if (s!=null) {
+			if (s != null) {
 				return a.listarArticulosSede(s);
-			}
-			else {
+			} else {
 				throw new NoExisteSedeException("No existe la Sede");
-			}			
+			}
 		} else {
 			throw new NoExisteUsuarioException("No existe el Administrativo");
 		}

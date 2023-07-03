@@ -1,13 +1,11 @@
 package controlador;
 
 import java.time.LocalDate;
-import usuarios.vistas.*;
 import java.time.LocalDateTime;
-import usuarios.vistas.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.Map.Entry;
+import java.util.Scanner;
 
 import javax.swing.SwingUtilities;
 
@@ -25,10 +23,10 @@ import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.supertlon.Excepciones.NoexisteClaseException;
-import modelo.utilidad.Nivel;
-
 import modelo.usuarios.Administrativo;
 import modelo.usuarios.SoporteTecnico;
+import modelo.utilidad.Nivel;
+import usuarios.vistas.InterfazSeleccionRol;
 
 public class main {
 

@@ -1,31 +1,36 @@
 package usuarios.vistas;
 
-import controlador.*;
-import modelo.productos.Articulo;
-import modelo.sedes.Actividad;
-import modelo.supertlon.Excepciones.NoExisteActividadException;
-import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
-import modelo.supertlon.Excepciones.NoExisteSedeException;
-import modelo.supertlon.Excepciones.NoExisteUsuarioException;
-import modelo.usuarios.*;
-
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.ModuleLayer.Controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import javax.swing.table.*;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JComboBox;
+import javax.swing.table.DefaultTableModel;
+
+import controlador.ControladorST;
+import modelo.productos.Articulo;
+import modelo.sedes.Actividad;
+import modelo.supertlon.Excepciones.NoExisteActividadException;
+import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
+import modelo.supertlon.Excepciones.NoExisteSedeException;
+import modelo.supertlon.Excepciones.NoExisteUsuarioException;
+import modelo.usuarios.Usuario;
 
 public class VistaSoporteTecnico extends JFrame {
 
@@ -146,13 +151,13 @@ public class VistaSoporteTecnico extends JFrame {
 			}
 
 		});
-		
+
 		JMenuItem setearArticuloRequeridoPorActividad = new JMenuItem("Setear Articulos por Actividad");
 		setearArticuloRequeridoPorActividad.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				setearArticuloRequeridoPorActividad();
 			}
 		});
@@ -175,83 +180,84 @@ public class VistaSoporteTecnico extends JFrame {
 		this.add(scrollPaneUsuariosSoporteTecnico);
 
 	}
-	
+
 	private void setearArticuloRequeridoPorActividad() {
-	    
-	    JFrame ventana = new JFrame("Seleccionar Artículo Requerido");
-	    ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	    ventana.setLayout(new GridLayout(5, 1, 10, 10));
-	    ventana.setPreferredSize(new Dimension(400, 300));
-	    
-	    ControladorST controlador = new ControladorST();
-	    Articulo articuloSeleccionado = null;
-	    int cantidadItems = 0;
-	    Actividad actividadSeleccionada = null;
-	    
-	    JLabel idGestionLabel = new JLabel("ID de Gestión:");
+
+		JFrame ventana = new JFrame("Seleccionar Artículo Requerido");
+		ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		ventana.setLayout(new GridLayout(5, 1, 10, 10));
+		ventana.setPreferredSize(new Dimension(400, 300));
+
+		ControladorST controlador = new ControladorST();
+		Articulo articuloSeleccionado = null;
+		int cantidadItems = 0;
+		Actividad actividadSeleccionada = null;
+
+		JLabel idGestionLabel = new JLabel("ID de Gestión:");
 		JTextField idGestionText = new JTextField(10);
 
-	    JLabel seleccionarArticulo = new JLabel("Seleccionar Articulo: ");
-	    JComboBox<Articulo> seleccionarArticulosCombo = new JComboBox<>(controlador.getArticulosDisponibles().toArray(new Articulo[0]));
+		JLabel seleccionarArticulo = new JLabel("Seleccionar Articulo: ");
+		JComboBox<Articulo> seleccionarArticulosCombo = new JComboBox<>(
+				controlador.getArticulosDisponibles().toArray(new Articulo[0]));
 
-	    JLabel cantidadItemsLabel = new JLabel("Ingrese cantidad Requerida: ");
-	    JTextField cantidadItemsCampo = new JTextField(10);
+		JLabel cantidadItemsLabel = new JLabel("Ingrese cantidad Requerida: ");
+		JTextField cantidadItemsCampo = new JTextField(10);
 
-	    JLabel seleccionarActividad = new JLabel("Seleccionar Actividad :");
-	    JComboBox<Actividad> seleccionarAtividadCombo = new JComboBox<>(controlador.getActividades().toArray(new Actividad[0]));
+		JLabel seleccionarActividad = new JLabel("Seleccionar Actividad :");
+		JComboBox<Actividad> seleccionarAtividadCombo = new JComboBox<>(
+				controlador.getActividades().toArray(new Actividad[0]));
 
-	    JButton agregarBoton = new JButton("Agregar");
-	    agregarBoton.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            Articulo articuloSeleccionado = (Articulo) seleccionarArticulosCombo.getSelectedItem();
-	  
-	            int cantidadItems = Integer.parseInt(cantidadItemsCampo.getText());
-	            
-	            Actividad actividadSeleccionada = (Actividad)  seleccionarAtividadCombo.getSelectedItem();
-	            
-	        }
-	    });
+		JButton agregarBoton = new JButton("Agregar");
+		agregarBoton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Articulo articuloSeleccionado = (Articulo) seleccionarArticulosCombo.getSelectedItem();
 
-	    JButton aceptarBoton = new JButton("Aceptar");
-	    aceptarBoton.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	        	int idGestion = Integer.parseInt(idGestionText.getText());
-	        	
-	        	//corregir
-	        	
-	            try {
-					controlador.setArticuloRequeridoPorActividad(idGestion, articuloSeleccionado, cantidadItems, actividadSeleccionada);
+				int cantidadItems = Integer.parseInt(cantidadItemsCampo.getText());
+
+				Actividad actividadSeleccionada = (Actividad) seleccionarAtividadCombo.getSelectedItem();
+
+			}
+		});
+
+		JButton aceptarBoton = new JButton("Aceptar");
+		aceptarBoton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int idGestion = Integer.parseInt(idGestionText.getText());
+
+				// corregir
+
+				try {
+					controlador.setArticuloRequeridoPorActividad(idGestion, articuloSeleccionado, cantidadItems,
+							actividadSeleccionada);
 				} catch (NoExisteUsuarioException | NoExisteActividadException
 						| NoExisteArticuloEnCatalogoException e1) {
-					
-					JOptionPane.showMessageDialog(null, "No se pudo setear la cantidad de Articulos necesarios", "Error",
-							JOptionPane.ERROR_MESSAGE);
+
+					JOptionPane.showMessageDialog(null, "No se pudo setear la cantidad de Articulos necesarios",
+							"Error", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
-	            ventana.dispose();
-	        }
-	    });
+				ventana.dispose();
+			}
+		});
 
-	    ventana.add(idGestionLabel);
-	    ventana.add(idGestionText);
-	    ventana.add(seleccionarArticulo);
-	    ventana.add(seleccionarArticulosCombo);
-	    ventana.add(cantidadItemsLabel);
-	    ventana.add(cantidadItemsCampo);	    
-	    ventana.add(seleccionarActividad);
-	    ventana.add(seleccionarAtividadCombo);
-	    ventana.add(agregarBoton);
-	    ventana.add(aceptarBoton);
+		ventana.add(idGestionLabel);
+		ventana.add(idGestionText);
+		ventana.add(seleccionarArticulo);
+		ventana.add(seleccionarArticulosCombo);
+		ventana.add(cantidadItemsLabel);
+		ventana.add(cantidadItemsCampo);
+		ventana.add(seleccionarActividad);
+		ventana.add(seleccionarAtividadCombo);
+		ventana.add(agregarBoton);
+		ventana.add(aceptarBoton);
 
-	    ventana.pack();
-	    ventana.setLocationRelativeTo(null);
-	    ventana.setVisible(true);
+		ventana.pack();
+		ventana.setLocationRelativeTo(null);
+		ventana.setVisible(true);
 
-	    
 	}
-
 
 	// -----------------------------------------------------------------------------------------------------------------
 
@@ -259,7 +265,6 @@ public class VistaSoporteTecnico extends JFrame {
 
 		JFrame ventanaCrearArticulo = new JFrame("Crear Artículo en Catálogo");
 		ventanaCrearArticulo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
 
 		ControladorST controlador = new ControladorST();
 
@@ -397,7 +402,7 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaAsignarEmplazamiento.setVisible(true);
 		ventanaAsignarEmplazamiento.setLocationRelativeTo(null);
 	}
-	
+
 	// -----------------------------------------------------------------------------------------------------------------
 
 	private void crearEmplazamiento() {
@@ -449,7 +454,7 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearEmplazamiento.setVisible(true);
 		ventanaCrearEmplazamiento.setLocationRelativeTo(null);
 	}
-	
+
 	// -----------------------------------------------------------------------------------------------------------------
 
 	private void crearActividad() {
@@ -495,7 +500,7 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearActividad.setVisible(true);
 		ventanaCrearActividad.setLocationRelativeTo(null);
 	}
-	
+
 	// -----------------------------------------------------------------------------------------------------------------
 
 	private void crearProfesor() {
@@ -565,7 +570,7 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearProfesor.setVisible(true);
 		ventanaCrearProfesor.setLocationRelativeTo(null);
 	}
-	
+
 	// -----------------------------------------------------------------------------------------------------------------
 
 	private void crearAdministrativo() {
@@ -643,7 +648,7 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearAdmin.setVisible(true);
 		ventanaCrearAdmin.setLocationRelativeTo(null);
 	}
-	
+
 	// -----------------------------------------------------------------------------------------------------------------
 
 	private void crearSoporteTecnico() {
@@ -701,7 +706,7 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearSoporte.setVisible(true);
 		ventanaCrearSoporte.setLocationRelativeTo(null);
 	}
-	
+
 	// -----------------------------------------------------------------------------------------------------------------
 
 	private void crearSede() {
@@ -771,7 +776,7 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearSede.setVisible(true);
 		ventanaCrearSede.setLocationRelativeTo(null);
 	}
-	
+
 	// -----------------------------------------------------------------------------------------------------------------
 
 	private void crearCliente() {

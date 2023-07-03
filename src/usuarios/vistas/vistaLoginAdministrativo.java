@@ -1,6 +1,5 @@
 package usuarios.vistas;
 
-import modelo.usuarios.*;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

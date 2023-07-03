@@ -1,18 +1,30 @@
 package vista.Funcionalidades;
 
-import modelo.sedes.*;
-import modelo.supertlon.GimnasioSingleton;
-import modelo.usuarios.*;
-import javax.swing.*;
-
-import java.util.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
+import modelo.sedes.Actividad;
+import modelo.sedes.Emplazamiento;
+import modelo.supertlon.GimnasioSingleton;
+import modelo.usuarios.Profesor;
 
 public class VistaAgendarClase extends JFrame {
 	private ControladorAgendarClase controlador;

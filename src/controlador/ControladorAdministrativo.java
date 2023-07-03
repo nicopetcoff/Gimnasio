@@ -2,12 +2,9 @@ package controlador;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import modelo.productos.Articulo;
-import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
-import modelo.sedes.Emplazamiento;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
 import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
@@ -96,20 +93,19 @@ public class ControladorAdministrativo {
 
 		return gimnasio.getArticulosSede(administrativoControlo.getId(), sede);
 	}
-	
+
 	public Clase getClase(String nombre) {
-		
+
 		return null;
 	}
-	
+
 	public Sede getSede(String localidad) {
-		for(Sede s: this.administrativoControlo.getSedes()) {
-			if(s.getLocalidad().equals(localidad)) {
+		for (Sede s : this.administrativoControlo.getSedes()) {
+			if (s.getLocalidad().equals(localidad)) {
 				return s;
 			}
 		}
 		return null;
 	}
-	
 
 }

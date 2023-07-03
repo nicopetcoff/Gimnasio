@@ -1,9 +1,7 @@
 package controlador;
 
-import java.awt.List;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import modelo.productos.Articulo;
 import modelo.productos.TipoAmortizacion;
@@ -156,11 +154,14 @@ public class ControladorST {
 		return gimnasio.getActividades();
 	}
 
-	public void setArticuloRequeridoPorActividad(int idGestion, Articulo articuloSeleccionado, int cantidadItems, Actividad actividadSeleccionada) throws NoExisteUsuarioException, NoExisteActividadException, NoExisteArticuloEnCatalogoException {
-		
-		gimnasio.setearArticuloRequeridoPorActividad(idGestion, actividadSeleccionada.getTipoClase(), articuloSeleccionado.getMarca(), articuloSeleccionado.getArticulo(), articuloSeleccionado.getAtributos(), cantidadItems);
-		
-		
+	public void setArticuloRequeridoPorActividad(int idGestion, Articulo articuloSeleccionado, int cantidadItems,
+			Actividad actividadSeleccionada)
+			throws NoExisteUsuarioException, NoExisteActividadException, NoExisteArticuloEnCatalogoException {
+
+		gimnasio.setearArticuloRequeridoPorActividad(idGestion, actividadSeleccionada.getTipoClase(),
+				articuloSeleccionado.getMarca(), articuloSeleccionado.getArticulo(),
+				articuloSeleccionado.getAtributos(), cantidadItems);
+
 	}
 
 }

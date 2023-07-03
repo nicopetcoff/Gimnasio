@@ -115,9 +115,8 @@ public class Administrativo extends Usuario {
 	}
 
 	public ArrayList<Articulo> listarArticulosSede(Sede s) throws NoExisteSedeException {
-	
-			return s.listarArticulos();
-	
+
+		return s.listarArticulos();
 
 	}
 

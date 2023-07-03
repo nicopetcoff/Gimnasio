@@ -1,14 +1,17 @@
 package usuarios.vistas;
 
-import modelo.usuarios.*;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
-import controlador.*;
-
-import java.awt.*;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import controlador.ClienteControlador;
 
 public class VistaLoginCliente extends JFrame {
 	private JTextField usuarioCampo;
@@ -19,7 +22,7 @@ public class VistaLoginCliente extends JFrame {
 	public VistaLoginCliente() {
 		controlador = new ClienteControlador();
 
-		setTitle("Vista Administrativo Nueva");
+		setTitle("Login CLiente");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLayout(new GridLayout(3, 2, 10, 10));
 		setLocationRelativeTo(null);
@@ -44,7 +47,7 @@ public class VistaLoginCliente extends JFrame {
 
 				if (controlador.validarCredenciales(usuario, contrasenia)) {
 
-					abrirVentanaCliente(usuario,contrasenia);
+					abrirVentanaCliente(usuario, contrasenia);
 				} else {
 
 					JOptionPane.showMessageDialog(VistaLoginCliente.this,
@@ -58,7 +61,7 @@ public class VistaLoginCliente extends JFrame {
 		setVisible(true);
 	}
 
-	private void abrirVentanaCliente(String usuario,String contrasenia) {
+	private void abrirVentanaCliente(String usuario, String contrasenia) {
 
 		ClienteVista vista = new ClienteVista(controlador.buscarCliente(usuario, contrasenia));
 	}

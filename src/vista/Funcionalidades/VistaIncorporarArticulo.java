@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,8 +20,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.productos.Articulo;
-import modelo.sedes.Clase;
-import modelo.supertlon.GimnasioSingleton;
 
 public class VistaIncorporarArticulo extends JFrame {
 	private JTextField cantidadArticulos;

@@ -12,7 +12,6 @@ import modelo.productos.NoHayStockException;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Profesor;
 import modelo.utilidad.EstadoClase;
-import modelo.utilidad.Nivel;
 
 public class Clase {
 
@@ -66,8 +65,9 @@ public class Clase {
 	public EstadoClase getEstado() {
 		return this.estado;
 	}
+
 	public void setEstado(EstadoClase estado) {
-		this.estado=estado;
+		this.estado = estado;
 	}
 
 	public LocalDateTime getFecha() {

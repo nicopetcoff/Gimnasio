@@ -1,17 +1,30 @@
 package vista.BdStreaming;
 
-import controlador.ControladorBdStreaming;
-import modelo.sedes.Actividad;
-import modelo.sedes.Clase;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+import controlador.ControladorBdStreaming;
+import modelo.sedes.Actividad;
+import modelo.sedes.Clase;
 
 public class VistaBdStreamingUser extends JFrame {
 
