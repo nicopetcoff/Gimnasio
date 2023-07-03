@@ -702,4 +702,14 @@ public class GimnasioSingleton {
 
 	}
 
+	public ArrayList<Profesor> dameProfesoresDeSedes(ArrayList<Sede> sedes2) {
+		
+		ArrayList<Profesor> profesores = new ArrayList<>();
+		
+		for (Sede cd : sedes2) {
+			profesores.addAll(cd.getProfesores());
+		}
+		return profesores;
+	}
+
 }

@@ -13,6 +13,7 @@ import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.usuarios.Administrativo;
+import modelo.usuarios.Profesor;
 import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
 
 public class ControladorAdministrativo {
@@ -109,6 +110,12 @@ public class ControladorAdministrativo {
 			}
 		}
 		return null;
+	}
+
+	public ArrayList<Profesor> getProfesores() {
+		
+		
+		return gimnasio.dameProfesoresDeSedes(administrativoControlo.getSedes());
 	}
 	
 

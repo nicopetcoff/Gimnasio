@@ -207,18 +207,7 @@ public class VistaSoporteTecnico extends JFrame {
 		JComboBox<Actividad> seleccionarAtividadCombo = new JComboBox<>(
 				controlador.getActividades().toArray(new Actividad[0]));
 
-		JButton agregarBoton = new JButton("Agregar");
-		agregarBoton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Articulo articuloSeleccionado = (Articulo) seleccionarArticulosCombo.getSelectedItem();
-
-				int cantidadItems = Integer.parseInt(cantidadItemsCampo.getText());
-
-				Actividad actividadSeleccionada = (Actividad) seleccionarAtividadCombo.getSelectedItem();
-
-			}
-		});
+		
 
 		JButton aceptarBoton = new JButton("Aceptar");
 		aceptarBoton.addActionListener(new ActionListener() {
@@ -226,7 +215,12 @@ public class VistaSoporteTecnico extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int idGestion = Integer.parseInt(idGestionText.getText());
 
-				// corregir
+				
+				Articulo articuloSeleccionado = (Articulo) seleccionarArticulosCombo.getSelectedItem();
+
+				int cantidadItems = Integer.parseInt(cantidadItemsCampo.getText());
+
+				Actividad actividadSeleccionada = (Actividad) seleccionarAtividadCombo.getSelectedItem();
 
 				try {
 					controlador.setArticuloRequeridoPorActividad(idGestion, articuloSeleccionado, cantidadItems,
@@ -250,7 +244,6 @@ public class VistaSoporteTecnico extends JFrame {
 		ventana.add(cantidadItemsCampo);
 		ventana.add(seleccionarActividad);
 		ventana.add(seleccionarAtividadCombo);
-		ventana.add(agregarBoton);
 		ventana.add(aceptarBoton);
 
 		ventana.pack();
