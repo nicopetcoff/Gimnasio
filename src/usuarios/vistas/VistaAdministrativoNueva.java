@@ -34,6 +34,7 @@ import modelo.sedes.Clase;
 import modelo.sedes.Sede;
 import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
+import modelo.usuarios.Profesor;
 import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
 import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
 import modelo.supertlon.Excepciones.*;
@@ -388,16 +389,14 @@ public class VistaAdministrativoNueva {
 		frame.dispose();
 	}
 	// ------------------------------------------------------------------------------------------
-
 	private void agendarClase(ControladorAdministrativo controlador) {
 
 	    JFrame ventanaAgendarClase = new JFrame("Agendar clase");
 	    ventanaAgendarClase.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    ventanaAgendarClase.setLayout(new GridLayout(9, 2));
 	    ventanaAgendarClase.setLocationRelativeTo(null);
-	   
 
-	    JLabel etiquetaDNI = new JLabel("DNI del profesor:");
+	    JLabel etiquetaDNI = new JLabel("Profesor");
 	    JLabel etiquetaSede = new JLabel("Sede:");
 	    JLabel etiquetaNombreClase = new JLabel("Nombre de la clase:");
 	    JLabel etiquetaActividad = new JLabel("Actividad:");
@@ -406,8 +405,16 @@ public class VistaAdministrativoNueva {
 	    JLabel etiquetaDuracion = new JLabel("Duración (minutos):");
 	    JLabel etiquetaEnviarNotificaciones = new JLabel("Es online?:");
 
-	    JTextField campoDNI = new JTextField();
-	    JTextField campoSede = new JTextField();
+
+	    ArrayList<Profesor> profesores = controlador.getProfesores();
+	    DefaultComboBoxModel<Profesor> comboProfesor = new DefaultComboBoxModel<>(profesores.toArray(new Profesor[0]));
+	    JComboBox<Profesor> comboProfesorBox = new JComboBox<>(comboProfesor);
+
+
+	    ArrayList<Sede> sedes = controlador.getSedes();
+	    DefaultComboBoxModel<Sede> comboSede = new DefaultComboBoxModel<>(sedes.toArray(new Sede[0]));
+	    JComboBox<Sede> comboSedeBox = new JComboBox<>(comboSede);
+
 	    JTextField campoNombreClase = new JTextField();
 	    DefaultComboBoxModel<String> comboActividad = new DefaultComboBoxModel<>();
 
@@ -437,35 +444,34 @@ public class VistaAdministrativoNueva {
 	    botonAceptar.addActionListener(new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
-	            String dniProfesor = campoDNI.getText();
-	            String sede = campoSede.getText();
+	            Profesor profesor = (Profesor) comboProfesorBox.getSelectedItem();
+	            Sede sede = (Sede) comboSedeBox.getSelectedItem();
 	            String nombreClase = campoNombreClase.getText();
 	            String actividad = (String) comboActiviadBox.getSelectedItem();
 	            String emplazamiento = (String) comboEmplazamientoBox.getSelectedItem();
-	            ;
 	            int duracion = Integer.parseInt(campoDuracion.getText());
 	            boolean enviarNotificaciones = checkBoxNotificaciones.isSelected();
 
 	            try {
-	            	String horario = campoFechaHora.getText();
-		            DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		            LocalDateTime fechaHora = LocalDateTime.parse(horario, formato);
-		            
-	                controlador.agendarClase(dniProfesor, sede, nombreClase, actividad, emplazamiento, fechaHora, duracion, enviarNotificaciones);
-	            }catch(DateTimeParseException e1) {
-	            	JOptionPane.showMessageDialog(null, "Fecha erronea. (yyyy/MM/dd HH:mm)", "Error", JOptionPane.ERROR_MESSAGE);
+	                String horario = campoFechaHora.getText();
+	                DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+	                LocalDateTime fechaHora = LocalDateTime.parse(horario, formato);
+
+	                controlador.agendarClase(profesor.getDNI(), sede.getLocalidad(), nombreClase, actividad, emplazamiento, fechaHora, duracion, enviarNotificaciones);
+	            } catch (DateTimeParseException e1) {
+	                JOptionPane.showMessageDialog(null, "Fecha erronea. (yyyy/MM/dd HH:mm)", "Error", JOptionPane.ERROR_MESSAGE);
 	                e1.printStackTrace();
-	        	}catch (ProfesorNoRegistradoException e1) {	   
-	                JOptionPane.showMessageDialog(null, "Profesor ingresado no esta registrado.", "Error", JOptionPane.ERROR_MESSAGE);
+	            } catch (ProfesorNoRegistradoException e1) {
+	                JOptionPane.showMessageDialog(null, "Profesor ingresado no está registrado.", "Error", JOptionPane.ERROR_MESSAGE);
 	                e1.printStackTrace();
-	            }catch(NoExisteSedeException e1){
-	            	JOptionPane.showMessageDialog(null, "No hay sede en esa localidad", "Error", JOptionPane.ERROR_MESSAGE);
+	            } catch (NoExisteSedeException e1) {
+	                JOptionPane.showMessageDialog(null, "No hay sede en esa localidad", "Error", JOptionPane.ERROR_MESSAGE);
 	                e1.printStackTrace();
-	            } catch(ProfesorNoDisponibleException e1) {
-	            	JOptionPane.showMessageDialog(null, "Profesor no disponible.", "Error", JOptionPane.ERROR_MESSAGE);
+	            } catch (ProfesorNoDisponibleException e1) {
+	                JOptionPane.showMessageDialog(null, "Profesor no disponible.", "Error", JOptionPane.ERROR_MESSAGE);
 	                e1.printStackTrace();
-	            }catch(Exception e1) {
-	            	JOptionPane.showMessageDialog(null, "Error al agendar la clase. Intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+	            } catch (Exception e1) {
+	                JOptionPane.showMessageDialog(null, "Error al agendar la clase. Intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
 	                e1.printStackTrace();
 	            }
 
@@ -481,9 +487,9 @@ public class VistaAdministrativoNueva {
 	    });
 
 	    ventanaAgendarClase.add(etiquetaDNI);
-	    ventanaAgendarClase.add(campoDNI);
+	    ventanaAgendarClase.add(comboProfesorBox);
 	    ventanaAgendarClase.add(etiquetaSede);
-	    ventanaAgendarClase.add(campoSede);
+	    ventanaAgendarClase.add(comboSedeBox);
 	    ventanaAgendarClase.add(etiquetaNombreClase);
 	    ventanaAgendarClase.add(campoNombreClase);
 	    ventanaAgendarClase.add(etiquetaActividad);
@@ -502,6 +508,7 @@ public class VistaAdministrativoNueva {
 	    ventanaAgendarClase.pack();
 	    ventanaAgendarClase.setVisible(true);
 	}
+
 
 
 
