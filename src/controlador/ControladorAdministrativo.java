@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import modelo.productos.Articulo;
 import modelo.sedes.Clase;
 import modelo.sedes.Sede;
@@ -14,9 +16,10 @@ import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.usuarios.Administrativo;
 import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
+import usuarios.vistas.VistaAdministrativoNueva;
 
 public class ControladorAdministrativo {
-
+	private VistaAdministrativoNueva vista;
 	private static Administrativo administrativoControlo;
 
 	GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
@@ -109,6 +112,23 @@ public class ControladorAdministrativo {
 			}
 		}
 		return null;
+	}
+	
+	
+	public ArrayList<Articulo> getCatalogo(){
+		return this.gimnasio.getArticulosEnCatalogo();
+	}
+	
+	public Articulo getArticuloSeleccionado() throws Exception {
+		if (this.vista.getArticuloSeleccionado() >= 0) {
+			Articulo ArticuloSeleccionado = GimnasioSingleton.getInstance().getArticulosEnCatalogo()
+					.get(vista.getArticuloSeleccionado());
+			
+			return ArticuloSeleccionado;
+		} else {
+			
+			throw new Exception();
+		}
 	}
 	
 
