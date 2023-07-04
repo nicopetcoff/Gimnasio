@@ -125,10 +125,11 @@ public class Clase {
 		String textoRentabilidad = esRentable() ? "La clase es rentable" : "La clase NO es rentable";
 		String mensaje = String.format("Costo de la clase: %s\n"
 				+ "Amortización de artículos necesarios: %s\n"
+				+ "Total de inscriptos: %s\n"
 				+ "Ingresos totales: %s\n"
 				+ "Rentabilidad neta de la clase: %s\n\n"
 				+ "%s",
-				this.calcularCosto(), this.amortizarArticulos(), this.calcularIngreso(), this.rentabilidadClase(), textoRentabilidad);
+				this.calcularCosto(), this.amortizarArticulos(), this.alumnosInscriptos, this.calcularIngreso(), this.rentabilidadClase(), textoRentabilidad);
 		
 		JOptionPane.showMessageDialog(null, mensaje, "Aviso de rentabilidad de clases", JOptionPane.INFORMATION_MESSAGE);
 	}
