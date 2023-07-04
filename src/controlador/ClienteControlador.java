@@ -1,6 +1,7 @@
 package controlador;
 
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -17,7 +18,7 @@ import modelo.usuarios.Cliente;
 import usuarios.vistas.ClienteVista;
 
 public class ClienteControlador {
-    private ClienteVista vista = new ClienteVista(null);
+    private ClienteVista vista ;
     private static Cliente cliente;
     private GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
@@ -37,12 +38,10 @@ public class ClienteControlador {
         cliente = gimnasio.dameCliente(usuario, contrasenia);
     }
 
-    public void reservarClase() throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException {
-        if (vista.getFilaSeleccionada() >= 0) {
-            Clase claseSeleccionada = cliente.getClases().get(vista.getTablaClases().convertRowIndexToModel(vista.getFilaSeleccionada()));
-            
-           gimnasio.inscribirseEnClase(cliente.getId(), claseSeleccionada.getNombreClase(), claseSeleccionada.getFecha());            
-        } 
+    public void reservarClase(String nombre, LocalDateTime fecha) throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException {
+        
+    	gimnasio.inscribirseEnClase(cliente.getId(), nombre, fecha);  
+    	
     }
 
     public void cancelarReserva() throws Exception {
@@ -73,5 +72,9 @@ public class ClienteControlador {
 			}
 		}
 		return clasesDispo;
+	}
+
+	public void setVista(ClienteVista vista) {
+		this.vista = vista;
 	}
 }
