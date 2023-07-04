@@ -410,7 +410,7 @@ public class VistaAdministrativoNueva {
 		JLabel etiquetaActividad = new JLabel("Actividad:");
 		JLabel etiquetaEmplazamiento = new JLabel("Emplazamiento:");
 		JLabel etiquetaFechaHora = new JLabel("Fecha y hora (YYYY-MM-DD HH:MM):");
-		JLabel etiquetaDuracion = new JLabel("Duración (minutos):");
+		JLabel etiquetaDuracion = new JLabel("Duración (horas):");
 		JLabel etiquetaEnviarNotificaciones = new JLabel("Es online?:");
 
 		ArrayList<Profesor> profesores = controlador.getProfesores();
