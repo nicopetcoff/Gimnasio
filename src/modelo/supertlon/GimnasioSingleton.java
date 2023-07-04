@@ -507,6 +507,24 @@ public class GimnasioSingleton {
 			throw new NoExisteUsuarioException("No existe el Cliente");
 		}
 	}
+	
+	public void desinscribirseEnClase(int idCliente, String nombreClase, LocalDateTime horario)
+			throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException {
+
+		Cliente cliente = soyEseCliente(idCliente);
+
+		Clase clase = soyEsaClase(nombreClase, horario);
+
+		if (cliente != null) {
+			if (clase != null) {
+				cliente.eliminarClase(clase);
+			} else {
+				throw new NoexisteClaseException("No existe la clase seleccionada");
+			}
+		} else {
+			throw new NoExisteUsuarioException("No existe el Cliente");
+		}
+	}
 
 	public ArrayList<Articulo> listarArticulosDeLaSede(int id, String localidad)
 			throws NoExisteSedeException, NoExisteUsuarioException {

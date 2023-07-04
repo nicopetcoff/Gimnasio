@@ -80,7 +80,7 @@ public class ClienteVista extends JFrame {
                 int filaSeleccionada = getFilaSeleccionada();
                 if (filaSeleccionada >= 0) {
                     int modeloFilaSeleccionada = tablaClases.convertRowIndexToModel(filaSeleccionada);
-                    String nombre = (String) tablaModelo.getValueAt(modeloFilaSeleccionada, 0);       
+                    String nombre = (String) tablaModelo.getValueAt(modeloFilaSeleccionada, 0);  
                     
                     
                     LocalDateTime fecha = (LocalDateTime) tablaModelo.getValueAt(modeloFilaSeleccionada, 3);
@@ -102,13 +102,25 @@ public class ClienteVista extends JFrame {
 
         botonCancelarReserva.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                try {
-                    controlador.cancelarReserva();
-                } catch (Exception e1) {
-                    JOptionPane.showMessageDialog(null, "No hay ninguna clase seleccionada");
+                int filaSeleccionada = getFilaSeleccionada();
+                if (filaSeleccionada >= 0) {
+                    int modeloFilaSeleccionada = tablaClases.convertRowIndexToModel(filaSeleccionada);
+                    String nombre = (String) tablaModelo.getValueAt(modeloFilaSeleccionada, 0);
+                    LocalDateTime fecha = (LocalDateTime) tablaModelo.getValueAt(modeloFilaSeleccionada, 3);
+                    
+                    try {
+                        controlador.cancelarReserva(nombre, fecha);
+                        mostrarMensaje("Reserva cancelada correctamente.");
+                    } catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException | NoHayStockException e1) {
+                        JOptionPane.showMessageDialog(null, "No se pudo cancelar la reserva.");
+                        e1.printStackTrace();
+                    }
+                } else {
+                    mostrarMensaje("Por favor, seleccione una clase de la tabla para cancelar la reserva.");
                 }
             }
         });
+
 
         botonBdStreaming.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

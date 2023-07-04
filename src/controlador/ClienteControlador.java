@@ -44,14 +44,8 @@ public class ClienteControlador {
     	
     }
 
-    public void cancelarReserva() throws Exception {
-        if (vista.getFilaSeleccionada() >= 0) {
-            Clase claseSeleccionada = cliente.getClases()
-                    .get(vista.getTablaClases().convertRowIndexToModel(vista.getFilaSeleccionada()));
-            claseSeleccionada.eliminarCliente(cliente);
-        } else {
-            throw new Exception();
-        }
+    public void cancelarReserva(String nombre, LocalDateTime fecha) throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException {
+        gimnasio.desinscribirseEnClase(cliente.getId(), nombre, fecha);
     }
 
     public Clase getClaseSeleccionada() throws Exception {
