@@ -154,7 +154,7 @@ public class Clase {
 
 	public void cambiarEstado(EstadoClase estadoClase) throws LimiteClasesException {
 		this.estado = estadoClase;
-		if (this.onLine) {
+		if (this.onLine && this.estado == EstadoClase.FINALIZADA) {
 			agregarBDStreaming();
 		}
 	}
