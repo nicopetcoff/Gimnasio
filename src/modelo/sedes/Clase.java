@@ -33,7 +33,7 @@ public class Clase {
 	private boolean onLine = false;
 
 	public Clase(Profesor profesor, Sede sede, String nombreClase, Actividad actividad, Emplazamiento emplazamiento,
-			LocalDateTime fecha, int duracionClase, boolean online) {
+			LocalDateTime fecha, int duracionClase, boolean online) throws NoExisteEmplazamientoRequerido {
 		this.idClase = idClaseSig;
 		idClaseSig++;
 		this.nombreClase = nombreClase;
@@ -47,7 +47,14 @@ public class Clase {
 		this.articulosDeLaClase = new ArrayList<>();
 		this.duracionClase = duracionClase;
 		this.onLine = online;
+		
+		if (!actividad.getEmplazamientoRequerido().getTipoEmplazamiento().equals(emplazamiento.getTipoEmplazamiento())) {
+			
+			throw new NoExisteEmplazamientoRequerido("El emplazamiento requerido para la actividad no es compatible");
+		}
 	}
+
+	
 
 	@Override
 	public String toString() {

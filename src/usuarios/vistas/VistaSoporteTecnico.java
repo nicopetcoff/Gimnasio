@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import controlador.ControladorST;
 import modelo.productos.Articulo;
 import modelo.sedes.Actividad;
+import modelo.sedes.Emplazamiento;
 import modelo.supertlon.Excepciones.NoExisteActividadException;
 import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
@@ -161,6 +162,16 @@ public class VistaSoporteTecnico extends JFrame {
 				setearArticuloRequeridoPorActividad();
 			}
 		});
+		
+		JMenuItem setearEmplazamientoActividad = new JMenuItem("Setear Emplazamineto requerido por Actividad");
+		setearEmplazamientoActividad.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				asignarEmplazamientoActividad();
+			}
+		});
 
 		opcionesMenu.add(crearSede);
 		opcionesMenu.add(crearCliente);
@@ -172,6 +183,7 @@ public class VistaSoporteTecnico extends JFrame {
 		opcionesMenu.add(asignarEmplazamientoASede);
 		opcionesMenu.add(crearArticuloEnCatalogo);
 		opcionesMenu.add(setearArticuloRequeridoPorActividad);
+		opcionesMenu.add(setearEmplazamientoActividad);
 
 		menuBar.add(opcionesMenu);
 
@@ -180,6 +192,62 @@ public class VistaSoporteTecnico extends JFrame {
 		this.add(scrollPaneUsuariosSoporteTecnico);
 
 	}
+
+	private void asignarEmplazamientoActividad() {
+	    JFrame ventanaAsignarEmplazamiento = new JFrame("Asignar Emplazamiento requerido a Actividad");
+	    ventanaAsignarEmplazamiento.setLocationRelativeTo(null);
+	    ControladorST controlador = new ControladorST();
+	    
+	    JLabel labelID = new JLabel("Ingrese ID Gestion");
+	    JTextField CampoID = new JTextField(10);
+
+	    JLabel actividadLabel = new JLabel("Seleccionar Actividad:");
+	    ArrayList<Actividad> listaActividades = controlador.getActividades();
+	    JComboBox<Actividad> actividadComboBox = new JComboBox<>(listaActividades.toArray(new Actividad[0]));
+
+	    JLabel emplazamientoLabel = new JLabel("Seleccionar Emplazamiento:");
+	    ArrayList<String> listaEmplazamientos = controlador.getEmplazamientos();
+	    JComboBox<String> emplazamientoComboBox = new JComboBox<>(listaEmplazamientos.toArray(new String[0]));
+
+	    JButton aceptarBoton = new JButton("Aceptar");
+	    aceptarBoton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	        	
+	        	int ID = Integer.parseInt(CampoID.getText());
+	            Actividad actividadSeleccionada = (Actividad) actividadComboBox.getSelectedItem();
+	            String emplazamientoSeleccionado = (String) emplazamientoComboBox.getSelectedItem();
+
+	            try {
+	                controlador.asignarEmplazamientoActividad(ID, actividadSeleccionada, emplazamientoSeleccionado);
+	                JOptionPane.showMessageDialog(null, "Emplazamiento asignado correctamente a la actividad", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+	            } catch (Exception e1) {
+	                JOptionPane.showMessageDialog(null, "No se pudo asignar el emplazamiento a la actividad", "Error", JOptionPane.ERROR_MESSAGE);
+	                e1.printStackTrace();
+	            }
+
+	            ventanaAsignarEmplazamiento.dispose();
+	        }
+	    });
+
+	    JPanel panelPrincipal = new JPanel(new GridLayout(4, 2, 5, 5));
+	    panelPrincipal.add(labelID);
+	    panelPrincipal.add(CampoID);
+	    panelPrincipal.add(actividadLabel);
+	    panelPrincipal.add(actividadComboBox);
+	    panelPrincipal.add(emplazamientoLabel);
+	    panelPrincipal.add(emplazamientoComboBox);
+	    panelPrincipal.add(new JLabel());
+	    panelPrincipal.add(aceptarBoton);
+
+	    ventanaAsignarEmplazamiento.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    ventanaAsignarEmplazamiento.add(panelPrincipal);
+	    ventanaAsignarEmplazamiento.pack();
+	    ventanaAsignarEmplazamiento.setVisible(true);
+	    ventanaAsignarEmplazamiento.setLocationRelativeTo(null);
+	}
+
+	
+	//------------------------------------------------------------------------------------------------------------------------------
 
 	private void setearArticuloRequeridoPorActividad() {
 
@@ -378,6 +446,8 @@ public class VistaSoporteTecnico extends JFrame {
 				ventanaAsignarEmplazamiento.dispose();
 			}
 		});
+		
+		
 
 		JPanel panelPrincipal = new JPanel(new GridLayout(4, 2, 5, 5));
 		panelPrincipal.add(idGestionLabel);

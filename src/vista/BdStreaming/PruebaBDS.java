@@ -7,6 +7,7 @@ import modelo.productos.Articulo;
 import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
 import modelo.sedes.Emplazamiento;
+import modelo.sedes.NoExisteEmplazamientoRequerido;
 import modelo.sedes.Sede;
 import modelo.usuarios.Profesor;
 import modelo.utilidad.Nivel;
@@ -34,21 +35,56 @@ public class PruebaBDS {
 		LocalDateTime fecha = LocalDateTime.now();
 		int duracionClase = 60;
 
-		Clase clase1 = new Clase(profesor1, sede1, "Clase de Crossfit", actividad, emplazamiento, fecha, duracionClase, true);
-		Clase clase2 = new Clase(profesor2, sede2, "Clase de Zumba1", actividad2, emplazamiento, fecha, duracionClase, true);
-		Clase clase3 = new Clase(profesor2, sede2, "Clase de Zumba2", actividad2, emplazamiento, fecha, duracionClase, true);
-		Clase clase4 = new Clase(profesor2, sede2, "Clase de Zumba3", actividad2, emplazamiento, fecha, duracionClase, true);
-		Clase clase5 = new Clase(profesor2, sede2, "Clase de Zumba4", actividad2, emplazamiento, fecha, duracionClase, true);
-		Clase clase6 = new Clase(profesor2, sede2, "Clase de Zumba5", actividad2, emplazamiento, fecha, duracionClase, true);
-		Clase clase7 = new Clase(profesor2, sede2, "Clase de Zumba6", actividad2, emplazamiento, fecha, duracionClase, true);
+		Clase clase1;
+		try {
+			clase1 = new Clase(profesor1, sede1, "Clase de Crossfit", actividad, emplazamiento, fecha, duracionClase, true);
+		} catch (NoExisteEmplazamientoRequerido e) {
+			e.printStackTrace();
+		}
+		Clase clase2;
+		try {
+			clase2 = new Clase(profesor2, sede2, "Clase de Zumba1", actividad2, emplazamiento, fecha, duracionClase, true);
+		} catch (NoExisteEmplazamientoRequerido e) {
+			e.printStackTrace();
+		}
+		Clase clase3;
+		try {
+			clase3 = new Clase(profesor2, sede2, "Clase de Zumba2", actividad2, emplazamiento, fecha, duracionClase, true);
+		} catch (NoExisteEmplazamientoRequerido e) {
+			e.printStackTrace();
+		}
+		Clase clase4;
+		try {
+			clase4 = new Clase(profesor2, sede2, "Clase de Zumba3", actividad2, emplazamiento, fecha, duracionClase, true);
+		} catch (NoExisteEmplazamientoRequerido e) {
+			e.printStackTrace();
+		}
+		Clase clase5;
+		try {
+			clase5 = new Clase(profesor2, sede2, "Clase de Zumba4", actividad2, emplazamiento, fecha, duracionClase, true);
+		} catch (NoExisteEmplazamientoRequerido e) {
+			e.printStackTrace();
+		}
+		Clase clase6;
+		try {
+			clase6 = new Clase(profesor2, sede2, "Clase de Zumba5", actividad2, emplazamiento, fecha, duracionClase, true);
+		} catch (NoExisteEmplazamientoRequerido e) {
+			e.printStackTrace();
+		}
+		Clase clase7;
+		try {
+			clase7 = new Clase(profesor2, sede2, "Clase de Zumba6", actividad2, emplazamiento, fecha, duracionClase, true);
+		} catch (NoExisteEmplazamientoRequerido e) {
+			e.printStackTrace();
+		}
 
-		instancia.agregarClase(clase1);
-		instancia.agregarClase(clase2);
-		instancia.agregarClase(clase3);
-		instancia.agregarClase(clase4);
-		instancia.agregarClase(clase5);
-		instancia.agregarClase(clase6);
-		instancia.agregarClase(clase7);
+		//instancia.agregarClase(clase1);
+		//instancia.agregarClase(clase2);
+		//instancia.agregarClase(clase3);
+		//instancia.agregarClase(clase4);
+		//instancia.agregarClase(clase5);
+		////instancia.agregarClase(clase6);
+		//instancia.agregarClase(clase7);
 
 		instancia.abrirVistaBdStreamingAdmin();
 		instancia.abrirVistaBdStreamingUser();

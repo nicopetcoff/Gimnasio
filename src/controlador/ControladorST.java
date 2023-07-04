@@ -9,6 +9,7 @@ import modelo.sedes.Actividad;
 import modelo.supertlon.GimnasioSingleton;
 import modelo.supertlon.Excepciones.NoExisteActividadException;
 import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
+import modelo.supertlon.Excepciones.NoExisteEmplazamientoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.usuarios.Usuario;
@@ -162,6 +163,11 @@ public class ControladorST {
 				articuloSeleccionado.getMarca(), articuloSeleccionado.getArticulo(),
 				articuloSeleccionado.getAtributos(), cantidadItems);
 
+	}
+
+	public void asignarEmplazamientoActividad(int iD, Actividad actividadSeleccionada, String emplazamientoSeleccionado) throws NoExisteUsuarioException, NoExisteActividadException, NoExisteEmplazamientoException {
+		
+		gimnasio.setearEmplazamientoRequeridoPorActividad(iD, actividadSeleccionada.getTipoClase(), emplazamientoSeleccionado);
 	}
 
 }

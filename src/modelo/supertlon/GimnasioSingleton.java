@@ -13,6 +13,7 @@ import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
 import modelo.sedes.Emplazamiento;
 import modelo.sedes.NoEsRentableException;
+import modelo.sedes.NoExisteEmplazamientoRequerido;
 import modelo.sedes.NoMismoNivelException;
 import modelo.sedes.Sede;
 import modelo.supertlon.Excepciones.NoExisteActividadException;
@@ -323,7 +324,7 @@ public class GimnasioSingleton {
 
 	public void agendarClase(int idA, String nroDNIProfesor, String localidad, String nombreClase, String actividad,
 			String emplazamiento, LocalDateTime fecha, int duracionClase, boolean online) throws ProfesorNoRegistradoException,
-							ProfesorNoDisponibleException,NoExisteEmplazamientoException,NoExisteSedeException,NoExisteActividadException,NoExisteUsuarioException {
+							ProfesorNoDisponibleException,NoExisteEmplazamientoException,NoExisteSedeException,NoExisteActividadException,NoExisteUsuarioException, NoExisteEmplazamientoRequerido {
 
 		Administrativo a = soyEseAdministrativo(idA);
 
@@ -728,6 +729,31 @@ public class GimnasioSingleton {
 			profesores.addAll(cd.getProfesores());
 		}
 		return profesores;
+	}
+
+	public void setearEmplazamientoRequeridoPorActividad(int iD, String tipoClase, String emplazamientoSeleccionado) throws NoExisteUsuarioException, NoExisteActividadException, NoExisteEmplazamientoException {
+		
+		SoporteTecnico st = soyEseSoporteTecnico(iD);
+		Actividad act = soyEsaActividad(tipoClase);
+		Emplazamiento emp = soyEseEmplazamiento(emplazamientoSeleccionado);
+		
+		if (st != null) {
+			if (act != null) {
+				if (emp != null) {
+					
+					st.setearEmplazamientoRequeridoPorActiviadad(act, emp);
+					
+				}else {
+					throw new NoExisteEmplazamientoException("No existe el Emplazamiento");
+				}
+				
+			}else {
+				throw new NoExisteActividadException("No existe la actividad");
+			}
+			
+		}else {
+			throw new NoExisteUsuarioException("No existe el Soporte Tecnico");
+		} 
 	}
 
 }

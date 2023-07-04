@@ -143,4 +143,8 @@ public class SoporteTecnico extends Usuario {
 		s.agregarEmplazamiento(em);
 	}
 
+	public void setearEmplazamientoRequeridoPorActiviadad(Actividad act, Emplazamiento emp) {
+		act.setEmplazamientoRequerido(emp);
+	}
+
 }
