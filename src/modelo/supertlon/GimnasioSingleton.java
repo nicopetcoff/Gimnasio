@@ -223,11 +223,12 @@ public class GimnasioSingleton {
 	}
 
 	public void crearAdministrativo(int idSP, String nombre1, String apellido1, String dni1, String usuario,
-			String contrasenia) throws NoExisteUsuarioException {
+			String contrasenia,String localidad) throws NoExisteUsuarioException, NoPudoException, NoExisteSedeException {
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 
 		if (sp != null) {
 			Administrativo ad = sp.crearAdministrativo(nombre1, apellido1, dni1, usuario, contrasenia);
+			sp.AsignarLaSedeAlAdministrativo(ad, soyEsaSede(localidad));
 			usuarios.add(ad);
 		} else {
 			throw new NoExisteUsuarioException("No existe el Soporte Tecnico Ingresado");
@@ -268,18 +269,18 @@ public class GimnasioSingleton {
 
 	}
 
-	public void asignarSedeAlAdministrativo(int idSP, String localidad)
+	public void asignarSedeAlAdministrativo(int idSP, String localidad,String adminDNI)
 			throws NoExisteSedeException, NoExisteUsuarioException {
 
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 		if (sp != null) {
-
-			int ultimo = this.usuarios.size() - 1;
+			Administrativo admin=soyEseAdmin(adminDNI);
+			
 			Sede sede = soyEsaSede(localidad);
 
 			if (sede != null) {
 				try {
-					sp.AsignarLaSedeAlAdministrativo(this.usuarios.get(ultimo), sede);
+					sp.AsignarLaSedeAlAdministrativo(admin, sede);
 				} catch (NoPudoException e) {
 					e.printStackTrace();
 				}
@@ -754,6 +755,25 @@ public class GimnasioSingleton {
 		}else {
 			throw new NoExisteUsuarioException("No existe el Soporte Tecnico");
 		} 
+	}
+	
+	public ArrayList<String> getAdmins(){
+		ArrayList<String> admins=new ArrayList<>();
+		for(Usuario u: this.usuarios) {
+			if(u.soyAdministrativo()) {
+				admins.add(u.getDNI()+ " "+u.getApellido());
+			}
+		}
+		return admins;
+	}
+	private Administrativo soyEseAdmin(String dni) throws NoExisteUsuarioException {
+
+		for (Usuario usuario : this.usuarios) {
+			if (usuario.soyAdministrativo() && usuario.getDni().equals(dni) ) {
+				return (Administrativo) usuario;
+			}
+		}
+		throw new NoExisteUsuarioException("Admin inexistente");
 	}
 
 }
