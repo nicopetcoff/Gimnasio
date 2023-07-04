@@ -231,6 +231,7 @@ public class VistaAdministrativoNueva {
                 	a = getArticuloSeleccionado();
                     controlador.asignarStockSede(a.getMarca(), a.getArticulo(), a.getAtributos(), cantidad, sede);
                     JOptionPane.showMessageDialog(ventanaAsignarArticulosASede, "Stock asignado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    ventanaAsignarArticulosASede.dispose();
                 } catch (NoExisteArticuloEnCatalogoException | NoExisteUsuarioException | NoExisteSedeException e1) {
                     JOptionPane.showMessageDialog(ventanaAsignarArticulosASede, "No se pudo asignar el stock.", "Error", JOptionPane.ERROR_MESSAGE);
                     e1.printStackTrace();
@@ -241,7 +242,7 @@ public class VistaAdministrativoNueva {
 				}
 	            
 
-	            ventanaAsignarArticulosASede.dispose();
+	            
 	        }
 	    });
 
@@ -306,16 +307,9 @@ public class VistaAdministrativoNueva {
 			public void actionPerformed(ActionEvent e) {
 				int filaSeleccionada = tablaClases.getSelectedRow();
 				String localidad = (String) sedeCombo.getSelectedItem();
-				if (filaSeleccionada != -1) {
-					String estado = (String) tablaClases.getValueAt(filaSeleccionada, 2);
-					if(estado.equals("CONFIRMADA")) {
-						cambiarEstadoClase(filaSeleccionada, EstadoClase.FINALIZADA, localidad);
-						cerrarVentana(e);
-					}else {
-						JOptionPane.showMessageDialog(vistaAdminsitrativo, "Solo se puede finalizar clases confirmadas.", "Error",
-								JOptionPane.ERROR_MESSAGE);
-					}
-					
+				if (filaSeleccionada != -1) {				
+					cambiarEstadoClase(filaSeleccionada, EstadoClase.FINALIZADA, localidad);
+					cerrarVentana(e);
 				} else {
 					JOptionPane.showMessageDialog(vistaAdminsitrativo, "Debe seleccionar una clase.", "Error",
 							JOptionPane.ERROR_MESSAGE);

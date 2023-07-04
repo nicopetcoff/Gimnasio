@@ -31,7 +31,7 @@ public class ClienteVista extends JFrame {
     private JButton botonReservarClase = new JButton("Reservar clase");
     private JButton botonCancelarReserva = new JButton("Cancelar reserva");
     private JButton botonBdStreaming = new JButton("BdStreaming");
-
+    private JButton BotonConfirmar=new JButton("Confirmar");
     private DefaultTableModel tablaModelo = new DefaultTableModel();
     private JTable tablaClases = new JTable(tablaModelo);
     private Cliente cliente;
@@ -62,13 +62,13 @@ public class ClienteVista extends JFrame {
         JScrollPane tablaScroll = new JScrollPane(tablaClases, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        tablaModelo.addColumn("Precio");
+        
 
         JPanel panelTabla = new JPanel();
         panelTabla.setLayout(new BoxLayout(panelTabla, BoxLayout.Y_AXIS));
-        panelTabla.add(new JLabel("Mis clases"));
+        panelTabla.add(new JLabel("Clases disponibles"));
         panelTabla.add(tablaScroll);
-        configurarTabla();
+        configurarTablaClasesDispo();
 
         this.getContentPane().add(panelBotones);
         this.getContentPane().add(panelTabla);
@@ -102,22 +102,7 @@ public class ClienteVista extends JFrame {
 
         botonCancelarReserva.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int filaSeleccionada = getFilaSeleccionada();
-                if (filaSeleccionada >= 0) {
-                    int modeloFilaSeleccionada = tablaClases.convertRowIndexToModel(filaSeleccionada);
-                    String nombre = (String) tablaModelo.getValueAt(modeloFilaSeleccionada, 0);
-                    LocalDateTime fecha = (LocalDateTime) tablaModelo.getValueAt(modeloFilaSeleccionada, 3);
-                    
-                    try {
-                        controlador.cancelarReserva(nombre, fecha);
-                        mostrarMensaje("Reserva cancelada correctamente.");
-                    } catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException | NoHayStockException e1) {
-                        JOptionPane.showMessageDialog(null, "No se pudo cancelar la reserva.");
-                        e1.printStackTrace();
-                    }
-                } else {
-                    mostrarMensaje("Por favor, seleccione una clase de la tabla para cancelar la reserva.");
-                }
+                cancelarReserva();
             }
         });
 
@@ -130,8 +115,75 @@ public class ClienteVista extends JFrame {
         });
 
     }
+    
+    private void cancelarReserva() {
+    	JFrame cancelarReserva = new JFrame("Clases Agendadas");
+        cancelarReserva.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        cancelarReserva.setLayout(new BoxLayout(cancelarReserva.getContentPane(), BoxLayout.Y_AXIS));
+        cancelarReserva.setBackground(Color.WHITE);
+        cancelarReserva.setTitle("Panel de Control - Cliente");
+        cancelarReserva.setSize(500, 350);
+        cancelarReserva.setVisible(true);
+        cancelarReserva.setLocationRelativeTo(null);
 
-    public void configurarTabla() {
+        DefaultTableModel tablaModelo = new DefaultTableModel();
+        tablaModelo.addColumn("Nombre");
+        tablaModelo.addColumn("Actividad");
+        tablaModelo.addColumn("Sede");
+        tablaModelo.addColumn("Fecha");
+        JTable tablaClases = new JTable(tablaModelo);
+        JScrollPane tablaScroll = new JScrollPane(tablaClases, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        JPanel panelTabla = new JPanel();
+        panelTabla.setLayout(new BoxLayout(panelTabla, BoxLayout.Y_AXIS));
+        panelTabla.add(new JLabel("Mis Clases"));
+        panelTabla.add(tablaScroll);
+
+        JPanel panelBotones = new JPanel();
+        panelBotones.setLayout(new BoxLayout(panelBotones, BoxLayout.X_AXIS));
+        panelBotones.add(BotonConfirmar);
+
+        cancelarReserva.getContentPane().add(panelTabla);
+        cancelarReserva.getContentPane().add(panelBotones);
+        configurarTablaMisClases();
+
+        BotonConfirmar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int filaSeleccionada = getFilaSeleccionada();
+                if (filaSeleccionada >= 0) {
+                    int modeloFilaSeleccionada = tablaClases.convertRowIndexToModel(filaSeleccionada);
+                    String nombre = (String) tablaModelo.getValueAt(modeloFilaSeleccionada, 0);
+                    LocalDateTime fecha = (LocalDateTime) tablaModelo.getValueAt(modeloFilaSeleccionada, 3);
+
+                    try {
+                        controlador.cancelarReserva(nombre, fecha);
+                        mostrarMensaje("Reserva cancelada correctamente.");
+                    } catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException | NoHayStockException e1) {
+                        JOptionPane.showMessageDialog(null, "No se pudo cancelar la reserva.");
+                        e1.printStackTrace();
+                    }
+                } else {
+                    mostrarMensaje("Por favor, seleccione una clase de la tabla para cancelar la reserva.");
+                }
+            }
+        });
+    }
+    
+    public void configurarTablaMisClases() {
+        tablaModelo.setRowCount(0); 
+        
+        ArrayList<Clase> clases = null;
+		clases = cliente.getClases();
+
+        for (Clase clase : clases) {
+            Object[] rowData = { clase.getnombre(), clase.getActividad().getTipoClase(), clase.getLugar(),
+                    clase.getFecha()};
+            tablaModelo.addRow(rowData);
+        }
+    }
+
+    public void configurarTablaClasesDispo() {
         tablaModelo.setRowCount(0); 
         
         ArrayList<Clase> clases = null;
@@ -143,7 +195,7 @@ public class ClienteVista extends JFrame {
 
         for (Clase clase : clases) {
             Object[] rowData = { clase.getnombre(), clase.getActividad().getTipoClase(), clase.getLugar(),
-                    clase.getFecha() };
+                    clase.getFecha()};
             tablaModelo.addRow(rowData);
         }
     }
