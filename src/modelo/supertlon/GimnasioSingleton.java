@@ -31,6 +31,7 @@ import modelo.usuarios.Excepciones.ExisteLocalidadException;
 import modelo.usuarios.Excepciones.NoPudoException;
 import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
 import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
+import modelo.utilidad.EstadoClase;
 import modelo.utilidad.Nivel;
 
 public class GimnasioSingleton {
@@ -496,7 +497,7 @@ public class GimnasioSingleton {
 	}
 
 	public void inscribirseEnClase(int idCliente, String nombreClase, LocalDateTime horario)
-			throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException {
+			throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException, LimiteClasesException {
 
 		Cliente cliente = soyEseCliente(idCliente);
 
@@ -505,6 +506,9 @@ public class GimnasioSingleton {
 		if (cliente != null) {
 			if (clase != null) {
 				cliente.inscribirseClase(clase);
+				if(clase.esRentable()) {
+					clase.cambiarEstado(EstadoClase.CONFIRMADA);
+				}
 			} else {
 				throw new NoexisteClaseException("No existe la clase seleccionada");
 			}

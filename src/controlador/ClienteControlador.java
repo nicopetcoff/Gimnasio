@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import modelo.baseDeDatos.LimiteClasesException;
 import modelo.productos.NoHayStockException;
 import modelo.sedes.Clase;
 import modelo.sedes.NoMismoNivelException;
@@ -38,7 +39,7 @@ public class ClienteControlador {
         cliente = gimnasio.dameCliente(usuario, contrasenia);
     }
 
-    public void reservarClase(String nombre, LocalDateTime fecha) throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException {
+    public void reservarClase(String nombre, LocalDateTime fecha) throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException, LimiteClasesException {
         
     	gimnasio.inscribirseEnClase(cliente.getId(), nombre, fecha);  
     	

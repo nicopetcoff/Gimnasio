@@ -39,19 +39,30 @@ public class Sede {
 		this.reservas = new HashMap<>();
 	}
 
-	public boolean articulosDisponible(Articulo articulo, int cantidad, LocalTime horario) {
-		if (stock.cantidadDeArticulo(articulo) >= (reservas.get(horario).get(articulo) + cantidad)) {
+	public boolean articulosDisponible(Articulo articulo, int cantidad, LocalDateTime horario) {
+		Map<Articulo,Integer> mapInterno=reservas.get(horario);
+		if(mapInterno!=null) {
+			System.out.println(stock.cantidadDeArticulo(articulo));
+			if (stock.cantidadDeArticulo(articulo) >= (mapInterno.get(articulo) + cantidad)) {
+				return true;
+			}else {
+				return false;
+			}
+		}else {
 			return true;
 		}
-		return false;
+		
 
 	}
 
 	public void reservarArticulos(Articulo articulo, int cantidad, LocalDateTime fecha) {
 		Map<Articulo, Integer> mapInterno = reservas.get(fecha);
-
-		if (reservas.containsKey(fecha)) {
+		
+		if (mapInterno != null) {
 			cantidad += mapInterno.get(articulo);
+			
+		}else {
+			mapInterno=new HashMap<>();
 		}
 		mapInterno.put(articulo, cantidad);
 		reservas.put(fecha, mapInterno);

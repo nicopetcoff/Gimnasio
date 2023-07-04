@@ -1,5 +1,6 @@
 package usuarios.vistas;
 
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import controlador.ClienteControlador;
 
@@ -46,7 +48,8 @@ public class VistaLoginCliente extends JFrame {
 				String contrasenia = new String(contraseniaCampo.getPassword());
 
 				if (controlador.validarCredenciales(usuario, contrasenia)) {
-
+					JFrame frame = (JFrame) SwingUtilities.getWindowAncestor((Component) e.getSource());
+					frame.dispose();
 					abrirVentanaCliente(usuario, contrasenia);
 				} else {
 

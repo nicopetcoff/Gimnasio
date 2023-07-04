@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controlador.ClienteControlador;
 import controlador.ControladorBdStreaming;
+import modelo.baseDeDatos.LimiteClasesException;
 import modelo.productos.NoHayStockException;
 import modelo.sedes.Clase;
 import modelo.sedes.NoMismoNivelException;
@@ -88,7 +89,7 @@ public class ClienteVista extends JFrame {
                     try {
                         controlador.reservarClase(nombre, fecha);
                         mostrarMensaje("Clase reservada correctamente.");
-                    } catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException
+                    } catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException | LimiteClasesException
                             | NoHayStockException e1) {
                         JOptionPane.showMessageDialog(null, "No se pudo agendar la clase.");
                         e1.printStackTrace();

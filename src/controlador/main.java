@@ -311,7 +311,7 @@ public class main {
 
 		try {
 			gimnasio.inscribirseEnClase(idCliente, nombreClase, horario);
-		} catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException | NoHayStockException e) {
+		} catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException | NoHayStockException | LimiteClasesException e) {
 			e.printStackTrace();
 		}
 
