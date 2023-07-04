@@ -2,8 +2,18 @@ package modelo.utilidad;
 
 public enum Nivel {
 
-	BLACK, ORO, PLATINUM;
-
+	BLACK(1), ORO(2), PLATINUM(3);
+	
+	private final int jerarquia;
+	
+	private Nivel(int valor) {
+		this.jerarquia=valor;
+	}
+	
+	public int getJerarquia() {
+		return this.jerarquia;
+	}
+	
 	public double costoMembresia() {
 		switch (this) {
 		case BLACK:

@@ -20,6 +20,17 @@ public class Profesor extends Usuario {
 		clases = new ArrayList<>();
 	}
 
+	
+	
+
+	@Override
+	public String toString() {
+		return String.format("Profesor [nombre=%s, apellido=%s, dni=%s]", nombre, apellido, dni);
+	}
+
+
+
+
 	@Override
 	public boolean soySoporteTecnico() {
 		return false;

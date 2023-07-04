@@ -35,7 +35,7 @@ public class Clase {
 	private boolean onLine = false;
 
 	public Clase(Profesor profesor, Sede sede, String nombreClase, Actividad actividad, Emplazamiento emplazamiento,
-			LocalDateTime fecha, int duracionClase, boolean online) {
+			LocalDateTime fecha, int duracionClase, boolean online) throws NoExisteEmplazamientoRequerido {
 		this.idClase = idClaseSig;
 		idClaseSig++;
 		this.nombreClase = nombreClase;
@@ -49,7 +49,14 @@ public class Clase {
 		this.articulosDeLaClase = new ArrayList<>();
 		this.duracionClase = duracionClase;
 		this.onLine = online;
+		
+		if (!actividad.getEmplazamientoRequerido().getTipoEmplazamiento().equals(emplazamiento.getTipoEmplazamiento())) {
+			
+			throw new NoExisteEmplazamientoRequerido("El emplazamiento requerido para la actividad no es compatible");
+		}
 	}
+
+	
 
 	@Override
 	public String toString() {
@@ -68,10 +75,7 @@ public class Clase {
 	public EstadoClase getEstado() {
 		return this.estado;
 	}
-
-	public void setEstado(EstadoClase estado) {
-		this.estado = estado;
-	}
+	
 
 	public LocalDateTime getFecha() {
 		return this.fecha;
@@ -177,18 +181,6 @@ public class Clase {
 		return membresias / 30 * inscriptos.size();
 	}
 
-	/*
-	 * esto estaria para borrar
-	 * 
-	 * public void calcularTotalArticulos(Map<Articulo, Integer> articulos) { //
-	 * Recibe como parametro un map de articulos // (puede ser sacado de Actividad)
-	 * for (Map.Entry<Articulo, Integer> entry : articulos.entrySet()) { Articulo
-	 * articulo = entry.getKey(); // Obtiene el articulo Integer cantidad =
-	 * entry.getValue(); // Obtiene la cantidad int totalArticulos = cantidad *
-	 * this.inscriptos.size(); // Multiplica articulos * cantidad de inscriptos
-	 * this.articulosTotales.put(articulo, totalArticulos); // Agrega una entrada a
-	 * articulosTotales con el tipo de // articulo y el total. } }
-	 */
 
 	public boolean isOnLine() {
 		return onLine;

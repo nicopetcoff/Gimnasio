@@ -10,6 +10,7 @@ import modelo.productos.Articulo;
 import modelo.productos.NoHayStockException;
 import modelo.productos.Stock;
 import modelo.usuarios.Profesor;
+import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
 import modelo.utilidad.Nivel;
 
 public class Sede {
@@ -66,9 +67,7 @@ public class Sede {
 				+ descripcion + "]";
 	}
 
-	// "crea" el objeto antes de agregarlo a stock ya que el q esta en catalogo solo
-	// es una muestra y su fechaFabricacion podria ser mucho tiempo atras
-
+	
 	public void agregarArticuloAStock(Articulo articulo, int cantidad) {
 		stock.agregarArticulo(articulo, cantidad);
 	}
@@ -119,13 +118,13 @@ public class Sede {
 		return this.clases;
 	}
 
-	public Profesor buscarProfesor(String nroDNIProfesor) {
+	public Profesor buscarProfesor(String nroDNIProfesor) throws ProfesorNoRegistradoException {
 		for (Profesor profesor : profesores) {
 			if (profesor.getDNI().equals(nroDNIProfesor)) {
 				return profesor;
 			}
 		}
-		return null;
+		throw new ProfesorNoRegistradoException("Profesor indicado no existe.");
 	}
 
 	public void agregarEmplazamiento(Emplazamiento em) {

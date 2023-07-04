@@ -2,11 +2,13 @@ package usuarios.vistas;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -27,18 +29,22 @@ import javax.swing.table.DefaultTableModel;
 
 import controlador.ControladorAdministrativo;
 import controlador.ControladorBdStreaming;
+import modelo.baseDeDatos.LimiteClasesException;
 import modelo.productos.Articulo;
 import modelo.sedes.Clase;
 import modelo.sedes.Sede;
 import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
-import modelo.supertlon.Excepciones.NoExisteUsuarioException;
+import modelo.usuarios.Profesor;
+import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
+import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
+import modelo.supertlon.Excepciones.*;
 import modelo.utilidad.EstadoClase;
 
 public class VistaAdministrativoNueva {
 	private ControladorAdministrativo controlador;
 	private JFrame vistaAdminsitrativo;
-
+	private JTable tablaArticulos;
 	private DefaultTableModel tablaModelo;
 	private JTable tablaSedes;
 
@@ -85,6 +91,7 @@ public class VistaAdministrativoNueva {
 				asignarArticulosASede(controlador);
 			}
 		});
+
 		BDStreaming.addActionListener(new ActionListener() {
 
 			@Override
@@ -190,77 +197,92 @@ public class VistaAdministrativoNueva {
 	private void asignarArticulosASede(ControladorAdministrativo controlador) {
 
 		JFrame ventanaAsignarArticulosASede = new JFrame("Asignar Artículos a Sede");
-		ventanaAsignarArticulosASede.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		ventanaAsignarArticulosASede.setSize(300, 250);
-		ventanaAsignarArticulosASede.setLayout(new GridLayout(7, 2));
-		ventanaAsignarArticulosASede.setLocationRelativeTo(null);
+	    ventanaAsignarArticulosASede.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    ventanaAsignarArticulosASede.setLayout(new BorderLayout());
+	    ventanaAsignarArticulosASede.setLocationRelativeTo(null);
 
-		JFrame frame = new JFrame("Asignar Artículos a Sede");
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setSize(300, 250);
-		frame.setLayout(new GridLayout(7, 2));
-		frame.setLocationRelativeTo(null);
+	    DefaultTableModel tablaModelo = new DefaultTableModel();
+	    tablaModelo.addColumn("Articulo");
+	    tablaModelo.addColumn("Marca");
+	    tablaModelo.addColumn("Atributos");
+	    tablaModelo.addColumn("Amortizacion");
+	    tablaModelo.addColumn("Precio");
 
-		JLabel labelArticulos = new JLabel("Artículos:");
-		JComboBox<String> comboBoxArticulos = new JComboBox<>();
-		ArrayList<Articulo> articulos = controlador.getArticulos();
-		for (Articulo articulo : articulos) {
-			comboBoxArticulos.addItem(articulo.getArticulo() + " " + articulo.getAtributos());
+	    for (Articulo articulo : controlador.getCatalogo()) {
+			Object[] rowData = { articulo.getArticulo(), articulo.getMarca(), articulo.getAtributos(),
+					articulo.getTipoAmortizacion(), articulo.getPrecio() };
+			tablaModelo.addRow(rowData);
 		}
+	    
+	    tablaArticulos = new JTable(tablaModelo);
+	    
 
-		JLabel labelMarca = new JLabel("Marca:");
-		JTextField textFieldMarca = new JTextField();
+	    JScrollPane tablaScroll = new JScrollPane(tablaArticulos);
+	    tablaScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-		JLabel labelNombreArticulo = new JLabel("Nombre Artículo:");
-		JTextField textCampoNombreArticulo = new JTextField();
+	    JPanel panelInferior = new JPanel(new GridLayout(3, 2));
 
-		JLabel labelAtributos = new JLabel("Atributos:");
-		JTextField textCampoAtributos = new JTextField();
+	    JLabel labelCantidad = new JLabel("Cantidad:");
+	    JTextField campoCantidad = new JTextField();
 
-		JLabel labelCantidad = new JLabel("Cantidad:");
-		JTextField textCampoCantidad = new JTextField();
+	    JLabel labelSede = new JLabel("Sede:");
+	    JComboBox<String> comboSede = new JComboBox<>();
+	   
+	    for(Sede s:controlador.getSedes()) {
+	    	comboSede.addItem(s.getLocalidad());
+	    }
 
-		JLabel labelSede = new JLabel("Sede:");
-		JTextField textCampoSede = new JTextField();
+	    JButton botonAceptar = new JButton("Aceptar");
+	    botonAceptar.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	           
+	            Articulo a;
+	           
+               
+                int cantidad = Integer.parseInt(campoCantidad.getText());
+                String sede = (String) comboSede.getSelectedItem();
 
-		JButton botonAceptar = new JButton("Aceptar");
-		botonAceptar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Articulo articuloSeleccionado = (Articulo) comboBoxArticulos.getSelectedItem();
-				String marca = textFieldMarca.getText();
-				String nombreArticulo = textCampoNombreArticulo.getText();
-				String atributos = textCampoAtributos.getText();
-				int cantidad = Integer.parseInt(textCampoCantidad.getText());
-				String sede = textCampoSede.getText();
-
-				try {
-					controlador.asignarStockSede(marca, nombreArticulo, atributos, cantidad, sede);
-				} catch (NoExisteArticuloEnCatalogoException | NoExisteUsuarioException | NoExisteSedeException e1) {
-					JOptionPane.showMessageDialog(vistaAdminsitrativo, "No se pudo asginar stock.", "Error",
+         
+                try {
+                	a = getArticuloSeleccionado();
+                    controlador.asignarStockSede(a.getMarca(), a.getArticulo(), a.getAtributos(), cantidad, sede);
+                    JOptionPane.showMessageDialog(ventanaAsignarArticulosASede, "Stock asignado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                } catch (NoExisteArticuloEnCatalogoException | NoExisteUsuarioException | NoExisteSedeException e1) {
+                    JOptionPane.showMessageDialog(ventanaAsignarArticulosASede, "No se pudo asignar el stock.", "Error", JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace();
+                }catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Falta seleccionar articulo que desea agregar.", "Campo incompleto",
 							JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
+	            
 
-				ventanaAsignarArticulosASede.dispose();
-			}
-		});
+	            ventanaAsignarArticulosASede.dispose();
+	        }
+	    });
 
-		ventanaAsignarArticulosASede.add(labelArticulos);
-		ventanaAsignarArticulosASede.add(comboBoxArticulos);
-		ventanaAsignarArticulosASede.add(labelMarca);
-		ventanaAsignarArticulosASede.add(textFieldMarca);
-		ventanaAsignarArticulosASede.add(labelNombreArticulo);
-		ventanaAsignarArticulosASede.add(textCampoNombreArticulo);
-		ventanaAsignarArticulosASede.add(labelAtributos);
-		ventanaAsignarArticulosASede.add(textCampoAtributos);
-		ventanaAsignarArticulosASede.add(labelCantidad);
-		ventanaAsignarArticulosASede.add(textCampoCantidad);
-		ventanaAsignarArticulosASede.add(labelSede);
-		ventanaAsignarArticulosASede.add(textCampoSede);
-		ventanaAsignarArticulosASede.add(botonAceptar);
+	    panelInferior.add(labelCantidad);
+	    panelInferior.add(campoCantidad);
+	    panelInferior.add(labelSede);
+	    panelInferior.add(comboSede);
+	    panelInferior.add(new JLabel()); 
+	    panelInferior.add(botonAceptar);
 
-		ventanaAsignarArticulosASede.setVisible(true);
+	    ventanaAsignarArticulosASede.add(tablaScroll, BorderLayout.CENTER);
+	    ventanaAsignarArticulosASede.add(panelInferior, BorderLayout.SOUTH);
+	    
+	    ventanaAsignarArticulosASede.pack();
+	    ventanaAsignarArticulosASede.setVisible(true);
+	}
+	
+	public Articulo getArticuloSeleccionado() throws Exception {
+		if (tablaArticulos.getSelectedRow() != -1) {
+			return controlador.getCatalogo().get(tablaArticulos.getSelectedRow());
+		}else {
+			throw new Exception();
+		}
+		
 	}
 
 	// ------------------------------------------------------------------------------------------------------------
@@ -340,7 +362,7 @@ public class VistaAdministrativoNueva {
 	private void configurarTablaClases(ControladorAdministrativo controlador, JTable tablaClases,
 			JComboBox<String> sedeCombo) {
 		DefaultTableModel tablaModelo = (DefaultTableModel) tablaClases.getModel();
-		tablaModelo.setRowCount(0); // Limpiar la tabla antes de actualizarla
+		tablaModelo.setRowCount(0);
 
 		ArrayList<Clase> clases = new ArrayList<>();
 		try {
@@ -358,7 +380,11 @@ public class VistaAdministrativoNueva {
 
 	private void cambiarEstadoClase(int fila, EstadoClase estado, String localidad) {
 		Clase clase = controlador.getSede(localidad).getClases().get(fila);
-		clase.setEstado(estado);
+		try {
+			clase.cambiarEstado(estado);
+		} catch (LimiteClasesException e) {
+			e.printStackTrace();
+		}
 
 		/*
 		 * DefaultTableModel tablaModelo = (DefaultTableModel) tablaClases.getModel();
@@ -370,109 +396,130 @@ public class VistaAdministrativoNueva {
 		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor((Component) e.getSource());
 		frame.dispose();
 	}
-	// ------------------------------------------------------------------------------------------
 
+	// ------------------------------------------------------------------------------------------
 	private void agendarClase(ControladorAdministrativo controlador) {
 
-	    JFrame ventanaAgendarClase = new JFrame("Agendar clase");
-	    ventanaAgendarClase.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	    ventanaAgendarClase.setLayout(new GridLayout(9, 2));
-	    ventanaAgendarClase.setLocationRelativeTo(null);
-	   
+		JFrame ventanaAgendarClase = new JFrame("Agendar clase");
+		ventanaAgendarClase.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		ventanaAgendarClase.setLayout(new GridLayout(9, 2));
+		ventanaAgendarClase.setLocationRelativeTo(null);
 
-	    JLabel etiquetaDNI = new JLabel("DNI del profesor:");
-	    JLabel etiquetaSede = new JLabel("Sede:");
-	    JLabel etiquetaNombreClase = new JLabel("Nombre de la clase:");
-	    JLabel etiquetaActividad = new JLabel("Actividad:");
-	    JLabel etiquetaEmplazamiento = new JLabel("Emplazamiento:");
-	    JLabel etiquetaFechaHora = new JLabel("Fecha y hora (YYYY-MM-DD HH:MM):");
-	    JLabel etiquetaDuracion = new JLabel("Duración (minutos):");
-	    JLabel etiquetaEnviarNotificaciones = new JLabel("Es online?:");
+		JLabel etiquetaDNI = new JLabel("Profesor");
+		JLabel etiquetaSede = new JLabel("Sede:");
+		JLabel etiquetaNombreClase = new JLabel("Nombre de la clase:");
+		JLabel etiquetaActividad = new JLabel("Actividad:");
+		JLabel etiquetaEmplazamiento = new JLabel("Emplazamiento:");
+		JLabel etiquetaFechaHora = new JLabel("Fecha y hora (YYYY-MM-DD HH:MM):");
+		JLabel etiquetaDuracion = new JLabel("Duración (horas):");
+		JLabel etiquetaEnviarNotificaciones = new JLabel("Es online?:");
 
-	    JTextField campoDNI = new JTextField();
-	    JTextField campoSede = new JTextField();
-	    JTextField campoNombreClase = new JTextField();
-	    DefaultComboBoxModel<String> comboActividad = new DefaultComboBoxModel<>();
+		ArrayList<Profesor> profesores = controlador.getProfesores();
+		DefaultComboBoxModel<Profesor> comboProfesor = new DefaultComboBoxModel<>(profesores.toArray(new Profesor[0]));
+		JComboBox<Profesor> comboProfesorBox = new JComboBox<>(comboProfesor);
 
-	    for (String actividad : controlador.getActividades()) {
-	        comboActividad.addElement(actividad);
-	    }
-	    JComboBox<String> comboActiviadBox = new JComboBox<>(comboActividad);
+		ArrayList<Sede> sedes = controlador.getSedes();
+		DefaultComboBoxModel<Sede> comboSede = new DefaultComboBoxModel<>(sedes.toArray(new Sede[0]));
+		JComboBox<Sede> comboSedeBox = new JComboBox<>(comboSede);
 
-	    JComboBox<String> comboEmplazamiento = new JComboBox<>();
+		JTextField campoNombreClase = new JTextField();
+		DefaultComboBoxModel<String> comboActividad = new DefaultComboBoxModel<>();
 
-	    DefaultComboBoxModel<String> comboEmplazamiento1 = new DefaultComboBoxModel<>();
+		for (String actividad : controlador.getActividades()) {
+			comboActividad.addElement(actividad);
+		}
+		JComboBox<String> comboActiviadBox = new JComboBox<>(comboActividad);
 
-	    for (String emplazamiento : controlador.getEmplazamientos()) {
-	        comboEmplazamiento1.addElement(emplazamiento);
-	    }
+		JComboBox<String> comboEmplazamiento = new JComboBox<>();
 
-	    JComboBox<String> comboEmplazamientoBox = new JComboBox<>(comboEmplazamiento1);
+		DefaultComboBoxModel<String> comboEmplazamiento1 = new DefaultComboBoxModel<>();
 
-	    JTextField campoFechaHora = new JTextField();
-	    JTextField campoDuracion = new JTextField();
+		for (String emplazamiento : controlador.getEmplazamientos()) {
+			comboEmplazamiento1.addElement(emplazamiento);
+		}
 
-	    JCheckBox checkBoxNotificaciones = new JCheckBox();
+		JComboBox<String> comboEmplazamientoBox = new JComboBox<>(comboEmplazamiento1);
 
-	    JButton botonAceptar = new JButton("Aceptar");
-	    JButton botonCancelar = new JButton("Cancelar");
+		JTextField campoFechaHora = new JTextField();
+		JTextField campoDuracion = new JTextField();
 
-	    botonAceptar.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            String dniProfesor = campoDNI.getText();
-	            String sede = campoSede.getText();
-	            String nombreClase = campoNombreClase.getText();
-	            String actividad = (String) comboActiviadBox.getSelectedItem();
-	            String emplazamiento = (String) comboEmplazamientoBox.getSelectedItem();
-	            String horario = campoFechaHora.getText();
-	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-	            LocalDateTime fechaHora = LocalDateTime.parse(horario, formatter);
-	            int duracion = Integer.parseInt(campoDuracion.getText());
-	            boolean enviarNotificaciones = checkBoxNotificaciones.isSelected();
+		JCheckBox checkBoxNotificaciones = new JCheckBox();
 
-	            try {
-	                controlador.agendarClase(dniProfesor, sede, nombreClase, actividad, emplazamiento, fechaHora, duracion, enviarNotificaciones);
-	            } catch (Exception e1) {
-	                JOptionPane.showMessageDialog(null, "No se pudo agendar la clase", "Error", JOptionPane.ERROR_MESSAGE);
-	                e1.printStackTrace();
-	            }
+		JButton botonAceptar = new JButton("Aceptar");
+		JButton botonCancelar = new JButton("Cancelar");
 
-	            ventanaAgendarClase.dispose();
-	        }
-	    });
+		botonAceptar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Profesor profesor = (Profesor) comboProfesorBox.getSelectedItem();
+				Sede sede = (Sede) comboSedeBox.getSelectedItem();
+				String nombreClase = campoNombreClase.getText();
+				String actividad = (String) comboActiviadBox.getSelectedItem();
+				String emplazamiento = (String) comboEmplazamientoBox.getSelectedItem();
+				int duracion = Integer.parseInt(campoDuracion.getText());
+				boolean enviarNotificaciones = checkBoxNotificaciones.isSelected();
 
-	    botonCancelar.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            ventanaAgendarClase.dispose();
-	        }
-	    });
+				try {
+					String horario = campoFechaHora.getText();
+					DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+					LocalDateTime fechaHora = LocalDateTime.parse(horario, formato);
 
-	    ventanaAgendarClase.add(etiquetaDNI);
-	    ventanaAgendarClase.add(campoDNI);
-	    ventanaAgendarClase.add(etiquetaSede);
-	    ventanaAgendarClase.add(campoSede);
-	    ventanaAgendarClase.add(etiquetaNombreClase);
-	    ventanaAgendarClase.add(campoNombreClase);
-	    ventanaAgendarClase.add(etiquetaActividad);
-	    ventanaAgendarClase.add(comboActiviadBox);
-	    ventanaAgendarClase.add(etiquetaEmplazamiento);
-	    ventanaAgendarClase.add(comboEmplazamientoBox);
-	    ventanaAgendarClase.add(etiquetaFechaHora);
-	    ventanaAgendarClase.add(campoFechaHora);
-	    ventanaAgendarClase.add(etiquetaDuracion);
-	    ventanaAgendarClase.add(campoDuracion);
-	    ventanaAgendarClase.add(etiquetaEnviarNotificaciones);
-	    ventanaAgendarClase.add(checkBoxNotificaciones);
-	    ventanaAgendarClase.add(botonAceptar);
-	    ventanaAgendarClase.add(botonCancelar);
+					controlador.agendarClase(profesor.getDNI(), sede.getLocalidad(), nombreClase, actividad,
+							emplazamiento, fechaHora, duracion, enviarNotificaciones);
+				} catch (DateTimeParseException e1) {
+					JOptionPane.showMessageDialog(null, "Fecha erronea. (yyyy/MM/dd HH:mm)", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				} catch (ProfesorNoRegistradoException e1) {
+					JOptionPane.showMessageDialog(null, "Profesor ingresado no está registrado.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				} catch (NoExisteSedeException e1) {
+					JOptionPane.showMessageDialog(null, "No hay sede en esa localidad", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				} catch (ProfesorNoDisponibleException e1) {
+					JOptionPane.showMessageDialog(null, "Profesor no disponible.", "Error", JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Error al agendar la clase. Intente de nuevo.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
 
-	    ventanaAgendarClase.pack();
-	    ventanaAgendarClase.setVisible(true);
+				ventanaAgendarClase.dispose();
+			}
+		});
+
+		botonCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ventanaAgendarClase.dispose();
+			}
+		});
+
+		ventanaAgendarClase.add(etiquetaDNI);
+		ventanaAgendarClase.add(comboProfesorBox);
+		ventanaAgendarClase.add(etiquetaSede);
+		ventanaAgendarClase.add(comboSedeBox);
+		ventanaAgendarClase.add(etiquetaNombreClase);
+		ventanaAgendarClase.add(campoNombreClase);
+		ventanaAgendarClase.add(etiquetaActividad);
+		ventanaAgendarClase.add(comboActiviadBox);
+		ventanaAgendarClase.add(etiquetaEmplazamiento);
+		ventanaAgendarClase.add(comboEmplazamientoBox);
+		ventanaAgendarClase.add(etiquetaFechaHora);
+		ventanaAgendarClase.add(campoFechaHora);
+		ventanaAgendarClase.add(etiquetaDuracion);
+		ventanaAgendarClase.add(campoDuracion);
+		ventanaAgendarClase.add(etiquetaEnviarNotificaciones);
+		ventanaAgendarClase.add(checkBoxNotificaciones);
+		ventanaAgendarClase.add(botonAceptar);
+		ventanaAgendarClase.add(botonCancelar);
+
+		ventanaAgendarClase.pack();
+		ventanaAgendarClase.setVisible(true);
 	}
-
-
 
 	private void configurarTabla(ControladorAdministrativo controlador) {
 

@@ -1,15 +1,24 @@
 package controlador;
 
+import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
+import modelo.productos.NoHayStockException;
 import modelo.sedes.Clase;
+import modelo.sedes.NoMismoNivelException;
+import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
+import modelo.supertlon.Excepciones.NoExisteUsuarioException;
+import modelo.supertlon.Excepciones.NoexisteClaseException;
 import modelo.usuarios.Cliente;
 import usuarios.vistas.ClienteVista;
 
 public class ClienteControlador {
-    private ClienteVista vista;
+    private ClienteVista vista ;
     private static Cliente cliente;
     private GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
@@ -29,24 +38,14 @@ public class ClienteControlador {
         cliente = gimnasio.dameCliente(usuario, contrasenia);
     }
 
-    public void reservarClase() throws Exception {
-        if (vista.getFilaSeleccionada() >= 0) {
-            Clase claseSeleccionada = cliente.getClases()
-                    .get(vista.getTablaClases().convertRowIndexToModel(vista.getFilaSeleccionada()));
-            claseSeleccionada.agregarCliente(cliente);
-        } else {
-            throw new Exception();
-        }
+    public void reservarClase(String nombre, LocalDateTime fecha) throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException {
+        
+    	gimnasio.inscribirseEnClase(cliente.getId(), nombre, fecha);  
+    	
     }
 
-    public void cancelarReserva() throws Exception {
-        if (vista.getFilaSeleccionada() >= 0) {
-            Clase claseSeleccionada = cliente.getClases()
-                    .get(vista.getTablaClases().convertRowIndexToModel(vista.getFilaSeleccionada()));
-            claseSeleccionada.eliminarCliente(cliente);
-        } else {
-            throw new Exception();
-        }
+    public void cancelarReserva(String nombre, LocalDateTime fecha) throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException {
+        gimnasio.desinscribirseEnClase(cliente.getId(), nombre, fecha);
     }
 
     public Clase getClaseSeleccionada() throws Exception {
@@ -60,10 +59,16 @@ public class ClienteControlador {
     }
 
 	public ArrayList<Clase> getClasesDisponibles() throws NoExisteSedeException {
-		
-		
-		// falta desarrollar aca
-		gimnasio.verClasesAgendadas(null);
-		return null;
+		ArrayList<Clase> clasesDispo=new ArrayList<>();
+		for(Sede s:gimnasio.getSedes()) {
+			if(s.getNivel().getJerarquia()<=cliente.getNivel().getJerarquia()) {
+				clasesDispo.addAll(s.getClases());
+			}
+		}
+		return clasesDispo;
+	}
+
+	public void setVista(ClienteVista vista) {
+		this.vista = vista;
 	}
 }

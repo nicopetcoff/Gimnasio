@@ -1,7 +1,11 @@
 package controlador;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 import modelo.productos.Articulo;
 import modelo.sedes.Clase;
@@ -11,12 +15,17 @@ import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.usuarios.Administrativo;
+import modelo.usuarios.Profesor;
+import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
+import usuarios.vistas.VistaAdministrativoNueva;
 
 public class ControladorAdministrativo {
-
+	private VistaAdministrativoNueva vista;
 	private static Administrativo administrativoControlo;
 
 	GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+	
+	
 
 	public boolean validarCredenciales(String usuario, String contrasenia) {
 
@@ -55,7 +64,7 @@ public class ControladorAdministrativo {
 	}
 
 	public void agendarClase(String dniProfesor, String sede, String nombreClase, String actividad,
-			String emplazamiento, LocalDateTime fechaHora, int duracion, boolean online) throws Exception {
+			String emplazamiento, LocalDateTime fechaHora, int duracion, boolean online) throws NoExisteSedeException,ProfesorNoRegistradoException,Exception {
 
 		gimnasio.agendarClase(administrativoControlo.getId(), dniProfesor, sede, nombreClase, actividad, emplazamiento,
 				fechaHora, duracion, online);
@@ -107,5 +116,19 @@ public class ControladorAdministrativo {
 		}
 		return null;
 	}
+
+	public ArrayList<Profesor> getProfesores() {
+		
+		
+		return gimnasio.dameProfesoresDeSedes(administrativoControlo.getSedes());
+	}
+	
+	
+	public ArrayList<Articulo> getCatalogo(){
+		return this.gimnasio.getArticulosEnCatalogo();
+	}
+	
+	
+	
 
 }

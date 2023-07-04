@@ -13,6 +13,7 @@ import modelo.sedes.Actividad;
 import modelo.sedes.Clase;
 import modelo.sedes.Emplazamiento;
 import modelo.sedes.NoEsRentableException;
+import modelo.sedes.NoExisteEmplazamientoRequerido;
 import modelo.sedes.NoMismoNivelException;
 import modelo.sedes.Sede;
 import modelo.supertlon.Excepciones.NoExisteActividadException;
@@ -28,6 +29,8 @@ import modelo.usuarios.SoporteTecnico;
 import modelo.usuarios.Usuario;
 import modelo.usuarios.Excepciones.ExisteLocalidadException;
 import modelo.usuarios.Excepciones.NoPudoException;
+import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
+import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
 import modelo.utilidad.Nivel;
 
 public class GimnasioSingleton {
@@ -153,17 +156,17 @@ public class GimnasioSingleton {
 
 	}
 
-	private Sede soyEsaSede(String localidad) {
+	private Sede soyEsaSede(String localidad) throws NoExisteSedeException {
 
 		for (Sede sede : sedes) {
 			if (sede.getLocalidad().equals(localidad)) {
 				return sede;
 			}
 		}
-		return null;
+		throw new NoExisteSedeException("No hay sede en esa localidad.");
 	}
 
-	private Emplazamiento soyEseEmplazamiento(String emplazamiento) throws Exception {
+	private Emplazamiento soyEseEmplazamiento(String emplazamiento)  {
 
 		for (Emplazamiento emp : emplazamientos)
 			if (emp.getTipoEmplazamiento().equals(emplazamiento)) {
@@ -320,7 +323,8 @@ public class GimnasioSingleton {
 	}
 
 	public void agendarClase(int idA, String nroDNIProfesor, String localidad, String nombreClase, String actividad,
-			String emplazamiento, LocalDateTime fecha, int duracionClase, boolean online) throws Exception {
+			String emplazamiento, LocalDateTime fecha, int duracionClase, boolean online) throws ProfesorNoRegistradoException,
+							ProfesorNoDisponibleException,NoExisteEmplazamientoException,NoExisteSedeException,NoExisteActividadException,NoExisteUsuarioException, NoExisteEmplazamientoRequerido {
 
 		Administrativo a = soyEseAdministrativo(idA);
 
@@ -386,7 +390,7 @@ public class GimnasioSingleton {
 	}
 
 	public void agregarArticuloAStock(int idA, String localidad, String marca, String articulo, String atributos,
-			int cantidad) throws NoExisteArticuloEnCatalogoException {
+			int cantidad) throws NoExisteArticuloEnCatalogoException, NoExisteSedeException {
 
 		Administrativo adm = soyEseAdministrativo(idA);
 
@@ -497,6 +501,24 @@ public class GimnasioSingleton {
 		if (cliente != null) {
 			if (clase != null) {
 				cliente.inscribirseClase(clase);
+			} else {
+				throw new NoexisteClaseException("No existe la clase seleccionada");
+			}
+		} else {
+			throw new NoExisteUsuarioException("No existe el Cliente");
+		}
+	}
+	
+	public void desinscribirseEnClase(int idCliente, String nombreClase, LocalDateTime horario)
+			throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException {
+
+		Cliente cliente = soyEseCliente(idCliente);
+
+		Clase clase = soyEsaClase(nombreClase, horario);
+
+		if (cliente != null) {
+			if (clase != null) {
+				cliente.eliminarClase(clase);
 			} else {
 				throw new NoexisteClaseException("No existe la clase seleccionada");
 			}
@@ -697,6 +719,41 @@ public class GimnasioSingleton {
 			throw new NoExisteUsuarioException("No existe el Administrativo");
 		}
 
+	}
+
+	public ArrayList<Profesor> dameProfesoresDeSedes(ArrayList<Sede> sedes2) {
+		
+		ArrayList<Profesor> profesores = new ArrayList<>();
+		
+		for (Sede cd : sedes2) {
+			profesores.addAll(cd.getProfesores());
+		}
+		return profesores;
+	}
+
+	public void setearEmplazamientoRequeridoPorActividad(int iD, String tipoClase, String emplazamientoSeleccionado) throws NoExisteUsuarioException, NoExisteActividadException, NoExisteEmplazamientoException {
+		
+		SoporteTecnico st = soyEseSoporteTecnico(iD);
+		Actividad act = soyEsaActividad(tipoClase);
+		Emplazamiento emp = soyEseEmplazamiento(emplazamientoSeleccionado);
+		
+		if (st != null) {
+			if (act != null) {
+				if (emp != null) {
+					
+					st.setearEmplazamientoRequeridoPorActiviadad(act, emp);
+					
+				}else {
+					throw new NoExisteEmplazamientoException("No existe el Emplazamiento");
+				}
+				
+			}else {
+				throw new NoExisteActividadException("No existe la actividad");
+			}
+			
+		}else {
+			throw new NoExisteUsuarioException("No existe el Soporte Tecnico");
+		} 
 	}
 
 }
