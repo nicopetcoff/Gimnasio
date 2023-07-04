@@ -146,50 +146,33 @@ public class VistaAdministrativoNueva {
 		ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ventana.setSize(300, 200);
 		ventana.setLocationRelativeTo(null);
-
-		JLabel ingreseSede = new JLabel("Ingrese el nombre de la sede:");
-		JTextField campoSede = new JTextField();
-
-		JButton btnConsultar = new JButton("Consultar");
-
-		btnConsultar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String nombreSede = campoSede.getText();
-
-				ArrayList<Articulo> articulosSede = null;
-				try {
-					articulosSede = controlador.getArticulosSede(nombreSede);
-				} catch (NoExisteUsuarioException | NoExisteSedeException ex) {
-					ex.printStackTrace();
-				}
-
-				if (articulosSede != null) {
-					DefaultListModel<Articulo> modeloLista = new DefaultListModel<>();
-					for (Articulo articulo : articulosSede) {
-						modeloLista.addElement(articulo);
-					}
-
-					JList<Articulo> listaArticulos = new JList<>(modeloLista);
-
-					ventana.getContentPane().removeAll();
-					ventana.setLayout(new BorderLayout());
-					ventana.add(new JScrollPane(listaArticulos), BorderLayout.CENTER);
-					ventana.revalidate();
-				} else {
-
-					JOptionPane.showMessageDialog(ventana, "No se encontraron artículos para la sede ingresada.",
-							"Error", JOptionPane.ERROR_MESSAGE);
-				}
+		
+		ArrayList<Articulo> articulosSede = null;
+		try {
+			articulosSede = this.getSedeSeleccionada().listarArticulos();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return;
+		}
+		
+		if (articulosSede != null) {
+			DefaultListModel<Articulo> modeloLista = new DefaultListModel<>();
+			for (Articulo articulo : articulosSede) {
+				modeloLista.addElement(articulo);
 			}
-		});
 
-		ventana.setLayout(new BorderLayout());
-		ventana.add(ingreseSede, BorderLayout.NORTH);
-		ventana.add(campoSede, BorderLayout.CENTER);
-		ventana.add(btnConsultar, BorderLayout.SOUTH);
+			JList<Articulo> listaArticulos = new JList<>(modeloLista);
 
-		ventana.setVisible(true);
+			ventana.getContentPane().removeAll();
+			ventana.setLayout(new BorderLayout());
+			ventana.add(new JScrollPane(listaArticulos), BorderLayout.CENTER);
+			ventana.revalidate();
+			ventana.setVisible(true);
+		} else {
+
+			JOptionPane.showMessageDialog(ventana, "No se encontraron artículos para la sede ingresada.",
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -276,13 +259,12 @@ public class VistaAdministrativoNueva {
 	    ventanaAsignarArticulosASede.setVisible(true);
 	}
 	
-	public Articulo getArticuloSeleccionado() throws Exception {
+	public Articulo getArticuloSeleccionado() throws NoHaySeleccionException {
 		if (tablaArticulos.getSelectedRow() != -1) {
 			return controlador.getCatalogo().get(tablaArticulos.getSelectedRow());
-		}else {
-			throw new Exception();
+		} else {
+			throw new NoHaySeleccionException("No hay ningún artículo seleccionado en la tabla");
 		}
-		
 	}
 
 	// ------------------------------------------------------------------------------------------------------------
@@ -522,7 +504,6 @@ public class VistaAdministrativoNueva {
 	}
 
 	private void configurarTabla(ControladorAdministrativo controlador) {
-
 		ArrayList<Sede> sedes = controlador.getSedes();
 
 		DefaultTableModel tablaModelo = (DefaultTableModel) tablaSedes.getModel();
@@ -531,6 +512,14 @@ public class VistaAdministrativoNueva {
 			Object[] rowData = { sede.getLocalidad(), sede.getNivel(), sede.getDescripcion() };
 			tablaModelo.addRow(rowData);
 		}
-
+	}
+	
+	private Sede getSedeSeleccionada() throws NoHaySeleccionException {
+		ArrayList<Sede> sedes = controlador.getSedes();
+		if (tablaSedes.getSelectionModel().isSelectionEmpty()) {
+			JOptionPane.showMessageDialog(null, "No hay ninguna sede seleccionada en la tabla", "Error", JOptionPane.ERROR_MESSAGE);
+			throw new NoHaySeleccionException("No hay ninguna sede seleccionada");
+		}
+		return sedes.get(tablaSedes.convertRowIndexToModel(tablaSedes.getSelectedRow()));
 	}
 }

@@ -65,5 +65,6 @@ public class vistaLoginAdministrativo extends JFrame {
 	private void abrirVentanaAdministrativo() {
 
 		VistaAdministrativoNueva vista = new VistaAdministrativoNueva();
+		this.dispose();
 	}
 }
