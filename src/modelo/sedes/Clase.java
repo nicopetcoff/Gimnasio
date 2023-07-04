@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import controlador.ControladorBdStreaming;
 import modelo.baseDeDatos.LimiteClasesException;
 import modelo.productos.Articulo;
@@ -119,7 +121,17 @@ public class Clase {
 		return rentabilidadClase() > 0;
 	}
 
-	// mostrar desglose en la vista al chequear (pop up)
+	public void mostrarCalculo() {
+		String textoRentabilidad = esRentable() ? "La clase es rentable" : "La clase NO es rentable";
+		String mensaje = String.format("Costo de la clase: %s\n"
+				+ "Amortización de artículos necesarios: %s\n"
+				+ "Ingresos totales: %s\n"
+				+ "Rentabilidad neta de la clase: %s\n\n"
+				+ "%s",
+				this.calcularCosto(), this.amortizarArticulos(), this.calcularIngreso(), this.rentabilidadClase(), textoRentabilidad);
+		
+		JOptionPane.showMessageDialog(null, mensaje, "Aviso de rentabilidad de clases", JOptionPane.INFORMATION_MESSAGE);
+	}
 
 	public double rentabilidadClase() {
 		return calcularIngreso() - calcularCosto();
