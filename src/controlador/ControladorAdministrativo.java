@@ -128,17 +128,7 @@ public class ControladorAdministrativo {
 		return this.gimnasio.getArticulosEnCatalogo();
 	}
 	
-	public Articulo getArticuloSeleccionado() throws Exception {
-		if (this.vista.getArticuloSeleccionado() >= 0) {
-			Articulo ArticuloSeleccionado = GimnasioSingleton.getInstance().getArticulosEnCatalogo()
-					.get(vista.getArticuloSeleccionado());
-			
-			return ArticuloSeleccionado;
-		} else {
-			
-			throw new Exception();
-		}
-	}
+	
 	
 
 }

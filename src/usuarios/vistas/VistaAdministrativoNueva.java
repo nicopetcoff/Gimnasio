@@ -201,6 +201,23 @@ public class VistaAdministrativoNueva {
 		ventanaAsignarArticulosASede.setLayout(new BorderLayout());
 		ventanaAsignarArticulosASede.setLocationRelativeTo(null);
 
+<<<<<<< HEAD
+	    DefaultTableModel tablaModelo = new DefaultTableModel();
+	    tablaModelo.addColumn("Articulo");
+	    tablaModelo.addColumn("Marca");
+	    tablaModelo.addColumn("Atributos");
+	    tablaModelo.addColumn("Amortizacion");
+	    tablaModelo.addColumn("Precio");
+
+	    for (Articulo articulo : controlador.getCatalogo()) {
+			Object[] rowData = { articulo.getArticulo(), articulo.getMarca(), articulo.getAtributos(),
+					articulo.getTipoAmortizacion(), articulo.getPrecio() };
+			tablaModelo.addRow(rowData);
+		}
+	    
+	    tablaArticulos = new JTable(tablaModelo);
+	    
+=======
 		DefaultTableModel tablaModelo = new DefaultTableModel();
 		tablaModelo.addColumn("Articulo");
 		tablaModelo.addColumn("Marca");
@@ -209,6 +226,7 @@ public class VistaAdministrativoNueva {
 		tablaModelo.addColumn("Precio");
 		tablaArticulos = new JTable(tablaModelo);
 		configurarTablaCatalogo(controlador.getCatalogo());
+>>>>>>> d5c16e64dd2fb17d0b224101a91144477818d2a6
 
 		JScrollPane tablaScroll = new JScrollPane(tablaArticulos);
 		tablaScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -221,6 +239,33 @@ public class VistaAdministrativoNueva {
 		JLabel labelSede = new JLabel("Sede:");
 		JComboBox<String> comboSede = new JComboBox<>();
 
+<<<<<<< HEAD
+	    JButton botonAceptar = new JButton("Aceptar");
+	    botonAceptar.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	           
+	            Articulo a;
+	           
+                // Obtener la cantidad y la sede ingresadas
+                int cantidad = Integer.parseInt(campoCantidad.getText());
+                String sede = (String) comboSede.getSelectedItem();
+
+                // Realizar la asignación de stock
+                try {
+                	a = getArticuloSeleccionado();
+                    controlador.asignarStockSede(a.getMarca(), a.getArticulo(), a.getAtributos(), cantidad, sede);
+                    JOptionPane.showMessageDialog(ventanaAsignarArticulosASede, "Stock asignado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                } catch (NoExisteArticuloEnCatalogoException | NoExisteUsuarioException | NoExisteSedeException e1) {
+                    JOptionPane.showMessageDialog(ventanaAsignarArticulosASede, "No se pudo asignar el stock.", "Error", JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace();
+                }catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Falta seleccionar articulo que desea agregar.", "Campo incompleto",
+							JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+	            
+=======
 		for (Sede s : controlador.getSedes()) {
 			comboSede.addItem(s.getLocalidad());
 		}
@@ -257,6 +302,7 @@ public class VistaAdministrativoNueva {
 				ventanaAsignarArticulosASede.dispose();
 			}
 		});
+>>>>>>> d5c16e64dd2fb17d0b224101a91144477818d2a6
 
 		panelInferior.add(labelCantidad);
 		panelInferior.add(campoCantidad);
@@ -268,6 +314,25 @@ public class VistaAdministrativoNueva {
 		ventanaAsignarArticulosASede.add(tablaScroll, BorderLayout.CENTER);
 		ventanaAsignarArticulosASede.add(panelInferior, BorderLayout.SOUTH);
 
+<<<<<<< HEAD
+	    ventanaAsignarArticulosASede.add(tablaScroll, BorderLayout.CENTER);
+	    ventanaAsignarArticulosASede.add(panelInferior, BorderLayout.SOUTH);
+	    
+	    ventanaAsignarArticulosASede.pack();
+	    ventanaAsignarArticulosASede.setVisible(true);
+	}
+	
+	public Articulo getArticuloSeleccionado() throws Exception {
+		if (tablaArticulos.getSelectedRow() != -1) {
+			return controlador.getCatalogo().get(tablaArticulos.getSelectedRow());
+		}else {
+			throw new Exception();
+		}
+		
+	}
+	
+	
+=======
 		ventanaAsignarArticulosASede.pack();
 		ventanaAsignarArticulosASede.setVisible(true);
 	}
@@ -284,6 +349,7 @@ public class VistaAdministrativoNueva {
 		}
 	}
 
+>>>>>>> d5c16e64dd2fb17d0b224101a91144477818d2a6
 	// ------------------------------------------------------------------------------------------------------------
 
 	private void cambiarEstadoClase(ControladorAdministrativo controlador) {
