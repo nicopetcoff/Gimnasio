@@ -30,12 +30,11 @@ import javax.swing.table.DefaultTableModel;
 
 import controlador.ControladorAdministrativo;
 import controlador.ControladorBdStreaming;
+import controlador.ControladorST;
 import modelo.baseDeDatos.LimiteClasesException;
 import modelo.productos.Articulo;
 import modelo.sedes.Clase;
 import modelo.sedes.Sede;
-import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
-import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.usuarios.Profesor;
 import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
 import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
@@ -64,7 +63,6 @@ public class VistaAdministrativoNueva {
 		JButton BDStreaming = new JButton("BDStreaming");
 		JButton consultarClasesSede = new JButton("Consultar Clases de Sede");
 		JButton consultarStockSede = new JButton("Consultar Stock de Sede");
-		JButton abmCliente = new JButton("ABM Cliente");
 
 		// --------------------------------------------------------------------
 
@@ -134,7 +132,6 @@ public class VistaAdministrativoNueva {
 		panelIzquierdo.add(BDStreaming);
 		panelIzquierdo.add(consultarClasesSede);
 		panelIzquierdo.add(consultarStockSede);
-		panelIzquierdo.add(abmCliente);
 
 		JPanel panelDerecho = new JPanel();
 		panelDerecho.setLayout(new BorderLayout());
@@ -149,7 +146,7 @@ public class VistaAdministrativoNueva {
 		vistaAdminsitrativo.setVisible(true);
 
 	}
-
+	
 	// -----------------------------------------------------------------------------------------------------------------
 
 	private void consultarStockSede(ControladorAdministrativo controlador) {

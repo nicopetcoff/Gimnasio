@@ -17,6 +17,7 @@ import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.usuarios.Administrativo;
 import modelo.usuarios.Profesor;
 import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
+import modelo.utilidad.Nivel;
 import usuarios.vistas.VistaAdministrativoNueva;
 
 public class ControladorAdministrativo {
