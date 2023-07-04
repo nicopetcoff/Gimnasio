@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -61,6 +62,7 @@ public class VistaAdministrativoNueva {
 		JButton cambiarEstadoClase = new JButton("Cambiar estado de clase");
 		JButton asignarArticuloASede = new JButton("Asignar Articulo a Sede");
 		JButton BDStreaming = new JButton("BDStreaming");
+		JButton consultarClasesSede = new JButton("Consultar Clases de Sede");
 		JButton consultarStockSede = new JButton("Consultar Stock de Sede");
 		JButton abmCliente = new JButton("ABM Cliente");
 
@@ -109,6 +111,14 @@ public class VistaAdministrativoNueva {
 				consultarStockSede(controlador);
 			}
 		});
+		
+		consultarClasesSede.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				consultarClasesSede(controlador);
+			}
+		});
 
 		tablaModelo = new DefaultTableModel();
 		tablaModelo.addColumn("Localidad");
@@ -122,6 +132,7 @@ public class VistaAdministrativoNueva {
 		panelIzquierdo.add(cambiarEstadoClase);
 		panelIzquierdo.add(asignarArticuloASede);
 		panelIzquierdo.add(BDStreaming);
+		panelIzquierdo.add(consultarClasesSede);
 		panelIzquierdo.add(consultarStockSede);
 		panelIzquierdo.add(abmCliente);
 
@@ -171,6 +182,62 @@ public class VistaAdministrativoNueva {
 		} else {
 
 			JOptionPane.showMessageDialog(ventana, "No se encontraron artículos para la sede ingresada.",
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+	
+	private void consultarClasesSede(ControladorAdministrativo controlador) {
+		JFrame ventana = new JFrame("Clases de la Sede");
+		JButton verRentabilidad = new JButton("Desglose");
+		JPanel botonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		ventana.setSize(300, 200);
+		ventana.setLocationRelativeTo(null);
+		
+		ArrayList<Clase> clasesSede = null;
+		try {
+			clasesSede = this.getSedeSeleccionada().getClases();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return;
+		}
+		
+		if (clasesSede != null) {
+			DefaultListModel<Clase> modeloLista = new DefaultListModel<>();
+			for (Clase clase : clasesSede) {
+				modeloLista.addElement(clase);
+			}
+
+			JList<Clase> listaClases = new JList<>(modeloLista);
+
+			ventana.getContentPane().removeAll();
+			ventana.setLayout(new BorderLayout());
+			botonPanel.add(verRentabilidad);
+			panel.add(new JScrollPane(listaClases), BorderLayout.CENTER);
+			panel.add(botonPanel, BorderLayout.SOUTH);
+			ventana.add(panel);
+			ventana.revalidate();
+			ventana.pack();
+			ventana.setVisible(true);
+			
+			verRentabilidad.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					Clase claseSeleccionada = listaClases.getSelectedValue();
+					if (claseSeleccionada != null) {
+						claseSeleccionada.mostrarCalculo();
+					} else {
+						JOptionPane.showMessageDialog(ventana, "No hay ninguna clase seleccionada",
+								"Error", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			});
+		} else {
+			JOptionPane.showMessageDialog(ventana, "No se encontraron clases para la sede ingresada.",
 					"Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
