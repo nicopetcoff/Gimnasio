@@ -27,6 +27,7 @@ import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.supertlon.Excepciones.NoexisteClaseException;
 import modelo.usuarios.Cliente;
+import modelo.usuarios.Excepciones.SinStockDeArticulosException;
 
 public class ClienteVista extends JFrame {
     private JButton botonReservarClase = new JButton("Reservar clase");
@@ -92,6 +93,9 @@ public class ClienteVista extends JFrame {
                     } catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException | LimiteClasesException
                             | NoHayStockException e1) {
                         JOptionPane.showMessageDialog(null, "No se pudo agendar la clase.");
+                        e1.printStackTrace();
+                    }catch(SinStockDeArticulosException e1	) {
+                    	JOptionPane.showMessageDialog(null, "Sede sin stock de articulo.");
                         e1.printStackTrace();
                     }
                 } else {

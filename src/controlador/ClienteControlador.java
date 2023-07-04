@@ -16,6 +16,7 @@ import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.supertlon.Excepciones.NoexisteClaseException;
 import modelo.usuarios.Cliente;
+import modelo.usuarios.Excepciones.SinStockDeArticulosException;
 import usuarios.vistas.ClienteVista;
 
 public class ClienteControlador {
@@ -39,7 +40,7 @@ public class ClienteControlador {
         cliente = gimnasio.dameCliente(usuario, contrasenia);
     }
 
-    public void reservarClase(String nombre, LocalDateTime fecha) throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException, LimiteClasesException {
+    public void reservarClase(String nombre, LocalDateTime fecha) throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException, LimiteClasesException, SinStockDeArticulosException {
         
     	gimnasio.inscribirseEnClase(cliente.getId(), nombre, fecha);  
     	

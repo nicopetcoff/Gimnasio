@@ -13,6 +13,7 @@ import modelo.productos.Articulo;
 import modelo.productos.NoHayStockException;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Profesor;
+import modelo.usuarios.Excepciones.SinStockDeArticulosException;
 import modelo.utilidad.EstadoClase;
 
 public class Clase {
@@ -81,9 +82,9 @@ public class Clase {
 		return this.fecha;
 	}
 
-	public void agregarCliente(Cliente cliente) throws NoMismoNivelException, NoHayStockException {
+	public void agregarCliente(Cliente cliente) throws NoMismoNivelException, NoHayStockException, SinStockDeArticulosException {
 
-		if (sede.getNivel().equals(cliente.getNivel()) && this.alumnosInscriptos < this.capacidadMax) {
+		if (sede.getNivel().getJerarquia()<= cliente.getNivel().getJerarquia() && this.alumnosInscriptos < this.capacidadMax) {
 
 			HashMap<Articulo, Integer> artPorAlumno = actividad.getArticulosPorAlumno();
 
@@ -92,6 +93,8 @@ public class Clase {
 					inscriptos.add(cliente);
 					this.alumnosInscriptos++;
 					sede.reservarArticulos(a, artPorAlumno.get(a), fecha);
+				}else {
+					throw new SinStockDeArticulosException("Sin stock de articulos.");
 				}
 			}
 		} else {

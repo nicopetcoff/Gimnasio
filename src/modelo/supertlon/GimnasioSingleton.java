@@ -31,6 +31,7 @@ import modelo.usuarios.Excepciones.ExisteLocalidadException;
 import modelo.usuarios.Excepciones.NoPudoException;
 import modelo.usuarios.Excepciones.ProfesorNoDisponibleException;
 import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
+import modelo.usuarios.Excepciones.SinStockDeArticulosException;
 import modelo.utilidad.EstadoClase;
 import modelo.utilidad.Nivel;
 
@@ -497,7 +498,7 @@ public class GimnasioSingleton {
 	}
 
 	public void inscribirseEnClase(int idCliente, String nombreClase, LocalDateTime horario)
-			throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException, LimiteClasesException {
+			throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException, LimiteClasesException, SinStockDeArticulosException {
 
 		Cliente cliente = soyEseCliente(idCliente);
 
