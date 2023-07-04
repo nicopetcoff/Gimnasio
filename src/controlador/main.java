@@ -26,6 +26,7 @@ import modelo.supertlon.Excepciones.NoexisteClaseException;
 import modelo.usuarios.Administrativo;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.SoporteTecnico;
+import modelo.usuarios.Excepciones.NoPudoException;
 import modelo.utilidad.Nivel;
 import usuarios.vistas.InterfazSeleccionRol;
 
@@ -613,7 +614,7 @@ public class main {
 			String dni = sc.next();
 
 			try {
-				gimnasio.crearSoporteTecnico(idSP, nombre, apellido, dni);
+				gimnasio.crearSoporteTecnico(idSP, nombre, apellido, dni, null, null);
 			} catch (NoExisteUsuarioException e) {
 				e.printStackTrace();
 			}
@@ -636,8 +637,8 @@ public class main {
 			String contrasenia = sc.next();
 
 			try {
-				gimnasio.crearAdministrativo(idSP, nombre1, apellido1, dni1, usuario, contrasenia);
-			} catch (NoExisteUsuarioException e) {
+				gimnasio.crearAdministrativo(idSP, nombre1, apellido1, dni1, usuario, contrasenia, null);
+			} catch (NoExisteUsuarioException | NoPudoException | NoExisteSedeException e) {
 				e.printStackTrace();
 			}
 			//asignarSedeAdministrativo(idSP);

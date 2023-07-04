@@ -63,7 +63,7 @@ public class InterfazSeleccionRol extends JFrame {
 	}
 
 	public void abrirVentanaSoporteTecnico() {
-		VistaSoporteTecnico vistaSoporteTecnico = new VistaSoporteTecnico();
+		vistaLoginSoporteTecnico vistaLoginST = new vistaLoginSoporteTecnico();
 	}
 
 	public void abrirVentanaCliente() {

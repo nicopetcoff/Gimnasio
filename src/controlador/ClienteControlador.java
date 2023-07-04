@@ -30,7 +30,7 @@ public class ClienteControlador {
     }
 
     public Cliente buscarCliente(String usuario, String contrasenia) {
-        Cliente cliente = gimnasio.getCliente(usuario, contrasenia);
+        Cliente cliente = gimnasio.dameCliente(usuario, contrasenia);
         return cliente;
     }
 
