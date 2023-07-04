@@ -35,11 +35,9 @@ public class ClienteVista extends JFrame {
     private JButton BotonConfirmar=new JButton("Confirmar");
     private DefaultTableModel tablaModelo = new DefaultTableModel();
     private JTable tablaClases = new JTable(tablaModelo);
-    private Cliente cliente;
     private ClienteControlador controlador;
 
     public ClienteVista(Cliente cliente) {
-        this.cliente = cliente;
         this.controlador = new ClienteControlador();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
@@ -141,7 +139,7 @@ public class ClienteVista extends JFrame {
         panelTabla.add(new JLabel("Mis Clases"));
         panelTabla.add(tablaScroll);
         ArrayList<Clase> clases = null;
-		clases = cliente.getClases();
+		clases = controlador.getClasesInscripto();
 
         for (Clase clase : clases) {
             Object[] rowData = { clase.getnombre(), clase.getActividad().getTipoClase(), clase.getLugar(),
