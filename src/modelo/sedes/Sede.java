@@ -54,6 +54,15 @@ public class Sede {
 		
 
 	}
+	
+	public void liberarArticulos(Articulo articulo, int cantidad, LocalDateTime fecha) {
+		Map<Articulo, Integer> mapInterno = reservas.get(fecha);
+		cantidad=mapInterno.get(articulo)-cantidad;
+			
+		
+		mapInterno.put(articulo, cantidad);
+		reservas.put(fecha, mapInterno);
+	}
 
 	public void reservarArticulos(Articulo articulo, int cantidad, LocalDateTime fecha) {
 		Map<Articulo, Integer> mapInterno = reservas.get(fecha);

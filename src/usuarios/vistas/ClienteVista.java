@@ -27,6 +27,7 @@ import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.supertlon.Excepciones.NoexisteClaseException;
 import modelo.usuarios.Cliente;
+import modelo.usuarios.Excepciones.SinStockDeArticulosException;
 
 public class ClienteVista extends JFrame {
     private JButton botonReservarClase = new JButton("Reservar clase");
@@ -90,6 +91,9 @@ public class ClienteVista extends JFrame {
                     } catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException | LimiteClasesException
                             | NoHayStockException e1) {
                         JOptionPane.showMessageDialog(null, "No se pudo agendar la clase.");
+                        e1.printStackTrace();
+                    }catch(SinStockDeArticulosException e1	) {
+                    	JOptionPane.showMessageDialog(null, "Sede sin stock de articulo.");
                         e1.printStackTrace();
                     }
                 } else {
@@ -157,7 +161,7 @@ public class ClienteVista extends JFrame {
 
         BotonConfirmar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int filaSeleccionada = getFilaSeleccionada();
+                int filaSeleccionada = tablaClases.getSelectedRow();
                 if (filaSeleccionada >= 0) {
                     int modeloFilaSeleccionada = tablaClases.convertRowIndexToModel(filaSeleccionada);
                     String nombre = (String) tablaModelo.getValueAt(modeloFilaSeleccionada, 0);
@@ -166,6 +170,7 @@ public class ClienteVista extends JFrame {
                     try {
                         controlador.cancelarReserva(nombre, fecha);
                         mostrarMensaje("Reserva cancelada correctamente.");
+                        cancelarReserva.dispose();
                     } catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException | NoHayStockException e1) {
                         JOptionPane.showMessageDialog(null, "No se pudo cancelar la reserva.");
                         e1.printStackTrace();

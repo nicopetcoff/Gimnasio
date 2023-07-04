@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import modelo.productos.NoHayStockException;
 import modelo.sedes.Clase;
 import modelo.sedes.NoMismoNivelException;
+import modelo.usuarios.Excepciones.SinStockDeArticulosException;
 import modelo.utilidad.Nivel;
 
 public class Cliente extends Usuario implements OperarClase {
@@ -22,7 +23,7 @@ public class Cliente extends Usuario implements OperarClase {
 	}
 
 	@Override
-	public void inscribirseClase(Clase clase) throws NoMismoNivelException, NoHayStockException {
+	public void inscribirseClase(Clase clase) throws NoMismoNivelException, NoHayStockException, SinStockDeArticulosException {
 		clase.agregarCliente(this);
 		clases.add(clase);
 	}

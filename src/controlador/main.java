@@ -27,6 +27,7 @@ import modelo.usuarios.Administrativo;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.SoporteTecnico;
 import modelo.usuarios.Excepciones.NoPudoException;
+import modelo.usuarios.Excepciones.SinStockDeArticulosException;
 import modelo.utilidad.Nivel;
 import usuarios.vistas.InterfazSeleccionRol;
 
@@ -311,7 +312,7 @@ public class main {
 
 		try {
 			gimnasio.inscribirseEnClase(idCliente, nombreClase, horario);
-		} catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException | NoHayStockException | LimiteClasesException e) {
+		} catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException | NoHayStockException | LimiteClasesException | SinStockDeArticulosException e) {
 			e.printStackTrace();
 		}
 
