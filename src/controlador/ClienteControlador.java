@@ -72,4 +72,8 @@ public class ClienteControlador {
 	public void setVista(ClienteVista vista) {
 		this.vista = vista;
 	}
+
+	public ArrayList<Clase> getClasesInscripto() {
+		return gimnasio.getClasesInscripto(cliente);
+	}
 }

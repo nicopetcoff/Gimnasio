@@ -797,4 +797,8 @@ public class GimnasioSingleton {
 		return 0;
 	}
 
+	public ArrayList<Clase> getClasesInscripto(Cliente cliente) {
+		return cliente.getClases();
+	}
+
 }
