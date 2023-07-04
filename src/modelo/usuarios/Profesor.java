@@ -25,7 +25,7 @@ public class Profesor extends Usuario {
 
 	@Override
 	public String toString() {
-		return String.format("Profesor [nombre=%s, apellido=%s, dni=%s]", nombre, apellido, dni);
+		return String.format("%s %s, DNI: %s", nombre, apellido, dni);
 	}
 
 

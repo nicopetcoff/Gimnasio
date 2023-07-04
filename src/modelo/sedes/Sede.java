@@ -74,8 +74,8 @@ public class Sede {
 
 	@Override
 	public String toString() {
-		return "Sede [localidad=" + localidad + ", nivel=" + nivel + ", capacidadMax=" + capacidadMax + ", tipoSede="
-				+ descripcion + "]";
+		return localidad + ", membresía " + nivel + ", capacidad máxima: " + capacidadMax + ", descripción: "
+				+ descripcion;
 	}
 
 	
