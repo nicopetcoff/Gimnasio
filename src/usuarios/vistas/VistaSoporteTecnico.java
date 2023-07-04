@@ -172,6 +172,16 @@ public class VistaSoporteTecnico extends JFrame {
 				asignarEmplazamientoActividad();
 			}
 		});
+		
+		JMenuItem asginarAdminASede = new JMenuItem("Asignar administrador a sede");
+		asginarAdminASede.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				asginarAdminASede();
+			}
+
+		});
 
 		opcionesMenu.add(crearSede);
 		opcionesMenu.add(crearCliente);
@@ -914,5 +924,10 @@ public class VistaSoporteTecnico extends JFrame {
 
 		return controlador.getSoporteTecnicos();
 	}
+	
+	//-------------------------------------------------------------------------------------------------------
 
+	private void asginarAdminASede() {
+		
+	}
 }
