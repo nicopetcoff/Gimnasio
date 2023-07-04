@@ -117,7 +117,13 @@ public class Clase {
 	}
 
 	public void eliminarCliente(Cliente cliente) {
-		inscriptos.remove(cliente);
+		HashMap<Articulo, Integer> artPorAlumno = actividad.getArticulosPorAlumno();
+
+		for (Articulo a : artPorAlumno.keySet()) {
+			inscriptos.remove(cliente);
+			this.alumnosInscriptos--;
+			sede.liberarArticulos(a, artPorAlumno.get(a), this.fecha);
+		}
 	}
 
 	public boolean esRentable() {

@@ -163,7 +163,7 @@ public class ClienteVista extends JFrame {
 
         BotonConfirmar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int filaSeleccionada = getFilaSeleccionada();
+                int filaSeleccionada = tablaClases.getSelectedRow();
                 if (filaSeleccionada >= 0) {
                     int modeloFilaSeleccionada = tablaClases.convertRowIndexToModel(filaSeleccionada);
                     String nombre = (String) tablaModelo.getValueAt(modeloFilaSeleccionada, 0);
@@ -172,6 +172,7 @@ public class ClienteVista extends JFrame {
                     try {
                         controlador.cancelarReserva(nombre, fecha);
                         mostrarMensaje("Reserva cancelada correctamente.");
+                        cancelarReserva.dispose();
                     } catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException | NoHayStockException e1) {
                         JOptionPane.showMessageDialog(null, "No se pudo cancelar la reserva.");
                         e1.printStackTrace();
