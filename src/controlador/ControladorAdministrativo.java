@@ -25,9 +25,7 @@ public class ControladorAdministrativo {
 
 	GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 	
-	public ControladorAdministrativo(VistaAdministrativoNueva vista) {
-		this.vista=vista;
-	}
+	
 
 	public boolean validarCredenciales(String usuario, String contrasenia) {
 

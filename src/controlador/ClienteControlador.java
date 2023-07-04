@@ -1,6 +1,9 @@
 package controlador;
 
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.JPanel;
 
 import modelo.productos.NoHayStockException;
 import modelo.sedes.Clase;
@@ -14,7 +17,7 @@ import modelo.usuarios.Cliente;
 import usuarios.vistas.ClienteVista;
 
 public class ClienteControlador {
-    private ClienteVista vista;
+    private ClienteVista vista = new ClienteVista(null);
     private static Cliente cliente;
     private GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
@@ -36,8 +39,7 @@ public class ClienteControlador {
 
     public void reservarClase() throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException {
         if (vista.getFilaSeleccionada() >= 0) {
-            Clase claseSeleccionada = cliente.getClases()
-                    .get(vista.getTablaClases().convertRowIndexToModel(vista.getFilaSeleccionada()));
+            Clase claseSeleccionada = cliente.getClases().get(vista.getTablaClases().convertRowIndexToModel(vista.getFilaSeleccionada()));
             
            gimnasio.inscribirseEnClase(cliente.getId(), claseSeleccionada.getNombreClase(), claseSeleccionada.getFecha());            
         } 
