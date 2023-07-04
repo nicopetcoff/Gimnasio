@@ -88,7 +88,7 @@ public class Clase {
 			HashMap<Articulo, Integer> artPorAlumno = actividad.getArticulosPorAlumno();
 
 			for (Articulo a : artPorAlumno.keySet()) {
-				if (sede.articulosDisponible(a, artPorAlumno.get(a), this.fecha.toLocalTime())) {
+				if (sede.articulosDisponible(a, artPorAlumno.get(a), this.fecha)) {
 					inscriptos.add(cliente);
 					this.alumnosInscriptos++;
 					sede.reservarArticulos(a, artPorAlumno.get(a), fecha);
