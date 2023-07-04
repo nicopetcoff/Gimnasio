@@ -50,7 +50,7 @@ public class VistaAdministrativoNueva {
 	public VistaAdministrativoNueva() {
 		vistaAdminsitrativo = new JFrame("Vista Administrativo");
 
-		controlador = new ControladorAdministrativo();
+		controlador = new ControladorAdministrativo(this);
 
 		vistaAdminsitrativo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		vistaAdminsitrativo.setLayout(new BorderLayout());

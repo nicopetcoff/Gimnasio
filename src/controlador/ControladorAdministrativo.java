@@ -24,6 +24,10 @@ public class ControladorAdministrativo {
 	private static Administrativo administrativoControlo;
 
 	GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
+	
+	public ControladorAdministrativo(VistaAdministrativoNueva vista) {
+		this.vista=vista;
+	}
 
 	public boolean validarCredenciales(String usuario, String contrasenia) {
 
