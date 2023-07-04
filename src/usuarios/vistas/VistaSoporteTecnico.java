@@ -32,6 +32,7 @@ import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.usuarios.Usuario;
+import modelo.usuarios.Excepciones.NoPudoException;
 
 public class VistaSoporteTecnico extends JFrame {
 
@@ -172,6 +173,16 @@ public class VistaSoporteTecnico extends JFrame {
 				asignarEmplazamientoActividad();
 			}
 		});
+		
+		JMenuItem asginarAdminASede = new JMenuItem("Asignar administrador a sede");
+		asginarAdminASede.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				asginarAdminASede();
+			}
+
+		});
 
 		opcionesMenu.add(crearSede);
 		opcionesMenu.add(crearCliente);
@@ -184,6 +195,7 @@ public class VistaSoporteTecnico extends JFrame {
 		opcionesMenu.add(crearArticuloEnCatalogo);
 		opcionesMenu.add(setearArticuloRequeridoPorActividad);
 		opcionesMenu.add(setearEmplazamientoActividad);
+		opcionesMenu.add(asginarAdminASede);
 
 		menuBar.add(opcionesMenu);
 
@@ -676,8 +688,8 @@ public class VistaSoporteTecnico extends JFrame {
 
 				try {
 					controlador.crearAdministrativo(idGestion, nombre, apellido, dni, sedeSeleccionada, usuario,
-							contrasenia);
-				} catch (NoExisteUsuarioException | NoExisteSedeException e1) {
+							contrasenia,sedeSeleccionada);
+				} catch (NoExisteUsuarioException | NoExisteSedeException | NoPudoException e1) {
 					JOptionPane.showMessageDialog(null, "No se pudo crear Administrativo", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
@@ -914,5 +926,69 @@ public class VistaSoporteTecnico extends JFrame {
 
 		return controlador.getSoporteTecnicos();
 	}
+	
+	//-------------------------------------------------------------------------------------------------------
 
+	private void asginarAdminASede() {
+		JFrame ventanaAsginarAdminASede = new JFrame("Asignar Emplazamiento a Sede");
+		ventanaAsginarAdminASede.setLocationRelativeTo(null);
+		ControladorST controlador = new ControladorST();
+
+		JLabel idGestionLabel = new JLabel("ID de Gestión:");
+		JTextField idGestionCampo = new JTextField(10);
+
+		ArrayList<String> listaAdministradores = controlador.getAdmins();
+
+		JLabel AdminLabel = new JLabel("Seleccionar Administrador:");
+		JComboBox<String> AdministradorComboBox = new JComboBox<>(listaAdministradores.toArray(new String[0]));
+
+		ArrayList<String> listaSedes = controlador.getSedes();
+
+		JLabel sedeLabel = new JLabel("Seleccionar Sede:");
+		JComboBox<String> sedeComboBox = new JComboBox<>(listaSedes.toArray(new String[0]));
+
+		JButton aceptarBoton = new JButton("Aceptar");
+		aceptarBoton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int idGestion = Integer.parseInt(idGestionCampo.getText());
+				String AdminSeleccionado = (String) AdministradorComboBox.getSelectedItem();
+				String sedeSeleccionada = (String) sedeComboBox.getSelectedItem();
+				String[] datos=AdminSeleccionado.split(" ");
+
+				try {
+					
+					controlador.asignarAdminASede(idGestion,sedeSeleccionada,datos[0]);
+				} catch (NoExisteUsuarioException e1) {
+					JOptionPane.showMessageDialog(null, "No se pudo asginar el administrador", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}catch(NoExisteSedeException e1) {
+					JOptionPane.showMessageDialog(null, "No existe la sede.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+
+				ventanaAsginarAdminASede.dispose();
+			}
+		});
+		
+		
+
+		JPanel panelPrincipal = new JPanel(new GridLayout(4, 2, 5, 5));
+		panelPrincipal.add(idGestionLabel);
+		panelPrincipal.add(idGestionCampo);
+		panelPrincipal.add(AdminLabel);
+		panelPrincipal.add(AdministradorComboBox);
+		panelPrincipal.add(sedeLabel);
+		panelPrincipal.add(sedeComboBox);
+		panelPrincipal.add(new JLabel());
+		panelPrincipal.add(aceptarBoton);
+
+		ventanaAsginarAdminASede.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		ventanaAsginarAdminASede.add(panelPrincipal);
+		ventanaAsginarAdminASede.pack();
+		ventanaAsginarAdminASede.setVisible(true);
+		ventanaAsginarAdminASede.setLocationRelativeTo(null);
+	}
+	
 }

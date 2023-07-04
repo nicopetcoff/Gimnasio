@@ -13,6 +13,7 @@ import modelo.supertlon.Excepciones.NoExisteEmplazamientoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.usuarios.Usuario;
+import modelo.usuarios.Excepciones.NoPudoException;
 import modelo.utilidad.Nivel;
 
 public class ControladorST {
@@ -80,13 +81,21 @@ public class ControladorST {
 		}
 		return sedes;
 	}
+	
+	public ArrayList<String> getAdmins() {
+
+		ArrayList<String> admins = new ArrayList<>();
+		for (int i = 0; i < gimnasio.getAdmins().size(); i++) {
+			admins.add(gimnasio.getAdmins().get(i));
+		}
+		return admins;
+	}
 
 	public void crearAdministrativo(int idGestion, String nombre, String apellido, String dni, String sedeSeleccionada,
-			String usuario, String contrasenia) throws NoExisteUsuarioException, NoExisteSedeException {
+			String usuario, String contrasenia,String localidad) throws NoExisteUsuarioException, NoExisteSedeException, NoPudoException {
 
-		gimnasio.crearAdministrativo(idGestion, nombre, apellido, dni, usuario, contrasenia);
+		gimnasio.crearAdministrativo(idGestion, nombre, apellido, dni, usuario, contrasenia,localidad);
 
-		gimnasio.asignarSedeAlAdministrativo(idGestion, sedeSeleccionada);
 
 	}
 
@@ -168,6 +177,10 @@ public class ControladorST {
 	public void asignarEmplazamientoActividad(int iD, Actividad actividadSeleccionada, String emplazamientoSeleccionado) throws NoExisteUsuarioException, NoExisteActividadException, NoExisteEmplazamientoException {
 		
 		gimnasio.setearEmplazamientoRequeridoPorActividad(iD, actividadSeleccionada.getTipoClase(), emplazamientoSeleccionado);
+	}
+	
+	public void asignarAdminASede(int Id,String localidad,String admin) throws NoExisteSedeException, NoExisteUsuarioException {
+		gimnasio.asignarSedeAlAdministrativo(Id, localidad, admin);
 	}
 
 }

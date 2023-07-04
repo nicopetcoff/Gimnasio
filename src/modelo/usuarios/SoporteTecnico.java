@@ -99,13 +99,9 @@ public class SoporteTecnico extends Usuario {
 		admin.agregarSede(sede);
 	}
 
-	public void AsignarLaSedeAlAdministrativo(Usuario usuario, Sede sede) throws NoPudoException {
-		if (usuario.soyAdministrativo()) {
-			Administrativo a = (Administrativo) usuario;
-			a.agregarSede(sede);
-		} else {
-			throw new NoPudoException("No se pudo asignarle la sede");
-		}
+	public void AsignarLaSedeAlAdministrativo(Administrativo usuario, Sede sede) throws NoPudoException {
+			usuario.agregarSede(sede);
+		
 
 	}
 

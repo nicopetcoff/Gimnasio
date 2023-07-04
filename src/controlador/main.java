@@ -640,7 +640,7 @@ public class main {
 			} catch (NoExisteUsuarioException e) {
 				e.printStackTrace();
 			}
-			asignarSedeAdministrativo(idSP);
+			//asignarSedeAdministrativo(idSP);
 			break;
 
 		case 3:
@@ -723,7 +723,7 @@ public class main {
 		}
 	}
 
-	private static void asignarSedeAdministrativo(int idSP) {
+	private static void asignarSedeAdministrativo(int idSP,String adminDNI) {
 
 		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
@@ -743,11 +743,10 @@ public class main {
 				System.out.println("Elija localidad");
 				String localidad = scanner.next();
 
-				// aca le vamos a asignar la sede al ultimo administrativo creado, cuidado con
-				// este metodo
+				
 				try {
-					gimnasio.asignarSedeAlAdministrativo(idSP, localidad);
-				} catch (NoExisteSedeException | NoExisteUsuarioException e) {
+					gimnasio.asignarSedeAlAdministrativo(idSP, localidad,adminDNI);
+				} catch (NoExisteSedeException | NoExisteUsuarioException  e) {
 					e.printStackTrace();
 				}
 				break;
