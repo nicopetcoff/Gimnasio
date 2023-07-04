@@ -20,7 +20,7 @@ import modelo.utilidad.Nivel;
 public class ControladorST {
 
 	private GimnasioSingleton gimnasio;
-	SoporteTecnico st;
+	private static SoporteTecnico st;
 
 	public ControladorST() {
 
