@@ -41,6 +41,7 @@ public class main {
 		sede1.agregarEmplazamiento(emplazamiento1);
 
 		SoporteTecnico st = new SoporteTecnico("Jose", "Menem", "87654321");
+		st.setUsuarioContraseniaSoporte("jose", "menem");
 		/*Administrativo admin = new Administrativo("Juan", "Pérez", "12345678");
 		st.asignarSede(admin, sede1);
 		st.asignarSede(admin, sede2);
