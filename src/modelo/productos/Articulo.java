@@ -32,7 +32,7 @@ public class Articulo {
 
 	@Override
 	public String toString() {
-		return "Articulo [marca=" + marca + ", articulo=" + articulo + ", atributos=" + atributos + "]";
+		return articulo + ", marca " + marca + ", atributos: " + atributos;
 	}
 
 	public void sumarClase() {

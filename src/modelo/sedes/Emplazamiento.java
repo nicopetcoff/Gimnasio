@@ -11,7 +11,7 @@ public class Emplazamiento {
 
 	@Override
 	public String toString() {
-		return "Emplazamiento [tipoEmplazamiento=" + tipoEmplazamiento + "]";
+		return tipoEmplazamiento + "(factor: " + factorCalculo + ")";
 	}
 
 	public String getTipoEmplazamiento() {
