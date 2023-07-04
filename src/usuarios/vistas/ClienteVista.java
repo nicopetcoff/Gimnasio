@@ -140,6 +140,14 @@ public class ClienteVista extends JFrame {
         panelTabla.setLayout(new BoxLayout(panelTabla, BoxLayout.Y_AXIS));
         panelTabla.add(new JLabel("Mis Clases"));
         panelTabla.add(tablaScroll);
+        ArrayList<Clase> clases = null;
+		clases = cliente.getClases();
+
+        for (Clase clase : clases) {
+            Object[] rowData = { clase.getnombre(), clase.getActividad().getTipoClase(), clase.getLugar(),
+                    clase.getFecha()};
+            tablaModelo.addRow(rowData);
+        }
 
         JPanel panelBotones = new JPanel();
         panelBotones.setLayout(new BoxLayout(panelBotones, BoxLayout.X_AXIS));
@@ -147,7 +155,7 @@ public class ClienteVista extends JFrame {
 
         cancelarReserva.getContentPane().add(panelTabla);
         cancelarReserva.getContentPane().add(panelBotones);
-        configurarTablaMisClases();
+        
 
         BotonConfirmar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -171,18 +179,6 @@ public class ClienteVista extends JFrame {
         });
     }
     
-    public void configurarTablaMisClases() {
-        tablaModelo.setRowCount(0); 
-        
-        ArrayList<Clase> clases = null;
-		clases = cliente.getClases();
-
-        for (Clase clase : clases) {
-            Object[] rowData = { clase.getnombre(), clase.getActividad().getTipoClase(), clase.getLugar(),
-                    clase.getFecha()};
-            tablaModelo.addRow(rowData);
-        }
-    }
 
     public void configurarTablaClasesDispo() {
         tablaModelo.setRowCount(0); 
