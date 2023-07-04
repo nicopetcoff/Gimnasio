@@ -18,8 +18,12 @@ import javax.swing.table.DefaultTableModel;
 
 import controlador.ClienteControlador;
 import controlador.ControladorBdStreaming;
+import modelo.productos.NoHayStockException;
 import modelo.sedes.Clase;
+import modelo.sedes.NoMismoNivelException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
+import modelo.supertlon.Excepciones.NoExisteUsuarioException;
+import modelo.supertlon.Excepciones.NoexisteClaseException;
 import modelo.usuarios.Cliente;
 
 public class ClienteVista extends JFrame {
@@ -70,11 +74,14 @@ public class ClienteVista extends JFrame {
 
         botonReservarClase.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                try {
-                    controlador.reservarClase();
-                } catch (Exception e1) {
-                    JOptionPane.showMessageDialog(null, "No hay ninguna clase seleccionada");
-                }
+            	
+            	try {
+					controlador.reservarClase();
+				} catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException
+						| NoHayStockException e1) {
+					JOptionPane.showMessageDialog(null, "No se pudo agendar");
+					e1.printStackTrace();
+				}
             }
         });
 

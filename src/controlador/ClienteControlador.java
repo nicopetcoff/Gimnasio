@@ -2,10 +2,14 @@ package controlador;
 
 import java.util.ArrayList;
 
+import modelo.productos.NoHayStockException;
 import modelo.sedes.Clase;
+import modelo.sedes.NoMismoNivelException;
 import modelo.sedes.Sede;
 import modelo.supertlon.GimnasioSingleton;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
+import modelo.supertlon.Excepciones.NoExisteUsuarioException;
+import modelo.supertlon.Excepciones.NoexisteClaseException;
 import modelo.usuarios.Cliente;
 import usuarios.vistas.ClienteVista;
 
@@ -30,14 +34,13 @@ public class ClienteControlador {
         cliente = gimnasio.dameCliente(usuario, contrasenia);
     }
 
-    public void reservarClase() throws Exception {
+    public void reservarClase() throws NoExisteUsuarioException, NoMismoNivelException, NoexisteClaseException, NoHayStockException {
         if (vista.getFilaSeleccionada() >= 0) {
             Clase claseSeleccionada = cliente.getClases()
                     .get(vista.getTablaClases().convertRowIndexToModel(vista.getFilaSeleccionada()));
-            claseSeleccionada.agregarCliente(cliente);
-        } else {
-            throw new Exception();
-        }
+            
+           gimnasio.inscribirseEnClase(cliente.getId(), claseSeleccionada.getNombreClase(), claseSeleccionada.getFecha());            
+        } 
     }
 
     public void cancelarReserva() throws Exception {

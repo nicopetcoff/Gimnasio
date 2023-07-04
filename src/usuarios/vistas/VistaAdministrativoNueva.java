@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controlador.ControladorAdministrativo;
 import controlador.ControladorBdStreaming;
+import modelo.baseDeDatos.LimiteClasesException;
 import modelo.productos.Articulo;
 import modelo.sedes.Clase;
 import modelo.sedes.Sede;
@@ -344,7 +345,7 @@ public class VistaAdministrativoNueva {
 	private void configurarTablaClases(ControladorAdministrativo controlador, JTable tablaClases,
 			JComboBox<String> sedeCombo) {
 		DefaultTableModel tablaModelo = (DefaultTableModel) tablaClases.getModel();
-		tablaModelo.setRowCount(0); // Limpiar la tabla antes de actualizarla
+		tablaModelo.setRowCount(0); 
 
 		ArrayList<Clase> clases = new ArrayList<>();
 		try {
@@ -362,7 +363,11 @@ public class VistaAdministrativoNueva {
 
 	private void cambiarEstadoClase(int fila, EstadoClase estado, String localidad) {
 		Clase clase = controlador.getSede(localidad).getClases().get(fila);
-		clase.setEstado(estado);
+		try {
+			clase.cambiarEstado(estado);
+		} catch (LimiteClasesException e) {
+			e.printStackTrace();
+		}
 
 		/*
 		 * DefaultTableModel tablaModelo = (DefaultTableModel) tablaClases.getModel();

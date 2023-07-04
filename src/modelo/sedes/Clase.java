@@ -66,10 +66,7 @@ public class Clase {
 	public EstadoClase getEstado() {
 		return this.estado;
 	}
-
-	public void setEstado(EstadoClase estado) {
-		this.estado = estado;
-	}
+	
 
 	public LocalDateTime getFecha() {
 		return this.fecha;
@@ -165,18 +162,6 @@ public class Clase {
 		return membresias / 30 * inscriptos.size();
 	}
 
-	/*
-	 * esto estaria para borrar
-	 * 
-	 * public void calcularTotalArticulos(Map<Articulo, Integer> articulos) { //
-	 * Recibe como parametro un map de articulos // (puede ser sacado de Actividad)
-	 * for (Map.Entry<Articulo, Integer> entry : articulos.entrySet()) { Articulo
-	 * articulo = entry.getKey(); // Obtiene el articulo Integer cantidad =
-	 * entry.getValue(); // Obtiene la cantidad int totalArticulos = cantidad *
-	 * this.inscriptos.size(); // Multiplica articulos * cantidad de inscriptos
-	 * this.articulosTotales.put(articulo, totalArticulos); // Agrega una entrada a
-	 * articulosTotales con el tipo de // articulo y el total. } }
-	 */
 
 	public boolean isOnLine() {
 		return onLine;
