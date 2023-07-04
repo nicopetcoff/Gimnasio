@@ -197,11 +197,10 @@ public class VistaAdministrativoNueva {
 	private void asignarArticulosASede(ControladorAdministrativo controlador) {
 
 		JFrame ventanaAsignarArticulosASede = new JFrame("Asignar Artículos a Sede");
-		ventanaAsignarArticulosASede.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		ventanaAsignarArticulosASede.setLayout(new BorderLayout());
-		ventanaAsignarArticulosASede.setLocationRelativeTo(null);
+	    ventanaAsignarArticulosASede.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    ventanaAsignarArticulosASede.setLayout(new BorderLayout());
+	    ventanaAsignarArticulosASede.setLocationRelativeTo(null);
 
-<<<<<<< HEAD
 	    DefaultTableModel tablaModelo = new DefaultTableModel();
 	    tablaModelo.addColumn("Articulo");
 	    tablaModelo.addColumn("Marca");
@@ -217,29 +216,22 @@ public class VistaAdministrativoNueva {
 	    
 	    tablaArticulos = new JTable(tablaModelo);
 	    
-=======
-		DefaultTableModel tablaModelo = new DefaultTableModel();
-		tablaModelo.addColumn("Articulo");
-		tablaModelo.addColumn("Marca");
-		tablaModelo.addColumn("Atributos");
-		tablaModelo.addColumn("Amortizacion");
-		tablaModelo.addColumn("Precio");
-		tablaArticulos = new JTable(tablaModelo);
-		configurarTablaCatalogo(controlador.getCatalogo());
->>>>>>> d5c16e64dd2fb17d0b224101a91144477818d2a6
 
-		JScrollPane tablaScroll = new JScrollPane(tablaArticulos);
-		tablaScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	    JScrollPane tablaScroll = new JScrollPane(tablaArticulos);
+	    tablaScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-		JPanel panelInferior = new JPanel(new GridLayout(3, 2));
+	    JPanel panelInferior = new JPanel(new GridLayout(3, 2));
 
-		JLabel labelCantidad = new JLabel("Cantidad:");
-		JTextField campoCantidad = new JTextField();
+	    JLabel labelCantidad = new JLabel("Cantidad:");
+	    JTextField campoCantidad = new JTextField();
 
-		JLabel labelSede = new JLabel("Sede:");
-		JComboBox<String> comboSede = new JComboBox<>();
+	    JLabel labelSede = new JLabel("Sede:");
+	    JComboBox<String> comboSede = new JComboBox<>();
+	   
+	    for(Sede s:controlador.getSedes()) {
+	    	comboSede.addItem(s.getLocalidad());
+	    }
 
-<<<<<<< HEAD
 	    JButton botonAceptar = new JButton("Aceptar");
 	    botonAceptar.addActionListener(new ActionListener() {
 	        @Override
@@ -247,11 +239,11 @@ public class VistaAdministrativoNueva {
 	           
 	            Articulo a;
 	           
-                // Obtener la cantidad y la sede ingresadas
+               
                 int cantidad = Integer.parseInt(campoCantidad.getText());
                 String sede = (String) comboSede.getSelectedItem();
 
-                // Realizar la asignación de stock
+         
                 try {
                 	a = getArticuloSeleccionado();
                     controlador.asignarStockSede(a.getMarca(), a.getArticulo(), a.getAtributos(), cantidad, sede);
@@ -265,56 +257,18 @@ public class VistaAdministrativoNueva {
 					e1.printStackTrace();
 				}
 	            
-=======
-		for (Sede s : controlador.getSedes()) {
-			comboSede.addItem(s.getLocalidad());
-		}
 
-		JButton botonAceptar = new JButton("Aceptar");
-		botonAceptar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+	            ventanaAsignarArticulosASede.dispose();
+	        }
+	    });
 
-				int filaSeleccionada = tablaArticulos.getSelectedRow();
+	    panelInferior.add(labelCantidad);
+	    panelInferior.add(campoCantidad);
+	    panelInferior.add(labelSede);
+	    panelInferior.add(comboSede);
+	    panelInferior.add(new JLabel()); 
+	    panelInferior.add(botonAceptar);
 
-				Articulo a = null;
-				try {
-					a = controlador.getArticuloSeleccionado();
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Falta seleccionar articulo que desea agregar.",
-							"Campo incompleto", JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
-				}
-
-				int cantidad = Integer.parseInt(campoCantidad.getText());
-				String sede = (String) comboSede.getSelectedItem();
-
-				try {
-					controlador.asignarStockSede(a.getMarca(), a.getArticulo(), a.getAtributos(), cantidad, sede);
-					JOptionPane.showMessageDialog(ventanaAsignarArticulosASede, "Stock asignado correctamente.",
-							"Éxito", JOptionPane.INFORMATION_MESSAGE);
-				} catch (NoExisteArticuloEnCatalogoException | NoExisteUsuarioException | NoExisteSedeException e1) {
-					JOptionPane.showMessageDialog(ventanaAsignarArticulosASede, "No se pudo asignar el stock.", "Error",
-							JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
-				}
-
-				ventanaAsignarArticulosASede.dispose();
-			}
-		});
->>>>>>> d5c16e64dd2fb17d0b224101a91144477818d2a6
-
-		panelInferior.add(labelCantidad);
-		panelInferior.add(campoCantidad);
-		panelInferior.add(labelSede);
-		panelInferior.add(comboSede);
-		panelInferior.add(new JLabel());
-		panelInferior.add(botonAceptar);
-
-		ventanaAsignarArticulosASede.add(tablaScroll, BorderLayout.CENTER);
-		ventanaAsignarArticulosASede.add(panelInferior, BorderLayout.SOUTH);
-
-<<<<<<< HEAD
 	    ventanaAsignarArticulosASede.add(tablaScroll, BorderLayout.CENTER);
 	    ventanaAsignarArticulosASede.add(panelInferior, BorderLayout.SOUTH);
 	    
@@ -330,26 +284,7 @@ public class VistaAdministrativoNueva {
 		}
 		
 	}
-	
-	
-=======
-		ventanaAsignarArticulosASede.pack();
-		ventanaAsignarArticulosASede.setVisible(true);
-	}
 
-	public int getArticuloSeleccionado() {
-		return tablaArticulos.getSelectedRow();
-	}
-
-	public void configurarTablaCatalogo(ArrayList<Articulo> catalogo) {
-		for (Articulo articulo : catalogo) {
-			Object[] rowData = { articulo.getArticulo(), articulo.getMarca(), articulo.getAtributos(),
-					articulo.getTipoAmortizacion(), articulo.getPrecio() };
-			tablaModelo.addRow(rowData);
-		}
-	}
-
->>>>>>> d5c16e64dd2fb17d0b224101a91144477818d2a6
 	// ------------------------------------------------------------------------------------------------------------
 
 	private void cambiarEstadoClase(ControladorAdministrativo controlador) {
