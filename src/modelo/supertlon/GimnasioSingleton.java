@@ -50,8 +50,11 @@ public class GimnasioSingleton {
 		this.catalogoArticulos = new ArrayList<>();
 		this.actividades = new ArrayList<>();
 		this.emplazamientos = new ArrayList<>();
+		
+		SoporteTecnico st =new SoporteTecnico("Carlos", "Peres", "41111222");
+		st.setUsuarioContraseniaSoporte("admin", "admin");
 
-		usuarios.add(new SoporteTecnico("Carlos", "Peres", "41111222"));
+		usuarios.add(st);
 	}
 
 	// Método estático para obtener la única instancia de la clase
@@ -208,13 +211,13 @@ public class GimnasioSingleton {
 		return null;
 	}
 
-	public void crearSoporteTecnico(int idSP, String nombre, String apellido, String dni)
+	public void crearSoporteTecnico(int idSP, String nombre, String apellido, String dni, String usuario, String contrasenia)
 			throws NoExisteUsuarioException {
 
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 
 		if (sp != null) {
-			SoporteTecnico nsp = sp.crearSoporteTecnico(nombre, apellido, dni);
+			SoporteTecnico nsp = sp.crearSoporteTecnico(nombre, apellido, dni, usuario, contrasenia);
 			this.usuarios.add(nsp);
 		} else {
 			throw new NoExisteUsuarioException("No existe el Soporte Tecnico Ingresado");
@@ -223,11 +226,12 @@ public class GimnasioSingleton {
 	}
 
 	public void crearAdministrativo(int idSP, String nombre1, String apellido1, String dni1, String usuario,
-			String contrasenia) throws NoExisteUsuarioException {
+			String contrasenia,String localidad) throws NoExisteUsuarioException, NoPudoException, NoExisteSedeException {
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 
 		if (sp != null) {
 			Administrativo ad = sp.crearAdministrativo(nombre1, apellido1, dni1, usuario, contrasenia);
+			sp.AsignarLaSedeAlAdministrativo(ad, soyEsaSede(localidad));
 			usuarios.add(ad);
 		} else {
 			throw new NoExisteUsuarioException("No existe el Soporte Tecnico Ingresado");
@@ -268,18 +272,18 @@ public class GimnasioSingleton {
 
 	}
 
-	public void asignarSedeAlAdministrativo(int idSP, String localidad)
+	public void asignarSedeAlAdministrativo(int idSP, String localidad,String adminDNI)
 			throws NoExisteSedeException, NoExisteUsuarioException {
 
 		SoporteTecnico sp = soyEseSoporteTecnico(idSP);
 		if (sp != null) {
-
-			int ultimo = this.usuarios.size() - 1;
+			Administrativo admin=soyEseAdmin(adminDNI);
+			
 			Sede sede = soyEsaSede(localidad);
 
 			if (sede != null) {
 				try {
-					sp.AsignarLaSedeAlAdministrativo(this.usuarios.get(ultimo), sede);
+					sp.AsignarLaSedeAlAdministrativo(admin, sede);
 				} catch (NoPudoException e) {
 					e.printStackTrace();
 				}
@@ -637,18 +641,6 @@ public class GimnasioSingleton {
 
 	}
 
-	public Cliente getCliente(String usuario, String contrasenia) {
-		for (Usuario usu : usuarios) {
-			if (usu.soyCliente()) {
-				Cliente c = (Cliente) usu;
-				if (c.getUsuario().equals(usuario) && c.getContrasenia().equals(contrasenia)) {
-					return c;
-				}
-			}
-		}
-		return null;
-	}
-
 	public int buscarLoginAdminstrativo(String usuario, String contrasenia) {
 		for (Usuario usu : usuarios) {
 			if (usu.soyAdministrativo()) {
@@ -693,6 +685,19 @@ public class GimnasioSingleton {
 				Cliente a = (Cliente) usu;
 				if (a.getUsuario().equals(usuario) && a.getContrasenia().equals(contrasenia)) {
 					return a;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public SoporteTecnico dameSoporteTecnico(String usuario, String contrasenia) {
+
+		for (Usuario usu : usuarios) {
+			if (usu.soySoporteTecnico()) {
+				SoporteTecnico st = (SoporteTecnico) usu;
+				if (st.getUsuario().equals(usuario) && st.getContrasenia().equals(contrasenia)) {
+					return st;
 				}
 			}
 		}
@@ -754,6 +759,38 @@ public class GimnasioSingleton {
 		}else {
 			throw new NoExisteUsuarioException("No existe el Soporte Tecnico");
 		} 
+	}
+	
+	public ArrayList<String> getAdmins(){
+		ArrayList<String> admins=new ArrayList<>();
+		for(Usuario u: this.usuarios) {
+			if(u.soyAdministrativo()) {
+				admins.add(u.getDNI()+ " "+u.getApellido());
+			}
+		}
+		return admins;
+	}
+	private Administrativo soyEseAdmin(String dni) throws NoExisteUsuarioException {
+
+		for (Usuario usuario : this.usuarios) {
+			if (usuario.soyAdministrativo() && usuario.getDni().equals(dni) ) {
+				return (Administrativo) usuario;
+			}
+		}
+		throw new NoExisteUsuarioException("Admin inexistente");
+	}
+
+	public int buscarLoginSoporteTecnico(String usuario, String contrasenia) {
+		
+		for (Usuario usu : usuarios) {
+			if (usu.soySoporteTecnico()) {
+				SoporteTecnico st = (SoporteTecnico) usu;
+				if (st.getUsuario().equals(usuario) && st.getContrasenia().equals(contrasenia)) {
+					return st.getId();
+				}
+			}
+		}
+		return 0;
 	}
 
 }

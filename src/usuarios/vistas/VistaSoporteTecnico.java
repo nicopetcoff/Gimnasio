@@ -32,6 +32,7 @@ import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
 import modelo.usuarios.Usuario;
+import modelo.usuarios.Excepciones.NoPudoException;
 
 public class VistaSoporteTecnico extends JFrame {
 
@@ -172,6 +173,16 @@ public class VistaSoporteTecnico extends JFrame {
 				asignarEmplazamientoActividad();
 			}
 		});
+		
+		JMenuItem asginarAdminASede = new JMenuItem("Asignar administrador a sede");
+		asginarAdminASede.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				asginarAdminASede();
+			}
+
+		});
 
 		opcionesMenu.add(crearSede);
 		opcionesMenu.add(crearCliente);
@@ -184,6 +195,7 @@ public class VistaSoporteTecnico extends JFrame {
 		opcionesMenu.add(crearArticuloEnCatalogo);
 		opcionesMenu.add(setearArticuloRequeridoPorActividad);
 		opcionesMenu.add(setearEmplazamientoActividad);
+		opcionesMenu.add(asginarAdminASede);
 
 		menuBar.add(opcionesMenu);
 
@@ -198,9 +210,6 @@ public class VistaSoporteTecnico extends JFrame {
 	    ventanaAsignarEmplazamiento.setLocationRelativeTo(null);
 	    ControladorST controlador = new ControladorST();
 	    
-	    JLabel labelID = new JLabel("Ingrese ID Gestion");
-	    JTextField CampoID = new JTextField(10);
-
 	    JLabel actividadLabel = new JLabel("Seleccionar Actividad:");
 	    ArrayList<Actividad> listaActividades = controlador.getActividades();
 	    JComboBox<Actividad> actividadComboBox = new JComboBox<>(listaActividades.toArray(new Actividad[0]));
@@ -213,12 +222,12 @@ public class VistaSoporteTecnico extends JFrame {
 	    aceptarBoton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	        	
-	        	int ID = Integer.parseInt(CampoID.getText());
+	        	
 	            Actividad actividadSeleccionada = (Actividad) actividadComboBox.getSelectedItem();
 	            String emplazamientoSeleccionado = (String) emplazamientoComboBox.getSelectedItem();
 
 	            try {
-	                controlador.asignarEmplazamientoActividad(ID, actividadSeleccionada, emplazamientoSeleccionado);
+	                controlador.asignarEmplazamientoActividad(actividadSeleccionada, emplazamientoSeleccionado);
 	                JOptionPane.showMessageDialog(null, "Emplazamiento asignado correctamente a la actividad", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 	            } catch (Exception e1) {
 	                JOptionPane.showMessageDialog(null, "No se pudo asignar el emplazamiento a la actividad", "Error", JOptionPane.ERROR_MESSAGE);
@@ -229,9 +238,8 @@ public class VistaSoporteTecnico extends JFrame {
 	        }
 	    });
 
-	    JPanel panelPrincipal = new JPanel(new GridLayout(4, 2, 5, 5));
-	    panelPrincipal.add(labelID);
-	    panelPrincipal.add(CampoID);
+	    JPanel panelPrincipal = new JPanel(new GridLayout(3, 2, 5, 5));
+	    
 	    panelPrincipal.add(actividadLabel);
 	    panelPrincipal.add(actividadComboBox);
 	    panelPrincipal.add(emplazamientoLabel);
@@ -253,7 +261,7 @@ public class VistaSoporteTecnico extends JFrame {
 
 		JFrame ventana = new JFrame("Seleccionar Artículo Requerido");
 		ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		ventana.setLayout(new GridLayout(5, 1, 10, 10));
+		ventana.setLayout(new GridLayout(4, 1, 10, 10));
 		ventana.setPreferredSize(new Dimension(400, 300));
 
 		ControladorST controlador = new ControladorST();
@@ -261,8 +269,6 @@ public class VistaSoporteTecnico extends JFrame {
 		int cantidadItems = 0;
 		Actividad actividadSeleccionada = null;
 
-		JLabel idGestionLabel = new JLabel("ID de Gestión:");
-		JTextField idGestionText = new JTextField(10);
 
 		JLabel seleccionarArticulo = new JLabel("Seleccionar Articulo: ");
 		JComboBox<Articulo> seleccionarArticulosCombo = new JComboBox<>(
@@ -281,7 +287,6 @@ public class VistaSoporteTecnico extends JFrame {
 		aceptarBoton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int idGestion = Integer.parseInt(idGestionText.getText());
 
 				
 				Articulo articuloSeleccionado = (Articulo) seleccionarArticulosCombo.getSelectedItem();
@@ -291,7 +296,7 @@ public class VistaSoporteTecnico extends JFrame {
 				Actividad actividadSeleccionada = (Actividad) seleccionarAtividadCombo.getSelectedItem();
 
 				try {
-					controlador.setArticuloRequeridoPorActividad(idGestion, articuloSeleccionado, cantidadItems,
+					controlador.setArticuloRequeridoPorActividad(articuloSeleccionado, cantidadItems,
 							actividadSeleccionada);
 				} catch (NoExisteUsuarioException | NoExisteActividadException
 						| NoExisteArticuloEnCatalogoException e1) {
@@ -304,8 +309,6 @@ public class VistaSoporteTecnico extends JFrame {
 			}
 		});
 
-		ventana.add(idGestionLabel);
-		ventana.add(idGestionText);
 		ventana.add(seleccionarArticulo);
 		ventana.add(seleccionarArticulosCombo);
 		ventana.add(cantidadItemsLabel);
@@ -330,12 +333,8 @@ public class VistaSoporteTecnico extends JFrame {
 		ControladorST controlador = new ControladorST();
 
 		JPanel panelPrincipal = new JPanel();
-		panelPrincipal.setLayout(new GridLayout(9, 2, 5, 5));
-
-		JLabel idGestionLabel = new JLabel("ID de Gestión:");
-		JTextField idGestionCampo = new JTextField(10);
-		panelPrincipal.add(idGestionLabel);
-		panelPrincipal.add(idGestionCampo);
+		panelPrincipal.setLayout(new GridLayout(8, 2, 5, 5));
+		
 
 		JLabel marcaLabel = new JLabel("Marca:");
 		JTextField marcaCampo = new JTextField(10);
@@ -376,7 +375,7 @@ public class VistaSoporteTecnico extends JFrame {
 		JButton aceptarBoton = new JButton("Aceptar");
 		aceptarBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int idGestion = Integer.parseInt(idGestionCampo.getText());
+				
 				String marca = marcaCampo.getText();
 				String articulo = articuloCampo.getText();
 				LocalDate fechaFabricacion = LocalDate.parse(fechaFabricacionCampo.getText());
@@ -386,7 +385,7 @@ public class VistaSoporteTecnico extends JFrame {
 				String atributos = atributosCampo.getText();
 
 				try {
-					controlador.crearArticuloEnStock(idGestion, marca, articulo, fechaFabricacion, tipoAmortizacion,
+					controlador.crearArticuloEnStock(marca, articulo, fechaFabricacion, tipoAmortizacion,
 							durabilidad, precio, atributos);
 				} catch (NoExisteUsuarioException e1) {
 					JOptionPane.showMessageDialog(null, "No se pudo crear el Artículo", "Error",
@@ -403,7 +402,7 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearArticulo.add(panelPrincipal);
 		ventanaCrearArticulo.pack();
 		ventanaCrearArticulo.setVisible(true);
-		ventanaCrearArticulo.setLocationRelativeTo(null); // Abre la ventana en el centro de la pantalla
+		ventanaCrearArticulo.setLocationRelativeTo(null); 
 
 	}
 
@@ -415,8 +414,6 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaAsignarEmplazamiento.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
 
-		JLabel idGestionLabel = new JLabel("ID de Gestión:");
-		JTextField idGestionCampo = new JTextField(10);
 
 		ArrayList<String> listaEmplazamientos = controlador.getEmplazamientos();
 
@@ -431,12 +428,12 @@ public class VistaSoporteTecnico extends JFrame {
 		JButton aceptarBoton = new JButton("Aceptar");
 		aceptarBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int idGestion = Integer.parseInt(idGestionCampo.getText());
+				
 				String emplazamientoSeleccionado = (String) emplazamientoComboBox.getSelectedItem();
 				String sedeSeleccionada = (String) sedeComboBox.getSelectedItem();
 
 				try {
-					controlador.asignarEmplazamientoASede(idGestion, sedeSeleccionada, emplazamientoSeleccionado);
+					controlador.asignarEmplazamientoASede(sedeSeleccionada, emplazamientoSeleccionado);
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "No se pudo asginar el emplazamiento", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -449,9 +446,7 @@ public class VistaSoporteTecnico extends JFrame {
 		
 		
 
-		JPanel panelPrincipal = new JPanel(new GridLayout(4, 2, 5, 5));
-		panelPrincipal.add(idGestionLabel);
-		panelPrincipal.add(idGestionCampo);
+		JPanel panelPrincipal = new JPanel(new GridLayout(3, 2, 5, 5));
 		panelPrincipal.add(emplazamientoLabel);
 		panelPrincipal.add(emplazamientoComboBox);
 		panelPrincipal.add(sedeLabel);
@@ -473,8 +468,6 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearEmplazamiento.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
 
-		JLabel idGestionLabel = new JLabel("ID de Gestión:");
-		JTextField idGestionCampo = new JTextField(10);
 
 		JLabel nombreLabel = new JLabel("Nombre del Emplazamiento:");
 		JTextField nombreCampo = new JTextField(20);
@@ -485,12 +478,12 @@ public class VistaSoporteTecnico extends JFrame {
 		JButton aceptarBoton = new JButton("Aceptar");
 		aceptarBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int idGestion = Integer.parseInt(idGestionCampo.getText());
+				
 				String nombreEmplazamiento = nombreCampo.getText();
 				double factorCalculo = Double.parseDouble(factorCampo.getText());
 
 				try {
-					controlador.crearEmplazamiento(idGestion, nombreEmplazamiento, factorCalculo);
+					controlador.crearEmplazamiento(nombreEmplazamiento, factorCalculo);
 				} catch (NoExisteUsuarioException e1) {
 					JOptionPane.showMessageDialog(null, "No se crear Emplazamiento", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -501,9 +494,7 @@ public class VistaSoporteTecnico extends JFrame {
 			}
 		});
 
-		JPanel panelPrincipal = new JPanel(new GridLayout(4, 2, 5, 5));
-		panelPrincipal.add(idGestionLabel);
-		panelPrincipal.add(idGestionCampo);
+		JPanel panelPrincipal = new JPanel(new GridLayout(3, 2, 5, 5));
 		panelPrincipal.add(nombreLabel);
 		panelPrincipal.add(nombreCampo);
 		panelPrincipal.add(factorLabel);
@@ -525,8 +516,6 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearActividad.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
 
-		JLabel idGestionLabel = new JLabel("ID de Gestión:");
-		JTextField idGestionCampo = new JTextField(10);
 
 		JLabel actividadLabel = new JLabel("Nombre de la Actividad:");
 		JTextField actividadCampo = new JTextField(20);
@@ -534,11 +523,11 @@ public class VistaSoporteTecnico extends JFrame {
 		JButton aceptarBoton = new JButton("Aceptar");
 		aceptarBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int idGestion = Integer.parseInt(idGestionCampo.getText());
+			
 				String nombreActividad = actividadCampo.getText();
 
 				try {
-					controlador.crearActividad(idGestion, nombreActividad);
+					controlador.crearActividad(nombreActividad);
 				} catch (NoExisteUsuarioException e1) {
 					JOptionPane.showMessageDialog(null, "No se pudo crear Actividad", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -549,9 +538,7 @@ public class VistaSoporteTecnico extends JFrame {
 			}
 		});
 
-		JPanel panelPrincipal = new JPanel(new GridLayout(3, 2, 5, 5));
-		panelPrincipal.add(idGestionLabel);
-		panelPrincipal.add(idGestionCampo);
+		JPanel panelPrincipal = new JPanel(new GridLayout(2, 2, 5, 5));
 		panelPrincipal.add(actividadLabel);
 		panelPrincipal.add(actividadCampo);
 		panelPrincipal.add(new JLabel());
@@ -570,9 +557,6 @@ public class VistaSoporteTecnico extends JFrame {
 		JFrame ventanaCrearProfesor = new JFrame("Crear Profesor");
 		ventanaCrearProfesor.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
-
-		JLabel idGestionLabel = new JLabel("ID de Gestión:");
-		JTextField idGestionCampo = new JTextField(10);
 
 		JLabel nombreLabel = new JLabel("Nombre:");
 		JTextField nombreCampo = new JTextField(10);
@@ -593,7 +577,7 @@ public class VistaSoporteTecnico extends JFrame {
 		JButton aceptarBoton = new JButton("Aceptar");
 		aceptarBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int idGestion = Integer.parseInt(idGestionCampo.getText());
+		
 				String nombre = nombreCampo.getText();
 				String apellido = apellidoCampo.getText();
 				String dni = dniCampo.getText();
@@ -601,7 +585,7 @@ public class VistaSoporteTecnico extends JFrame {
 				String sedeSeleccionada = (String) sedeCombo.getSelectedItem();
 
 				try {
-					controlador.crearProfesor(idGestion, nombre, apellido, dni, sueldo, sedeSeleccionada);
+					controlador.crearProfesor(nombre, apellido, dni, sueldo, sedeSeleccionada);
 				} catch (NoExisteUsuarioException | NoExisteSedeException e1) {
 					JOptionPane.showMessageDialog(null, "No se pudo crear Profesor", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -612,9 +596,8 @@ public class VistaSoporteTecnico extends JFrame {
 			}
 		});
 
-		JPanel panelPrincipal = new JPanel(new GridLayout(7, 2, 5, 5));
-		panelPrincipal.add(idGestionLabel);
-		panelPrincipal.add(idGestionCampo);
+		JPanel panelPrincipal = new JPanel(new GridLayout(6, 2, 5, 5));
+		
 		panelPrincipal.add(nombreLabel);
 		panelPrincipal.add(nombreCampo);
 		panelPrincipal.add(apellidoLabel);
@@ -641,8 +624,6 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearAdmin.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
 
-		JLabel idGestionLabel = new JLabel("ID de Gestión:");
-		JTextField idGestionCampo = new JTextField(10);
 
 		JLabel nombreLabel = new JLabel("Nombre:");
 		JTextField nombreCampo = new JTextField(10);
@@ -666,7 +647,7 @@ public class VistaSoporteTecnico extends JFrame {
 		JButton aceptarBoton = new JButton("Aceptar");
 		aceptarBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int idGestion = Integer.parseInt(idGestionCampo.getText());
+
 				String nombre = nombreCampo.getText();
 				String apellido = apellidoCampo.getText();
 				String dni = dniCampo.getText();
@@ -675,9 +656,9 @@ public class VistaSoporteTecnico extends JFrame {
 				String contrasenia = contraseniaCampo.getText();
 
 				try {
-					controlador.crearAdministrativo(idGestion, nombre, apellido, dni, sedeSeleccionada, usuario,
-							contrasenia);
-				} catch (NoExisteUsuarioException | NoExisteSedeException e1) {
+					controlador.crearAdministrativo(nombre, apellido, dni, sedeSeleccionada, usuario,
+							contrasenia,sedeSeleccionada);
+				} catch (NoExisteUsuarioException | NoExisteSedeException | NoPudoException e1) {
 					JOptionPane.showMessageDialog(null, "No se pudo crear Administrativo", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
@@ -687,9 +668,8 @@ public class VistaSoporteTecnico extends JFrame {
 			}
 		});
 
-		JPanel panelPrincipal = new JPanel(new GridLayout(8, 2, 5, 5));
-		panelPrincipal.add(idGestionLabel);
-		panelPrincipal.add(idGestionCampo);
+		JPanel panelPrincipal = new JPanel(new GridLayout(7, 2, 5, 5));
+
 		panelPrincipal.add(nombreLabel);
 		panelPrincipal.add(nombreCampo);
 		panelPrincipal.add(apellidoLabel);
@@ -719,8 +699,6 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearSoporte.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
 
-		JLabel idLabel = new JLabel("ID de Gestion:");
-		JTextField idCampo = new JTextField(10);
 
 		JLabel nombreLabel = new JLabel("Nombre:");
 		JTextField nombreCampo = new JTextField(10);
@@ -730,17 +708,27 @@ public class VistaSoporteTecnico extends JFrame {
 
 		JLabel dniLabel = new JLabel("DNI:");
 		JTextField dniCampo = new JTextField(10);
+		
+		JLabel usuarioLabel = new JLabel("Usuario:");
+		JTextField usuarioCampo = new JTextField(10);
+
+		JLabel contraseniaLabel = new JLabel("Contraseña:");
+		JTextField contraseniaCampo = new JTextField(10);
+
 
 		JButton aceptarBoton = new JButton("Aceptar");
 		aceptarBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int id = Integer.parseInt(idCampo.getText());
+
 				String nombre = nombreCampo.getText();
 				String apellido = apellidoCampo.getText();
 				String dni = dniCampo.getText();
+				
+				String usuario = usuarioCampo.getText();
+				String contrasenia = contraseniaCampo.getText();
 
 				try {
-					controlador.crearSoporteTecnico(id, nombre, apellido, dni);
+					controlador.crearSoporteTecnico(nombre, apellido, dni, usuario, contrasenia);
 				} catch (NoExisteUsuarioException e1) {
 					JOptionPane.showMessageDialog(null, "No se pudo crear Soporte Tecnico", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -751,15 +739,17 @@ public class VistaSoporteTecnico extends JFrame {
 			}
 		});
 
-		JPanel panelPrincipal = new JPanel(new GridLayout(5, 2, 5, 5));
-		panelPrincipal.add(idLabel);
-		panelPrincipal.add(idCampo);
+		JPanel panelPrincipal = new JPanel(new GridLayout(6, 2, 5, 5));
 		panelPrincipal.add(nombreLabel);
 		panelPrincipal.add(nombreCampo);
 		panelPrincipal.add(apellidoLabel);
 		panelPrincipal.add(apellidoCampo);
 		panelPrincipal.add(dniLabel);
 		panelPrincipal.add(dniCampo);
+		panelPrincipal.add(usuarioLabel);
+		panelPrincipal.add(usuarioCampo);
+		panelPrincipal.add(contraseniaLabel);
+		panelPrincipal.add(contraseniaCampo);
 		panelPrincipal.add(new JLabel());
 		panelPrincipal.add(aceptarBoton);
 
@@ -777,8 +767,6 @@ public class VistaSoporteTecnico extends JFrame {
 		ventanaCrearSede.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
 
-		JLabel idLabel = new JLabel("ID de Gestion:");
-		JTextField idField = new JTextField(10);
 
 		JLabel localidadLabel = new JLabel("Localidad:");
 		JTextField localidadField = new JTextField(10);
@@ -799,7 +787,7 @@ public class VistaSoporteTecnico extends JFrame {
 		JButton aceptarButton = new JButton("Aceptar");
 		aceptarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int id = Integer.parseInt(idField.getText());
+				
 				String localidad = localidadField.getText();
 				String nivel = (String) nivelCombo.getSelectedItem();
 				double precio = Double.parseDouble(precioField.getText());
@@ -807,7 +795,7 @@ public class VistaSoporteTecnico extends JFrame {
 				String descripcion = descripcionField.getText();
 
 				try {
-					controlador.crearSede(id, localidad, nivel, precio, capacidad, descripcion);
+					controlador.crearSede(localidad, nivel, precio, capacidad, descripcion);
 				} catch (NoExisteUsuarioException e1) {
 					JOptionPane.showMessageDialog(null, "No se pudo crear la Sede", "Error", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
@@ -817,9 +805,8 @@ public class VistaSoporteTecnico extends JFrame {
 			}
 		});
 
-		JPanel panelPrincipal = new JPanel(new GridLayout(7, 2, 5, 5));
-		panelPrincipal.add(idLabel);
-		panelPrincipal.add(idField);
+		JPanel panelPrincipal = new JPanel(new GridLayout(6, 2, 5, 5));
+		
 		panelPrincipal.add(localidadLabel);
 		panelPrincipal.add(localidadField);
 		panelPrincipal.add(nivelLabel);
@@ -847,7 +834,8 @@ public class VistaSoporteTecnico extends JFrame {
 		crearClienteFrame.setLocationRelativeTo(null);
 		ControladorST controlador = new ControladorST();
 
-		JTextField idUsuarioCampo = new JTextField(10);
+		
+		
 		JTextField nombreCampo = new JTextField(10);
 		JTextField apellidoCampo = new JTextField(10);
 		JTextField dniCampo = new JTextField(10);
@@ -864,7 +852,7 @@ public class VistaSoporteTecnico extends JFrame {
 		JButton aceptarButton = new JButton("Aceptar");
 		aceptarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int idUsuario = Integer.parseInt(idUsuarioCampo.getText());
+				
 				String nombre = nombreCampo.getText();
 				String apellido = apellidoCampo.getText();
 				String dni = dniCampo.getText();
@@ -873,7 +861,7 @@ public class VistaSoporteTecnico extends JFrame {
 				String contrasenia = contraseniaCampo.getText();
 
 				try {
-					controlador.crearCliente(idUsuario, nombre, apellido, dni, nivel, usuario, contrasenia);
+					controlador.crearCliente(nombre, apellido, dni, nivel, usuario, contrasenia);
 				} catch (NoExisteUsuarioException e1) {
 					JOptionPane.showMessageDialog(null, "No se pudo crear el Cliente", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -884,8 +872,8 @@ public class VistaSoporteTecnico extends JFrame {
 			}
 		});
 
-		crearClienteFrame.add(new JLabel("ID de Gestión:"));
-		crearClienteFrame.add(idUsuarioCampo);
+		
+		
 		crearClienteFrame.add(new JLabel("Nombre:"));
 		crearClienteFrame.add(nombreCampo);
 		crearClienteFrame.add(new JLabel("Apellido:"));
@@ -902,7 +890,7 @@ public class VistaSoporteTecnico extends JFrame {
 		crearClienteFrame.add(aceptarButton);
 
 		crearClienteFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		crearClienteFrame.setLayout(new GridLayout(8, 2, 5, 5));
+		crearClienteFrame.setLayout(new GridLayout(7, 2, 5, 5));
 		crearClienteFrame.pack();
 		crearClienteFrame.setVisible(true);
 		crearClienteFrame.setLocationRelativeTo(null);
@@ -914,5 +902,65 @@ public class VistaSoporteTecnico extends JFrame {
 
 		return controlador.getSoporteTecnicos();
 	}
+	
+	//-------------------------------------------------------------------------------------------------------
 
+	private void asginarAdminASede() {
+		JFrame ventanaAsginarAdminASede = new JFrame("Asignar Emplazamiento a Sede");
+		ventanaAsginarAdminASede.setLocationRelativeTo(null);
+		ControladorST controlador = new ControladorST();
+
+		ArrayList<String> listaAdministradores = controlador.getAdmins();
+
+		JLabel AdminLabel = new JLabel("Seleccionar Administrador:");
+		JComboBox<String> AdministradorComboBox = new JComboBox<>(listaAdministradores.toArray(new String[0]));
+
+		ArrayList<String> listaSedes = controlador.getSedes();
+
+		JLabel sedeLabel = new JLabel("Seleccionar Sede:");
+		JComboBox<String> sedeComboBox = new JComboBox<>(listaSedes.toArray(new String[0]));
+
+		JButton aceptarBoton = new JButton("Aceptar");
+		aceptarBoton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String AdminSeleccionado = (String) AdministradorComboBox.getSelectedItem();
+				String sedeSeleccionada = (String) sedeComboBox.getSelectedItem();
+				String[] datos=AdminSeleccionado.split(" ");
+
+				try {
+					
+					controlador.asignarAdminASede(sedeSeleccionada,datos[0]);
+				} catch (NoExisteUsuarioException e1) {
+					JOptionPane.showMessageDialog(null, "No se pudo asginar el administrador", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}catch(NoExisteSedeException e1) {
+					JOptionPane.showMessageDialog(null, "No existe la sede.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+
+				ventanaAsginarAdminASede.dispose();
+			}
+		});
+		
+		
+
+		JPanel panelPrincipal = new JPanel(new GridLayout(3, 2, 5, 5));
+		
+		panelPrincipal.add(AdminLabel);
+		panelPrincipal.add(AdministradorComboBox);
+		panelPrincipal.add(sedeLabel);
+		panelPrincipal.add(sedeComboBox);
+		panelPrincipal.add(new JLabel());
+		panelPrincipal.add(aceptarBoton);
+
+		ventanaAsginarAdminASede.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		ventanaAsginarAdminASede.add(panelPrincipal);
+		ventanaAsginarAdminASede.pack();
+		ventanaAsginarAdminASede.setVisible(true);
+		ventanaAsginarAdminASede.setLocationRelativeTo(null);
+	}
+	
 }

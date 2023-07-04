@@ -26,6 +26,7 @@ import modelo.supertlon.Excepciones.NoexisteClaseException;
 import modelo.usuarios.Administrativo;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.SoporteTecnico;
+import modelo.usuarios.Excepciones.NoPudoException;
 import modelo.utilidad.Nivel;
 import usuarios.vistas.InterfazSeleccionRol;
 
@@ -40,6 +41,7 @@ public class main {
 		sede1.agregarEmplazamiento(emplazamiento1);
 
 		SoporteTecnico st = new SoporteTecnico("Jose", "Menem", "87654321");
+		st.setUsuarioContraseniaSoporte("jose", "menem");
 		/*Administrativo admin = new Administrativo("Juan", "Pérez", "12345678");
 		st.asignarSede(admin, sede1);
 		st.asignarSede(admin, sede2);
@@ -613,7 +615,7 @@ public class main {
 			String dni = sc.next();
 
 			try {
-				gimnasio.crearSoporteTecnico(idSP, nombre, apellido, dni);
+				gimnasio.crearSoporteTecnico(idSP, nombre, apellido, dni, null, null);
 			} catch (NoExisteUsuarioException e) {
 				e.printStackTrace();
 			}
@@ -636,11 +638,11 @@ public class main {
 			String contrasenia = sc.next();
 
 			try {
-				gimnasio.crearAdministrativo(idSP, nombre1, apellido1, dni1, usuario, contrasenia);
-			} catch (NoExisteUsuarioException e) {
+				gimnasio.crearAdministrativo(idSP, nombre1, apellido1, dni1, usuario, contrasenia, null);
+			} catch (NoExisteUsuarioException | NoPudoException | NoExisteSedeException e) {
 				e.printStackTrace();
 			}
-			asignarSedeAdministrativo(idSP);
+			//asignarSedeAdministrativo(idSP);
 			break;
 
 		case 3:
@@ -723,7 +725,7 @@ public class main {
 		}
 	}
 
-	private static void asignarSedeAdministrativo(int idSP) {
+	private static void asignarSedeAdministrativo(int idSP,String adminDNI) {
 
 		GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();
 
@@ -743,11 +745,10 @@ public class main {
 				System.out.println("Elija localidad");
 				String localidad = scanner.next();
 
-				// aca le vamos a asignar la sede al ultimo administrativo creado, cuidado con
-				// este metodo
+				
 				try {
-					gimnasio.asignarSedeAlAdministrativo(idSP, localidad);
-				} catch (NoExisteSedeException | NoExisteUsuarioException e) {
+					gimnasio.asignarSedeAlAdministrativo(idSP, localidad,adminDNI);
+				} catch (NoExisteSedeException | NoExisteUsuarioException  e) {
 					e.printStackTrace();
 				}
 				break;

@@ -20,7 +20,7 @@ import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
 import usuarios.vistas.VistaAdministrativoNueva;
 
 public class ControladorAdministrativo {
-	private VistaAdministrativoNueva vista;
+	
 	private static Administrativo administrativoControlo;
 
 	GimnasioSingleton gimnasio = GimnasioSingleton.getInstance();

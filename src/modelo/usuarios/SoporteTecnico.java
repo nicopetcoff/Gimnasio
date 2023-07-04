@@ -14,6 +14,9 @@ import modelo.usuarios.Excepciones.ProfesorNoRegistradoException;
 import modelo.utilidad.Nivel;
 
 public class SoporteTecnico extends Usuario {
+	
+	private String usuario;
+	private String contrasenia;
 
 	public SoporteTecnico(String nombre, String apellido, String dni) {
 		super(nombre, apellido, dni);
@@ -35,8 +38,13 @@ public class SoporteTecnico extends Usuario {
 
 	}
 
-	public SoporteTecnico crearSoporteTecnico(String nombre, String apellido, String dni) {
-		return (new SoporteTecnico(nombre, apellido, dni));
+	public SoporteTecnico crearSoporteTecnico(String nombre, String apellido, String dni, String usuario, String contrasenia) {
+		
+		SoporteTecnico st = new SoporteTecnico(nombre, apellido, dni);
+		
+		st.setUsuarioContraseniaSoporte(usuario, contrasenia);
+		
+		return (st);
 	}
 
 	public Administrativo crearAdministrativo(String nombre, String apellido, String dni, String usuario,
@@ -99,13 +107,9 @@ public class SoporteTecnico extends Usuario {
 		admin.agregarSede(sede);
 	}
 
-	public void AsignarLaSedeAlAdministrativo(Usuario usuario, Sede sede) throws NoPudoException {
-		if (usuario.soyAdministrativo()) {
-			Administrativo a = (Administrativo) usuario;
-			a.agregarSede(sede);
-		} else {
-			throw new NoPudoException("No se pudo asignarle la sede");
-		}
+	public void AsignarLaSedeAlAdministrativo(Administrativo usuario, Sede sede) throws NoPudoException {
+			usuario.agregarSede(sede);
+		
 
 	}
 
@@ -145,6 +149,19 @@ public class SoporteTecnico extends Usuario {
 
 	public void setearEmplazamientoRequeridoPorActiviadad(Actividad act, Emplazamiento emp) {
 		act.setEmplazamientoRequerido(emp);
+	}
+	
+	public void setUsuarioContraseniaSoporte(String usuario, String contrasenia) {
+		this.usuario = usuario;
+		this.contrasenia = contrasenia;
+	}
+	
+	public String getUsuario() {
+		return this.usuario;
+	}
+
+	public String getContrasenia() {
+		return this.contrasenia;
 	}
 
 }

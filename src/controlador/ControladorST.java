@@ -12,25 +12,28 @@ import modelo.supertlon.Excepciones.NoExisteArticuloEnCatalogoException;
 import modelo.supertlon.Excepciones.NoExisteEmplazamientoException;
 import modelo.supertlon.Excepciones.NoExisteSedeException;
 import modelo.supertlon.Excepciones.NoExisteUsuarioException;
+import modelo.usuarios.SoporteTecnico;
 import modelo.usuarios.Usuario;
+import modelo.usuarios.Excepciones.NoPudoException;
 import modelo.utilidad.Nivel;
 
 public class ControladorST {
 
 	private GimnasioSingleton gimnasio;
-	int prueba;
+	private static SoporteTecnico st;
 
 	public ControladorST() {
 
 		gimnasio = GimnasioSingleton.getInstance();
+		
 
 	}
 
-	public void crearCliente(int idSP, String nombre2, String apellido2, String dni2, String nivelSeleccionado,
+	public void crearCliente(String nombre2, String apellido2, String dni2, String nivelSeleccionado,
 			String usuario, String contrasenia) throws NoExisteUsuarioException {
 
 		Nivel nivel = obtenerNivel(nivelSeleccionado);
-		gimnasio.crearCliente(idSP, nombre2, apellido2, dni2, nivel, usuario, contrasenia);
+		gimnasio.crearCliente(st.getId(), nombre2, apellido2, dni2, nivel, usuario, contrasenia);
 
 	}
 
@@ -56,19 +59,19 @@ public class ControladorST {
 		return usuariosST;
 	}
 
-	public void crearSede(int id, String localidad, String nivel, double precio, int capacidad, String descripcion)
+	public void crearSede(String localidad, String nivel, double precio, int capacidad, String descripcion)
 			throws NoExisteUsuarioException {
 
 		Nivel nivel2 = obtenerNivel(nivel);
 
-		gimnasio.crearSede(id, localidad, nivel2, precio, capacidad, descripcion);
+		gimnasio.crearSede(st.getId(), localidad, nivel2, precio, capacidad, descripcion);
 
 	}
 
-	public void crearSoporteTecnico(int id, String nombre, String apellido, String dni)
+	public void crearSoporteTecnico(String nombre, String apellido, String dni, String usuario, String contrasenia)
 			throws NoExisteUsuarioException {
 
-		gimnasio.crearSoporteTecnico(id, nombre, apellido, dni);
+		gimnasio.crearSoporteTecnico(st.getId(), nombre, apellido, dni, usuario, contrasenia);
 
 	}
 
@@ -80,33 +83,41 @@ public class ControladorST {
 		}
 		return sedes;
 	}
+	
+	public ArrayList<String> getAdmins() {
 
-	public void crearAdministrativo(int idGestion, String nombre, String apellido, String dni, String sedeSeleccionada,
-			String usuario, String contrasenia) throws NoExisteUsuarioException, NoExisteSedeException {
+		ArrayList<String> admins = new ArrayList<>();
+		for (int i = 0; i < gimnasio.getAdmins().size(); i++) {
+			admins.add(gimnasio.getAdmins().get(i));
+		}
+		return admins;
+	}
 
-		gimnasio.crearAdministrativo(idGestion, nombre, apellido, dni, usuario, contrasenia);
+	public void crearAdministrativo(String nombre, String apellido, String dni, String sedeSeleccionada,
+			String usuario, String contrasenia,String localidad) throws NoExisteUsuarioException, NoExisteSedeException, NoPudoException {
 
-		gimnasio.asignarSedeAlAdministrativo(idGestion, sedeSeleccionada);
+		gimnasio.crearAdministrativo(st.getId(), nombre, apellido, dni, usuario, contrasenia,localidad);
+
 
 	}
 
-	public void crearProfesor(int idGestion, String nombre, String apellido, String dni, double sueldo,
+	public void crearProfesor(String nombre, String apellido, String dni, double sueldo,
 			String sedeSeleccionada) throws NoExisteUsuarioException, NoExisteSedeException {
 
-		gimnasio.crearProfesor(idGestion, nombre, apellido, dni, sueldo, sedeSeleccionada);
+		gimnasio.crearProfesor(st.getId(), nombre, apellido, dni, sueldo, sedeSeleccionada);
 
 	}
 
-	public void crearActividad(int idGestion, String nombreActividad) throws NoExisteUsuarioException {
+	public void crearActividad(String nombreActividad) throws NoExisteUsuarioException {
 
-		gimnasio.crearActividades(idGestion, nombreActividad);
+		gimnasio.crearActividades(st.getId(), nombreActividad);
 
 	}
 
-	public void crearEmplazamiento(int idGestion, String nombreEmplazamiento, double factorCalculo)
+	public void crearEmplazamiento(String nombreEmplazamiento, double factorCalculo)
 			throws NoExisteUsuarioException {
 
-		gimnasio.crearEmplazamiento(idGestion, nombreEmplazamiento, factorCalculo);
+		gimnasio.crearEmplazamiento(st.getId(), nombreEmplazamiento, factorCalculo);
 
 	}
 
@@ -121,18 +132,18 @@ public class ControladorST {
 		return emplazamientos;
 	}
 
-	public void asignarEmplazamientoASede(int idGestion, String sedeSeleccionada, String emplazamientoSeleccionado)
+	public void asignarEmplazamientoASede(String sedeSeleccionada, String emplazamientoSeleccionado)
 			throws Exception {
 
-		gimnasio.AsignarEmplazamientoSede(idGestion, sedeSeleccionada, emplazamientoSeleccionado);
+		gimnasio.AsignarEmplazamientoSede(st.getId(), sedeSeleccionada, emplazamientoSeleccionado);
 	}
 
-	public void crearArticuloEnStock(int idGestion, String marca, String articulo, LocalDate fechaFabricacion,
+	public void crearArticuloEnStock(String marca, String articulo, LocalDate fechaFabricacion,
 			String tipoAmortizacion, int durabilidad, double precio, String atributos) throws NoExisteUsuarioException {
 
 		TipoAmortizacion amortizacion = obtenerTipoAmortizacion(tipoAmortizacion);
 
-		gimnasio.agregarArticuloACatalogo(idGestion, marca, articulo, fechaFabricacion, amortizacion, durabilidad,
+		gimnasio.agregarArticuloACatalogo(st.getId(), marca, articulo, fechaFabricacion, amortizacion, durabilidad,
 				atributos, precio);
 	}
 
@@ -155,19 +166,34 @@ public class ControladorST {
 		return gimnasio.getActividades();
 	}
 
-	public void setArticuloRequeridoPorActividad(int idGestion, Articulo articuloSeleccionado, int cantidadItems,
+	public void setArticuloRequeridoPorActividad(Articulo articuloSeleccionado, int cantidadItems,
 			Actividad actividadSeleccionada)
 			throws NoExisteUsuarioException, NoExisteActividadException, NoExisteArticuloEnCatalogoException {
 
-		gimnasio.setearArticuloRequeridoPorActividad(idGestion, actividadSeleccionada.getTipoClase(),
+		gimnasio.setearArticuloRequeridoPorActividad(st.getId(), actividadSeleccionada.getTipoClase(),
 				articuloSeleccionado.getMarca(), articuloSeleccionado.getArticulo(),
 				articuloSeleccionado.getAtributos(), cantidadItems);
 
 	}
 
-	public void asignarEmplazamientoActividad(int iD, Actividad actividadSeleccionada, String emplazamientoSeleccionado) throws NoExisteUsuarioException, NoExisteActividadException, NoExisteEmplazamientoException {
+	public void asignarEmplazamientoActividad(Actividad actividadSeleccionada, String emplazamientoSeleccionado) throws NoExisteUsuarioException, NoExisteActividadException, NoExisteEmplazamientoException {
 		
-		gimnasio.setearEmplazamientoRequeridoPorActividad(iD, actividadSeleccionada.getTipoClase(), emplazamientoSeleccionado);
+		gimnasio.setearEmplazamientoRequeridoPorActividad(st.getId(), actividadSeleccionada.getTipoClase(), emplazamientoSeleccionado);
+	}
+	
+	public void asignarAdminASede(String localidad,String admin) throws NoExisteSedeException, NoExisteUsuarioException {
+		gimnasio.asignarSedeAlAdministrativo(st.getId(), localidad, admin);
+	}
+
+	public boolean validarCredenciales(String usuario, String contrasenia) {
+
+		int numero = gimnasio.buscarLoginSoporteTecnico(usuario, contrasenia);
+		guardarUsuario(usuario, contrasenia);
+		return (numero != 0);
+	}
+
+	private void guardarUsuario(String usuario, String contrasenia) {
+		st = gimnasio.dameSoporteTecnico(usuario, contrasenia);
 	}
 
 }

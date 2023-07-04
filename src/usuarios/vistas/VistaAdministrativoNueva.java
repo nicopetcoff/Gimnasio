@@ -288,11 +288,11 @@ public class VistaAdministrativoNueva {
 		JComboBox<String> sedeCombo = new JComboBox<>(sedes.toArray(new String[0]));
 		panelCentral.add(sedeCombo, BorderLayout.NORTH);
 
-		JButton confirmarButton = new JButton("Confirmar");
+		
 		JButton finalizarButton = new JButton("Finalizar");
 
 		JPanel panelInferior = new JPanel();
-		panelInferior.add(confirmarButton);
+		
 		panelInferior.add(finalizarButton);
 
 		cambiarEstadoClase.add(panelCentral, BorderLayout.CENTER);
@@ -300,29 +300,22 @@ public class VistaAdministrativoNueva {
 
 		configurarTablaClases(controlador, tablaClases, sedeCombo);
 
-		confirmarButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int filaSeleccionada = tablaClases.getSelectedRow();
-				String localidad = (String) sedeCombo.getSelectedItem();
-				if (filaSeleccionada != -1) {
-					cambiarEstadoClase(filaSeleccionada, EstadoClase.CONFIRMADA, localidad);
-					cerrarVentana(e);
-				} else {
-					JOptionPane.showMessageDialog(vistaAdminsitrativo, "Debe seleccionar una clase.", "Error",
-							JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-
+		
 		finalizarButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int filaSeleccionada = tablaClases.getSelectedRow();
 				String localidad = (String) sedeCombo.getSelectedItem();
 				if (filaSeleccionada != -1) {
-					cambiarEstadoClase(filaSeleccionada, EstadoClase.FINALIZADA, localidad);
-					cerrarVentana(e);
+					String estado = (String) tablaClases.getValueAt(filaSeleccionada, 2);
+					if(estado.equals("CONFIRMADA")) {
+						cambiarEstadoClase(filaSeleccionada, EstadoClase.FINALIZADA, localidad);
+						cerrarVentana(e);
+					}else {
+						JOptionPane.showMessageDialog(vistaAdminsitrativo, "Solo se puede finalizar clases confirmadas.", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					
 				} else {
 					JOptionPane.showMessageDialog(vistaAdminsitrativo, "Debe seleccionar una clase.", "Error",
 							JOptionPane.ERROR_MESSAGE);
