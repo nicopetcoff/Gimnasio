@@ -22,7 +22,7 @@ public class VistaLoginCliente extends JFrame {
 	public VistaLoginCliente() {
 		controlador = new ClienteControlador();
 
-		setTitle("Login CLiente");
+		setTitle("Login Cliente");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLayout(new GridLayout(3, 2, 10, 10));
 		setLocationRelativeTo(null);
@@ -64,5 +64,6 @@ public class VistaLoginCliente extends JFrame {
 	private void abrirVentanaCliente(String usuario, String contrasenia) {
 
 		ClienteVista vista = new ClienteVista(controlador.buscarCliente(usuario, contrasenia));
+		this.dispose();
 	}
 }

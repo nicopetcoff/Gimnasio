@@ -60,8 +60,13 @@ public class Clase {
 
 	@Override
 	public String toString() {
-		return "Clase [idClase=" + idClase + ", profesor=" + profesor + ", sede=" + sede + ", capacidadMax="
-				+ capacidadMax + ", emplazamiento=" + emplazamiento + ", fecha=" + fecha + ", estado=" + estado + "]";
+		return this.nombreClase + " (" + this.getActividad().getTipoClase() + ")"
+				+ ", profesor " + profesor.getNombre() + " " + profesor.getApellido()
+				+ ", sede " + sede.getLocalidad()
+				+ ", emplazamiento " + emplazamiento.getTipoEmplazamiento()
+				+ ", " + fecha
+				+ ", " + alumnosInscriptos + " participantes, "
+				+ estado;
 	}
 
 	public String getnombre() {
@@ -210,5 +215,4 @@ public class Clase {
 	public int getInscriptos() {
 		return this.alumnosInscriptos;
 	}
-
 }
