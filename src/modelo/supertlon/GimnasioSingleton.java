@@ -54,7 +54,14 @@ public class GimnasioSingleton {
 		this.emplazamientos = new ArrayList<>();
 		
 		SoporteTecnico st =new SoporteTecnico("Carlos", "Peres", "41111222");
-		st.setUsuarioContraseniaSoporte("admin", "admin");
+		st.setUsuarioContraseniaSoporte("soporte", "soporte");
+		
+		usuarios.add(st.crearAdministrativo("Admin", "Admin", "1111111", "admin", "admin"));
+		
+		emplazamientos.add(st.crearEmplazamiento("Pileta", 500));
+		emplazamientos.add(st.crearEmplazamiento("Aire libre", 150));
+		emplazamientos.add(st.crearEmplazamiento("Salon", 300));
+		
 
 		usuarios.add(st);
 	}

@@ -173,9 +173,13 @@ public class Clase {
 	}
 
 	private double calcularCosto() {
-
-		return ((this.profesor.getSueldo() / 90) + (this.sede.getAlquiler() / this.emplazamiento.getFactorCalculo())
-				+ amortizarArticulos());
+		if (this.emplazamiento.getTipoEmplazamiento().equals("Aire libre")) {
+			return ((this.profesor.getSueldo() / 90) + (this.alumnosInscriptos * 2 * 500 / this.duracionClase)
+					+ amortizarArticulos());
+		} else {
+			return ((this.profesor.getSueldo() / 90) + (this.sede.getAlquiler() / this.emplazamiento.getFactorCalculo())
+					+ amortizarArticulos());
+		}
 	}
 
 	private double amortizarArticulos() {
