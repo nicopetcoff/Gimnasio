@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -44,6 +45,8 @@ public class ClienteVista extends JFrame {
         this.setBackground(Color.WHITE);
         this.setTitle("Panel de Control - Cliente");
         this.setVisible(true);
+       
+        controlador.setVista(this);
 
         JPanel panelBotones = new JPanel();
         panelBotones.setLayout(new BoxLayout(panelBotones, BoxLayout.Y_AXIS));
@@ -74,26 +77,50 @@ public class ClienteVista extends JFrame {
 
         botonReservarClase.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	
-            	try {
-					controlador.reservarClase();
-				} catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException
-						| NoHayStockException e1) {
-					JOptionPane.showMessageDialog(null, "No se pudo agendar");
-					e1.printStackTrace();
-				}
-            }
-        });
-
-        botonCancelarReserva.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    controlador.cancelarReserva();
-                } catch (Exception e1) {
-                    JOptionPane.showMessageDialog(null, "No hay ninguna clase seleccionada");
+                int filaSeleccionada = getFilaSeleccionada();
+                if (filaSeleccionada >= 0) {
+                    int modeloFilaSeleccionada = tablaClases.convertRowIndexToModel(filaSeleccionada);
+                    String nombre = (String) tablaModelo.getValueAt(modeloFilaSeleccionada, 0);  
+                    
+                    
+                    LocalDateTime fecha = (LocalDateTime) tablaModelo.getValueAt(modeloFilaSeleccionada, 3);
+                    
+                    try {
+                        controlador.reservarClase(nombre, fecha);
+                        mostrarMensaje("Clase reservada correctamente.");
+                    } catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException
+                            | NoHayStockException e1) {
+                        JOptionPane.showMessageDialog(null, "No se pudo agendar la clase.");
+                        e1.printStackTrace();
+                    }
+                } else {
+                    mostrarMensaje("Por favor, seleccione una clase de la tabla.");
                 }
             }
         });
+
+
+        botonCancelarReserva.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int filaSeleccionada = getFilaSeleccionada();
+                if (filaSeleccionada >= 0) {
+                    int modeloFilaSeleccionada = tablaClases.convertRowIndexToModel(filaSeleccionada);
+                    String nombre = (String) tablaModelo.getValueAt(modeloFilaSeleccionada, 0);
+                    LocalDateTime fecha = (LocalDateTime) tablaModelo.getValueAt(modeloFilaSeleccionada, 3);
+                    
+                    try {
+                        controlador.cancelarReserva(nombre, fecha);
+                        mostrarMensaje("Reserva cancelada correctamente.");
+                    } catch (NoExisteUsuarioException | NoMismoNivelException | NoexisteClaseException | NoHayStockException e1) {
+                        JOptionPane.showMessageDialog(null, "No se pudo cancelar la reserva.");
+                        e1.printStackTrace();
+                    }
+                } else {
+                    mostrarMensaje("Por favor, seleccione una clase de la tabla para cancelar la reserva.");
+                }
+            }
+        });
+
 
         botonBdStreaming.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -105,7 +132,7 @@ public class ClienteVista extends JFrame {
     }
 
     public void configurarTabla() {
-        tablaModelo.setRowCount(0); // Limpiar la tabla antes de configurar nuevos datos
+        tablaModelo.setRowCount(0); 
         
         ArrayList<Clase> clases = null;
 		try {
