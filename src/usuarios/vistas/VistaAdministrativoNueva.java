@@ -2,6 +2,7 @@ package usuarios.vistas;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,7 +44,7 @@ import modelo.utilidad.EstadoClase;
 public class VistaAdministrativoNueva {
 	private ControladorAdministrativo controlador;
 	private JFrame vistaAdminsitrativo;
-
+	private JTable tablaArticulos;
 	private DefaultTableModel tablaModelo;
 	private JTable tablaSedes;
 
@@ -195,79 +196,92 @@ public class VistaAdministrativoNueva {
 	private void asignarArticulosASede(ControladorAdministrativo controlador) {
 
 		JFrame ventanaAsignarArticulosASede = new JFrame("Asignar Artículos a Sede");
-		ventanaAsignarArticulosASede.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		ventanaAsignarArticulosASede.setSize(300, 250);
-		ventanaAsignarArticulosASede.setLayout(new GridLayout(7, 2));
-		ventanaAsignarArticulosASede.setLocationRelativeTo(null);
+	    ventanaAsignarArticulosASede.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    ventanaAsignarArticulosASede.setLayout(new BorderLayout());
+	    ventanaAsignarArticulosASede.setLocationRelativeTo(null);
 
-		JFrame frame = new JFrame("Asignar Artículos a Sede");
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setSize(300, 250);
-		frame.setLayout(new GridLayout(7, 2));
-		frame.setLocationRelativeTo(null);
+	    DefaultTableModel tablaModelo = new DefaultTableModel();
+	    tablaModelo.addColumn("Articulo");
+	    tablaModelo.addColumn("Marca");
+	    tablaModelo.addColumn("Atributos");
+	    tablaModelo.addColumn("Amortizacion");
+	    tablaModelo.addColumn("Precio");
+	    tablaArticulos = new JTable(tablaModelo);
+	    configurarTabla(controlador.getCatalogo());
 
-		JLabel labelArticulos = new JLabel("Artículos:");
-		JComboBox<String> comboBoxArticulos = new JComboBox<>();
-		ArrayList<Articulo> articulos = controlador.getArticulos();
-		for (Articulo articulo : articulos) {
-			comboBoxArticulos.addItem(articulo.getArticulo() + " " + articulo.getAtributos());
-		}
+	    JScrollPane tablaScroll = new JScrollPane(tablaArticulos);
+	    tablaScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-		JLabel labelMarca = new JLabel("Marca:");
-		JTextField textFieldMarca = new JTextField();
+	    JPanel panelInferior = new JPanel(new GridLayout(3, 2));
 
-		JLabel labelNombreArticulo = new JLabel("Nombre Artículo:");
-		JTextField textCampoNombreArticulo = new JTextField();
+	    JLabel labelCantidad = new JLabel("Cantidad:");
+	    JTextField campoCantidad = new JTextField();
 
-		JLabel labelAtributos = new JLabel("Atributos:");
-		JTextField textCampoAtributos = new JTextField();
+	    JLabel labelSede = new JLabel("Sede:");
+	    JComboBox<String> comboSede = new JComboBox<>();
+	   
+	    for(Sede s:controlador.getSedes()) {
+	    	comboSede.addItem(s.getLocalidad());
+	    }
 
-		JLabel labelCantidad = new JLabel("Cantidad:");
-		JTextField textCampoCantidad = new JTextField();
-
-		JLabel labelSede = new JLabel("Sede:");
-		JTextField textCampoSede = new JTextField();
-
-		JButton botonAceptar = new JButton("Aceptar");
-		botonAceptar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Articulo articuloSeleccionado = (Articulo) comboBoxArticulos.getSelectedItem();
-				String marca = textFieldMarca.getText();
-				String nombreArticulo = textCampoNombreArticulo.getText();
-				String atributos = textCampoAtributos.getText();
-				int cantidad = Integer.parseInt(textCampoCantidad.getText());
-				String sede = textCampoSede.getText();
-
+	    JButton botonAceptar = new JButton("Aceptar");
+	    botonAceptar.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            // Obtener el artículo seleccionado de la tabla
+	            int filaSeleccionada = tablaArticulos.getSelectedRow();
+	            
+                Articulo a=null;
 				try {
-					controlador.asignarStockSede(marca, nombreArticulo, atributos, cantidad, sede);
-				} catch (NoExisteArticuloEnCatalogoException | NoExisteUsuarioException | NoExisteSedeException e1) {
-					JOptionPane.showMessageDialog(vistaAdminsitrativo, "No se pudo asginar stock.", "Error",
+					a = controlador.getArticuloSeleccionado();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Falta seleccionar articulo que desea agregar.", "Campo incompleto",
 							JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
+                // Obtener la cantidad y la sede ingresadas
+                int cantidad = Integer.parseInt(campoCantidad.getText());
+                String sede = (String) comboSede.getSelectedItem();
 
-				ventanaAsignarArticulosASede.dispose();
-			}
-		});
+                // Realizar la asignación de stock
+                try {
+                    controlador.asignarStockSede(a.getMarca(), a.getArticulo(), a.getAtributos(), cantidad, sede);
+                    JOptionPane.showMessageDialog(ventanaAsignarArticulosASede, "Stock asignado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                } catch (NoExisteArticuloEnCatalogoException | NoExisteUsuarioException | NoExisteSedeException e1) {
+                    JOptionPane.showMessageDialog(ventanaAsignarArticulosASede, "No se pudo asignar el stock.", "Error", JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace();
+                }
+	            
 
-		ventanaAsignarArticulosASede.add(labelArticulos);
-		ventanaAsignarArticulosASede.add(comboBoxArticulos);
-		ventanaAsignarArticulosASede.add(labelMarca);
-		ventanaAsignarArticulosASede.add(textFieldMarca);
-		ventanaAsignarArticulosASede.add(labelNombreArticulo);
-		ventanaAsignarArticulosASede.add(textCampoNombreArticulo);
-		ventanaAsignarArticulosASede.add(labelAtributos);
-		ventanaAsignarArticulosASede.add(textCampoAtributos);
-		ventanaAsignarArticulosASede.add(labelCantidad);
-		ventanaAsignarArticulosASede.add(textCampoCantidad);
-		ventanaAsignarArticulosASede.add(labelSede);
-		ventanaAsignarArticulosASede.add(textCampoSede);
-		ventanaAsignarArticulosASede.add(botonAceptar);
+	            ventanaAsignarArticulosASede.dispose();
+	        }
+	    });
 
-		ventanaAsignarArticulosASede.setVisible(true);
+	    panelInferior.add(labelCantidad);
+	    panelInferior.add(campoCantidad);
+	    panelInferior.add(labelSede);
+	    panelInferior.add(comboSede);
+	    panelInferior.add(new JLabel()); // Espacio vacío para alinear el botón en la misma fila
+	    panelInferior.add(botonAceptar);
+
+	    ventanaAsignarArticulosASede.add(tablaScroll, BorderLayout.CENTER);
+	    ventanaAsignarArticulosASede.add(panelInferior, BorderLayout.SOUTH);
+
+	    ventanaAsignarArticulosASede.pack();
+	    ventanaAsignarArticulosASede.setVisible(true);
 	}
-
+	
+	public int getArticuloSeleccionado() {
+		return tablaArticulos.getSelectedRow();
+	}
+	
+	public void configurarTabla(ArrayList<Articulo> catalogo) {
+		for (Articulo articulo : catalogo) {
+			Object[] rowData = { articulo.getArticulo(), articulo.getMarca(), articulo.getAtributos(),
+					articulo.getTipoAmortizacion(), articulo.getPrecio() };
+			tablaModelo.addRow(rowData);
+		}
+	}
 	// ------------------------------------------------------------------------------------------------------------
 
 	private void cambiarEstadoClase(ControladorAdministrativo controlador) {
